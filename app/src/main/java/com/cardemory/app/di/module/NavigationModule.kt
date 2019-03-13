@@ -1,4 +1,4 @@
-package com.cardemory.exampleapp.di.module
+package com.cardemory.app.di.module
 
 import com.cardemory.common.di.scope.ActivityScope
 import dagger.Module
@@ -13,9 +13,9 @@ class NavigationModule {
 
     @Provides
     @ActivityScope
-    fun provideRouter() = cicerone.router
+    fun provideRouter() = cicerone.router!!
 
     @Provides
     @ActivityScope
-    fun provideNavigatorHolder() = cicerone.navigatorHolder
+    fun provideNavigatorHolder() = cicerone.navigatorHolder!!
 }

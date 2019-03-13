@@ -1,12 +1,12 @@
 package com.cardemory.exampleapp.di.module.activity
 
 import android.app.Activity
+import com.cardemory.common.di.scope.ActivityScope
 import com.cardemory.common.navigation.BaseNavigator
 import com.cardemory.exampleapp.ExampleNavigator
 import com.cardemory.exampleapp.MainActivity
 import com.cardemory.exampleapp.MainContract
 import com.cardemory.exampleapp.MainPresenter
-import com.cardemory.exampleapp.di.scope.ActivityScope
 import dagger.Module
 import dagger.Provides
 

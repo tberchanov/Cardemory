@@ -1,7 +1,7 @@
-package com.cardemory.exampleapp.di.scope
+package com.cardemory.common.di.scope
 
 import javax.inject.Scope
 
 @Scope
 @Retention(AnnotationRetention.RUNTIME)
-annotation class ActivityScope
+annotation class FragmentScope

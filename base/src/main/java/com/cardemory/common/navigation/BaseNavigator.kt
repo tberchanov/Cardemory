@@ -18,7 +18,7 @@ abstract class BaseNavigator(
 
     override fun setupFragmentTransaction(
         command: Command,
-        currentFragment: Fragment,
+        currentFragment: Fragment?,
         nextFragment: Fragment,
         fragmentTransaction: FragmentTransaction
     ) {

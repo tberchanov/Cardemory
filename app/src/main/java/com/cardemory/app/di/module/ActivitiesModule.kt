@@ -1,9 +1,9 @@
-package com.cardemory.exampleapp.di.module
+package com.cardemory.app.di.module
 
+import com.cardemory.app.di.module.activity.MainActivityFragmentProvider
+import com.cardemory.app.di.module.activity.MainActivityModule
+import com.cardemory.app.mvp.main.MainActivity
 import com.cardemory.common.di.scope.ActivityScope
-import com.cardemory.exampleapp.MainActivity
-import com.cardemory.exampleapp.di.module.activity.MainActivityFragmentProvider
-import com.cardemory.exampleapp.di.module.activity.MainActivityModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

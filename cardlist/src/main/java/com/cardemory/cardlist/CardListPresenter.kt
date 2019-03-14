@@ -3,6 +3,7 @@ package com.cardemory.cardlist
 import com.cardemory.carddata.CardRepository
 import com.cardemory.common.mvp.BasePresenter
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class CardListPresenter(
     private val navigation: CardListNavigation,
@@ -17,6 +18,7 @@ class CardListPresenter(
 
         launch {
             val cards = cardRepository.getAllCards()
+            Timber.e("Cards: $cards")
         }
     }
 }

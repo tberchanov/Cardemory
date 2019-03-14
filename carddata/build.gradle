@@ -1,8 +1,8 @@
 apply from: '../versions.gradle'
 
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion versions.android.compileSdk
@@ -26,9 +26,6 @@ android {
 }
 
 dependencies {
-    kapt "com.google.dagger:dagger-android-processor:$versions.frameworks.dagger"
-    kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
 
-    implementation project(":base")
-    api project(":carddata")
+    implementation project(":infrastructure")
 }

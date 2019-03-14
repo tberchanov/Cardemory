@@ -13,9 +13,9 @@ class NavigationModule {
 
     @Provides
     @ActivityScope
-    fun provideRouter() = cicerone.router
+    fun provideRouter() = cicerone.router!!
 
     @Provides
     @ActivityScope
-    fun provideNavigatorHolder() = cicerone.navigatorHolder
+    fun provideNavigatorHolder() = cicerone.navigatorHolder!!
 }

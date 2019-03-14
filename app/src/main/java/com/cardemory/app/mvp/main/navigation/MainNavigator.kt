@@ -5,5 +5,4 @@ import com.cardemory.app.R
 import com.cardemory.common.navigation.BaseNavigator
 
 class MainNavigator(activity: FragmentActivity) :
-    BaseNavigator(activity, R.id.fragmentContainer) {
-}
+    BaseNavigator(activity, R.id.fragmentContainer)

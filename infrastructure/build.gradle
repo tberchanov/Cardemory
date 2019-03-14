@@ -1,8 +1,8 @@
 apply from: '../versions.gradle'
 
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion versions.android.compileSdk
@@ -30,26 +30,7 @@ androidExtensions {
 }
 
 dependencies {
-    /* android */
-    api "com.android.support:appcompat-v7:$versions.androidx.appcompat"
 
-    /* kotlin */
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.frameworks.coroutines"
-
-    /* log */
-    api "com.jakewharton.timber:timber:$versions.utils.timber"
-
-    /* dagger */
-    api "com.google.dagger:dagger:$versions.frameworks.dagger"
-    api "com.google.dagger:dagger-android:$versions.frameworks.dagger"
-    api "com.google.dagger:dagger-android-support:$versions.frameworks.dagger"
-
-    /* navigation */
-    api "ru.terrakok.cicerone:cicerone:$versions.navigation.cicerone"
-
-    api project(":infrastructure")
-}
-repositories {
-    mavenCentral()
 }

@@ -1,6 +1,6 @@
 package com.cardemory.common.mvp
 
-import com.cardemory.common.domain.Failure
+import com.cardemory.infrastructure.entity.Failure
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

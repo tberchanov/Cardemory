@@ -1,4 +1,4 @@
-package com.cardemory.common.domain
+package com.cardemory.infrastructure.entity
 
 sealed class Failure(val cause: Throwable?) {
 

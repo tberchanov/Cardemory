@@ -1,7 +1,8 @@
-package com.cardemory.cardlist
+package com.cardemory.cardlist.mvp
 
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.interactor.GetAllCardsInteractor
+import com.cardemory.cardlist.navigation.CardListNavigation
 import com.cardemory.common.mvp.BasePresenter
 import com.cardemory.infrastructure.entity.Failure
 import timber.log.Timber
@@ -26,10 +27,10 @@ class CardListPresenter(
     }
 
     private fun onGetAllCardsFailure(f: Failure) {
-        // none
+        Timber.e("onGetAllCardsFailure: $f")
     }
 
     private fun onGetAllCardsSuccess(cards: List<Card>) {
-        Timber.e("Cards: $cards")
+        view?.showCards(cards)
     }
 }

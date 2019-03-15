@@ -1,13 +1,14 @@
 package com.cardemory.cardlist
 
-import com.cardemory.carddata.CardRepository
+import com.cardemory.carddata.entity.Card
+import com.cardemory.carddata.interactor.GetAllCardsInteractor
 import com.cardemory.common.mvp.BasePresenter
-import kotlinx.coroutines.launch
+import com.cardemory.infrastructure.entity.Failure
 import timber.log.Timber
 
 class CardListPresenter(
     private val navigation: CardListNavigation,
-    private val cardRepository: CardRepository
+    private val getAllCardsInteractor: GetAllCardsInteractor
 ) : BasePresenter<CardListContract.View>(),
     CardListContract.Presenter {
 
@@ -16,9 +17,19 @@ class CardListPresenter(
 
         navigation.showCreateCardScreen()
 
-        launch {
-            val cards = cardRepository.getAllCards()
-            Timber.e("Cards: $cards")
+        getAllCardsInteractor(Unit) {
+            it.either(
+                ::onGetAllCardsFailure,
+                ::onGetAllCardsSuccess
+            )
         }
+    }
+
+    private fun onGetAllCardsFailure(f: Failure) {
+        // none
+    }
+
+    private fun onGetAllCardsSuccess(cards: List<Card>) {
+        Timber.e("Cards: $cards")
     }
 }

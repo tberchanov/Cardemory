@@ -30,7 +30,9 @@ androidExtensions {
 }
 
 dependencies {
-
+    api "com.google.dagger:dagger:$versions.frameworks.dagger"
+    api "com.google.dagger:dagger-android:$versions.frameworks.dagger"
+    api "com.google.dagger:dagger-android-support:$versions.frameworks.dagger"
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.frameworks.coroutines"
 }

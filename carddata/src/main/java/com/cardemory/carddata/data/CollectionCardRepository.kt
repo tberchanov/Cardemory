@@ -1,5 +1,6 @@
-package com.cardemory.carddata
+package com.cardemory.carddata.data
 
+import com.cardemory.carddata.entity.Card
 import kotlinx.coroutines.delay
 
 class CollectionCardRepository : CardRepository {

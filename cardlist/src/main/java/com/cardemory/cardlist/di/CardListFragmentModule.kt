@@ -1,7 +1,8 @@
 package com.cardemory.cardlist.di
 
-import com.cardemory.carddata.CardRepository
-import com.cardemory.carddata.CollectionCardRepository
+import com.cardemory.carddata.data.CardRepository
+import com.cardemory.carddata.data.CollectionCardRepository
+import com.cardemory.carddata.interactor.GetAllCardsInteractor
 import com.cardemory.cardlist.CardListContract
 import com.cardemory.cardlist.CardListNavigation
 import com.cardemory.cardlist.CardListPresenter
@@ -16,9 +17,9 @@ class CardListFragmentModule {
     @Provides
     fun providePresenter(
         cardListNavigation: CardListNavigation,
-        cardRepository: CardRepository
+        getAllCardsInteractor: GetAllCardsInteractor
     ): CardListContract.Presenter {
-        return CardListPresenter(cardListNavigation, cardRepository)
+        return CardListPresenter(cardListNavigation, getAllCardsInteractor)
     }
 
     @FragmentScope

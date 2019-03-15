@@ -1,4 +1,4 @@
-package com.cardemory.cardlist
+package com.cardemory.cardlist.navigation
 
 interface CardListNavigation {
 

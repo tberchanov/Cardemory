@@ -1,6 +1,6 @@
 package com.cardemory.app.mvp.main.navigation
 
-import com.cardemory.cardlist.CardListScreen
+import com.cardemory.cardlist.navigation.CardListScreen
 import ru.terrakok.cicerone.Router
 
 class MainNavigationImpl(

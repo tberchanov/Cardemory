@@ -32,6 +32,7 @@ androidExtensions {
 dependencies {
     /* android */
     api "com.android.support:appcompat-v7:$versions.androidx.appcompat"
+    implementation "com.google.android.material:material:$versions.androidx.material"
 
     /* kotlin */
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

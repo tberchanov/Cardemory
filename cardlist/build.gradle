@@ -1,6 +1,7 @@
 apply from: '../versions.gradle'
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 
@@ -22,10 +23,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+}
 
+androidExtensions {
+    experimental = true
 }
 
 dependencies {
+
+    implementation "androidx.constraintlayout:constraintlayout:$versions.androidx.constraint"
+    implementation "com.google.android.material:material:$versions.androidx.material"
+
     kapt "com.google.dagger:dagger-android-processor:$versions.frameworks.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
 

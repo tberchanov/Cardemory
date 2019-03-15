@@ -1,5 +1,6 @@
-package com.cardemory.cardlist
+package com.cardemory.cardlist.navigation
 
+import com.cardemory.cardlist.mvp.CardListFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 class CardListScreen : SupportAppScreen() {

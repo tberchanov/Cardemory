@@ -3,6 +3,7 @@ apply from: '../versions.gradle'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion versions.android.compileSdk
@@ -27,5 +28,15 @@ android {
 
 dependencies {
 
+    // Dagger
+    kapt "com.google.dagger:dagger-android-processor:$versions.frameworks.dagger"
+    kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
+
+    // Room
+    implementation "androidx.room:room-runtime:$versions.frameworks.room"
+    kapt "androidx.room:room-compiler:$versions.frameworks.room"
+    implementation "androidx.room:room-coroutines:$versions.frameworks.room"
+
+    // Modules
     implementation project(":infrastructure")
 }

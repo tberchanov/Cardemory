@@ -1,6 +1,7 @@
 package com.cardemory.carddata.interactor
 
 import com.cardemory.carddata.data.CardRepository
+import com.cardemory.carddata.di.qualifier.CollectionData
 import com.cardemory.carddata.entity.Card
 import com.cardemory.infrastructure.BaseSingleInteractor
 import com.cardemory.infrastructure.entity.Either
@@ -9,7 +10,7 @@ import javax.inject.Inject
 
 class GetAllCardsInteractor
 @Inject constructor(
-    private val cardRepository: CardRepository
+    @CollectionData private val cardRepository: CardRepository
 ) : BaseSingleInteractor<List<Card>, Unit>() {
 
     override suspend fun run(params: Unit): Either<Failure, List<Card>> {

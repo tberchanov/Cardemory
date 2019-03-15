@@ -33,7 +33,8 @@ ext {
             ],
             frameworks         : [
                     dagger    : "2.21",
-                    coroutines: "1.1.1"
+                    coroutines: "1.1.1",
+                    room      : "2.1.0-alpha04"
             ],
             utils              : [
                     leakcanary: "1.6.3",

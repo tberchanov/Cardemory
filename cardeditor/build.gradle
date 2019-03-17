@@ -3,6 +3,7 @@ apply from: '../versions.gradle'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion versions.android.compileSdk
@@ -22,7 +23,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 androidExtensions {
@@ -31,15 +31,15 @@ androidExtensions {
 
 dependencies {
 
-    /* log */
-    api "com.jakewharton.timber:timber:$versions.utils.timber"
+    // android
+    implementation "androidx.constraintlayout:constraintlayout:$versions.androidx.constraint"
+    implementation "com.google.android.material:material:$versions.androidx.material"
 
-    /* dagger */
-    api "com.google.dagger:dagger:$versions.frameworks.dagger"
-    api "com.google.dagger:dagger-android:$versions.frameworks.dagger"
-    api "com.google.dagger:dagger-android-support:$versions.frameworks.dagger"
+    // dagger
+    kapt "com.google.dagger:dagger-android-processor:$versions.frameworks.dagger"
+    kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
 
-    /* kotlin */
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.frameworks.coroutines"
+    // modules
+    implementation project(":base")
+    implementation project(":carddata")
 }

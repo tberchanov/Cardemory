@@ -8,13 +8,12 @@ import com.cardemory.infrastructure.entity.Either
 import com.cardemory.infrastructure.entity.Failure
 import javax.inject.Inject
 
-class GetAllCardsInteractor
+class SaveCardInteractor
 @Inject constructor(
     @DbData private val cardRepository: CardRepository
-) : BaseSingleInteractor<List<Card>, Unit>() {
+) : BaseSingleInteractor<Card, Card>() {
 
-    override suspend fun run(params: Unit): Either<Failure, List<Card>> {
-        val cards = cardRepository.getAllCards()
-        return Either.Right(cards)
+    override suspend fun run(params: Card): Either<Failure, Card> {
+        return Either.Right(cardRepository.saveCard(params))
     }
 }

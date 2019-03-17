@@ -1,11 +1,16 @@
 package com.cardemory.carddata.data
 
+import android.annotation.SuppressLint
 import com.cardemory.carddata.entity.Card
 import kotlinx.coroutines.delay
+import java.util.*
 
 class CollectionCardRepository : CardRepository {
 
-    private val cards = mutableListOf<Card>()
+    @SuppressLint("UseSparseArrays")
+    private val cards = HashMap<Long, Card>()
+
+    private val random = Random()
 
     init {
         repeat(10) { counter ->
@@ -13,13 +18,20 @@ class CollectionCardRepository : CardRepository {
                 counter.toLong(),
                 "Title: $counter",
                 "Description, can be long: $counter"
-            ).let { cards.add(it) }
+            ).let { cards.put(it.id, it) }
         }
     }
 
     override suspend fun getAllCards(): List<Card> {
         delay(REPOSITORY_OPERATION_DELAY)
-        return cards
+        return cards.values.toList()
+    }
+
+    override suspend fun saveCard(card: Card): Card {
+        val id = cards[card.id]?.id ?: random.nextLong()
+        return card.copy(id = id).also {
+            cards[it.id] = it
+        }
     }
 
     companion object {

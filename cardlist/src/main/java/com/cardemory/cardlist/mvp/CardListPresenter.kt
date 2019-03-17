@@ -16,8 +16,6 @@ class CardListPresenter(
     override fun attachView(view: CardListContract.View) {
         super.attachView(view)
 
-        navigation.showCreateCardScreen()
-
         getAllCardsInteractor(Unit) {
             it.either(
                 ::onGetAllCardsFailure,
@@ -32,5 +30,9 @@ class CardListPresenter(
 
     private fun onGetAllCardsSuccess(cards: List<Card>) {
         view?.showCards(cards)
+    }
+
+    override fun onCreateCardClicked() {
+        navigation.showCreateCardScreen()
     }
 }

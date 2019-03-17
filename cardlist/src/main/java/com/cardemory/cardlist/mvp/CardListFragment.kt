@@ -19,6 +19,10 @@ class CardListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        createCardButton.setOnClickListener {
+            presenter.onCreateCardClicked()
+        }
+
         cardAdapter = CardListAdapter()
         recyclerView.adapter = cardAdapter
     }

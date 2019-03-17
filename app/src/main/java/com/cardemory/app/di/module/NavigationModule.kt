@@ -1,8 +1,10 @@
 package com.cardemory.app.di.module
 
+import com.cardemory.app.mvp.main.navigation.CardEditorNavigationImpl
 import com.cardemory.app.mvp.main.navigation.CardListNavigationImpl
 import com.cardemory.app.mvp.main.navigation.MainNavigation
 import com.cardemory.app.mvp.main.navigation.MainNavigationImpl
+import com.cardemory.cardeditor.CardEditorNavigation
 import com.cardemory.cardlist.navigation.CardListNavigation
 import com.cardemory.common.di.scope.ActivityScope
 import dagger.Module
@@ -32,4 +34,9 @@ class NavigationModule {
     @ActivityScope
     fun provideCardListNavigation(router: Router): CardListNavigation =
         CardListNavigationImpl(router)
+
+    @Provides
+    @ActivityScope
+    fun provideCardEditorNavigation(router: Router): CardEditorNavigation =
+        CardEditorNavigationImpl(router)
 }

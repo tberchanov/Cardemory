@@ -1,1 +1,1 @@
-include ':app', ':base', ':cardlist', ':carddata', ':infrastructure'
+include ':app', ':base', ':cardlist', ':carddata', ':infrastructure', ':cardeditor'

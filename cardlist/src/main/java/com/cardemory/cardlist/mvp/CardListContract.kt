@@ -10,5 +10,8 @@ interface CardListContract {
         fun showCards(cards: List<Card>)
     }
 
-    interface Presenter : BaseContract.Presenter<View>
+    interface Presenter : BaseContract.Presenter<View> {
+
+        fun onCreateCardClicked()
+    }
 }

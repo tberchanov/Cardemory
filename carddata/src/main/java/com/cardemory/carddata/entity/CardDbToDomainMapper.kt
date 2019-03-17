@@ -7,10 +7,14 @@ import javax.inject.Inject
 class CardDbToDomainMapper @Inject constructor() : Mapper<CardDbEntity, Card> {
 
     override fun from(item: CardDbEntity) = item.run {
-        Card(id, title, description)
+        Card(id!!, title, description)
     }
 
     override fun to(item: Card) = item.run {
-        CardDbEntity(id, title, description)
+        CardDbEntity(
+            id.takeUnless { it == Card.UNDEFINED_ID },
+            title,
+            description
+        )
     }
 }

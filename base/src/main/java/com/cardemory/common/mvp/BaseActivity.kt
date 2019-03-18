@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import androidx.appcompat.widget.Toolbar
 import com.cardemory.common.navigation.BaseNavigator
 import dagger.android.support.DaggerAppCompatActivity
 import ru.terrakok.cicerone.NavigatorHolder
@@ -30,6 +32,15 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
     @IdRes
     protected open val fragmentContainerId: Int = NO_ID
 
+    protected open val titleRes: Int = NO_TITLE
+        @StringRes
+        get
+
+    protected open val title: String
+        get() = titleRes.takeIf { it != NO_TITLE }?.let {
+            getString(it)
+        } ?: ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,6 +53,18 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
     private fun showLayout() {
         layoutResId.takeIf { it != NO_LAYOUT }
             ?.run { setContentView(this) }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setUpToolbar()
+    }
+
+    private fun setUpToolbar() {
+        getToolbar()?.also {
+            setSupportActionBar(it)
+            it.title = title
+        }
     }
 
     override fun onResumeFragments() {
@@ -96,8 +119,11 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
     protected fun getTopFragment(@IdRes containerId: Int) =
         supportFragmentManager.findFragmentById(containerId)
 
+    abstract fun getToolbar(): Toolbar?
+
     companion object {
         const val NO_LAYOUT = 0
         const val NO_ID = 0
+        const val NO_TITLE = 0
     }
 }

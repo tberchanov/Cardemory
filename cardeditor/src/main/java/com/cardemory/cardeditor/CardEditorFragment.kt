@@ -1,7 +1,9 @@
 package com.cardemory.cardeditor
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.cardemory.carddata.entity.Card
 import com.cardemory.common.mvp.BaseFragment
 import kotlinx.android.synthetic.main.fragment_cardeditor.*
@@ -12,11 +14,36 @@ class CardEditorFragment :
 
     override val layoutResId = R.layout.fragment_cardeditor
 
+    override val titleRes =
+        if (getCardArg() == null)
+            R.string.title_create
+        else
+            R.string.title_edit
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         saveCardButton.setOnClickListener {
             presenter.onSaveCardClicked(getCard())
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Handler().post {
+            setBackButtonVisibility(true)
+        }
+    }
+
+    override fun onStop() {
+        setBackButtonVisibility(false)
+        super.onStop()
+    }
+
+    private fun setBackButtonVisibility(visible: Boolean) {
+        (activity as? AppCompatActivity)?.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(visible)
+            setDisplayShowHomeEnabled(visible)
         }
     }
 

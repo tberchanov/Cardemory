@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">CardEditor</string>
+    <string name="title_create">Create card</string>
+    <string name="title_edit">Edit card</string>
     <string name="title_hint">Title</string>
     <string name="description_hint">Description</string>
 </resources>

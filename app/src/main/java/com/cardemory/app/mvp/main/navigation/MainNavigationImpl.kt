@@ -10,4 +10,8 @@ class MainNavigationImpl(
     override fun showCardList() {
         router.newRootScreen(CardListScreen())
     }
+
+    override fun back() {
+        router.exit()
+    }
 }

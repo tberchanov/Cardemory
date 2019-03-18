@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CardList</string>
+    <string name="title">Cardemory</string>
 </resources>

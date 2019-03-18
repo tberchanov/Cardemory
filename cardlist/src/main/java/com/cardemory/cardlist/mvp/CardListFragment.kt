@@ -16,6 +16,8 @@ class CardListFragment :
 
     override val layoutResId = R.layout.fragment_cardlist
 
+    override val titleRes = R.string.title
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

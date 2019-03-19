@@ -6,6 +6,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.cardemory.carddata.entity.Card
 import com.cardemory.common.mvp.BaseFragment
+import com.cardemory.common.util.closeKeyboard
+import com.cardemory.common.util.showKeyboard
 import kotlinx.android.synthetic.main.fragment_cardeditor.*
 
 class CardEditorFragment :
@@ -26,6 +28,8 @@ class CardEditorFragment :
         saveCardButton.setOnClickListener {
             presenter.onSaveCardClicked(getCard())
         }
+
+        cardTitleEditText.showKeyboard()
     }
 
     override fun onStart() {
@@ -49,9 +53,13 @@ class CardEditorFragment :
 
     private fun getCard(): Card {
         return Card(
-            cardDescriptionEditText.text.toString(),
-            cardTitleEditText.text.toString()
+            cardTitleEditText.text.toString(),
+            cardDescriptionEditText.text.toString()
         )
+    }
+
+    override fun hideKeyboard() {
+        cardTitleEditText.closeKeyboard()
     }
 
     companion object {

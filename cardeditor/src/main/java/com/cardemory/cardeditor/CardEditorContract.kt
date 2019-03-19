@@ -5,7 +5,10 @@ import com.cardemory.common.mvp.BaseContract
 
 interface CardEditorContract {
 
-    interface View : BaseContract.View
+    interface View : BaseContract.View {
+
+        fun hideKeyboard()
+    }
 
     interface Presenter : BaseContract.Presenter<View> {
 

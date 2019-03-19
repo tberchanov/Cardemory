@@ -6,7 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.cardemory.carddata.entity.Card
 import com.cardemory.common.mvp.BaseFragment
-import com.cardemory.common.util.closeKeyboard
+import com.cardemory.common.util.hideKeyboard
 import com.cardemory.common.util.showKeyboard
 import kotlinx.android.synthetic.main.fragment_cardeditor.*
 
@@ -59,7 +59,7 @@ class CardEditorFragment :
     }
 
     override fun hideKeyboard() {
-        cardTitleEditText.closeKeyboard()
+        cardTitleEditText.hideKeyboard()
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package com.cardemory.cardeditor
+package com.cardemory.cardeditor.navigation
 
 interface CardEditorNavigation {
 

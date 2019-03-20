@@ -1,0 +1,3 @@
+package com.cardemory.cardsetlist.navigation
+
+interface CardSetListNavigation

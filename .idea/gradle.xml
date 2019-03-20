@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/carddata" />
             <option value="$PROJECT_DIR$/cardeditor" />
             <option value="$PROJECT_DIR$/cardlist" />
+            <option value="$PROJECT_DIR$/cardsetlist" />
             <option value="$PROJECT_DIR$/infrastructure" />
           </set>
         </option>

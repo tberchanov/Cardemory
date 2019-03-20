@@ -15,6 +15,6 @@ class MainPresenter(
     }
 
     override fun showRootScreen() {
-        mainNavigation.showCardList()
+        mainNavigation.showCardSetList()
     }
 }

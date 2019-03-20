@@ -1,7 +1,8 @@
-package com.cardemory.cardeditor
+package com.cardemory.cardeditor.mvp
 
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.interactor.SaveCardInteractor
+import com.cardemory.cardeditor.navigation.CardEditorNavigation
 import com.cardemory.common.mvp.BasePresenter
 import com.cardemory.infrastructure.entity.Failure
 import timber.log.Timber

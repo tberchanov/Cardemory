@@ -2,9 +2,9 @@ package com.cardemory.cardeditor.di
 
 import com.cardemory.carddata.di.CardDataModule
 import com.cardemory.carddata.interactor.SaveCardInteractor
-import com.cardemory.cardeditor.CardEditorContract
-import com.cardemory.cardeditor.CardEditorNavigation
-import com.cardemory.cardeditor.CardEditorPresenter
+import com.cardemory.cardeditor.mvp.CardEditorContract
+import com.cardemory.cardeditor.mvp.CardEditorPresenter
+import com.cardemory.cardeditor.navigation.CardEditorNavigation
 import com.cardemory.common.di.scope.FragmentScope
 import dagger.Module
 import dagger.Provides

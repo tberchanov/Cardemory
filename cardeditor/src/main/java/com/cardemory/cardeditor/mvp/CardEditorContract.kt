@@ -1,4 +1,4 @@
-package com.cardemory.cardeditor
+package com.cardemory.cardeditor.mvp
 
 import com.cardemory.carddata.entity.Card
 import com.cardemory.common.mvp.BaseContract

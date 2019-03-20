@@ -13,5 +13,7 @@ interface CardListContract {
     interface Presenter : BaseContract.Presenter<View> {
 
         fun onCreateCardClicked()
+
+        fun onCardClicked(card: Card)
     }
 }

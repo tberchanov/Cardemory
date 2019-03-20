@@ -1,6 +1,7 @@
-package com.cardemory.cardeditor
+package com.cardemory.cardeditor.navigation
 
 import com.cardemory.carddata.entity.Card
+import com.cardemory.cardeditor.mvp.CardEditorFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 
 class CardEditorScreen(

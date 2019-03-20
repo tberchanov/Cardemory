@@ -1,10 +1,11 @@
-package com.cardemory.cardeditor
+package com.cardemory.cardeditor.mvp
 
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.cardemory.carddata.entity.Card
+import com.cardemory.cardeditor.R
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.util.hideKeyboard
 import com.cardemory.common.util.showKeyboard
@@ -29,7 +30,16 @@ class CardEditorFragment :
             presenter.onSaveCardClicked(getCard())
         }
 
+        showCardDataIfNeeded()
+
         cardTitleEditText.showKeyboard()
+    }
+
+    private fun showCardDataIfNeeded() {
+        getCardArg()?.also {
+            cardTitleEditText.setText(it.title)
+            cardDescriptionEditText.setText(it.description)
+        }
     }
 
     override fun onStart() {
@@ -53,6 +63,7 @@ class CardEditorFragment :
 
     private fun getCard(): Card {
         return Card(
+            getCardArg()?.id ?: Card.UNDEFINED_ID,
             cardTitleEditText.text.toString(),
             cardDescriptionEditText.text.toString()
         )

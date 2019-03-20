@@ -35,4 +35,8 @@ class CardListPresenter(
     override fun onCreateCardClicked() {
         navigation.showCreateCardScreen()
     }
+
+    override fun onCardClicked(card: Card) {
+        navigation.showEditCardScreen(card)
+    }
 }

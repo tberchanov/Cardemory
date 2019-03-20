@@ -1,14 +1,14 @@
 package com.cardemory.app.mvp.main.navigation
 
-import com.cardemory.cardlist.navigation.CardListScreen
+import com.cardemory.cardsetlist.navigation.CardSetListScreen
 import ru.terrakok.cicerone.Router
 
 class MainNavigationImpl(
     private val router: Router
 ) : MainNavigation {
 
-    override fun showCardList() {
-        router.newRootScreen(CardListScreen())
+    override fun showCardSetList() {
+        router.newRootScreen(CardSetListScreen())
     }
 
     override fun back() {

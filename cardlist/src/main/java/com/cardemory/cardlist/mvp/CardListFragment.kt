@@ -26,7 +26,7 @@ class CardListFragment :
         }
 
         cardAdapter = CardListAdapter(::onCardClicked)
-        recyclerView.adapter = cardAdapter
+        cardsRecyclerView.adapter = cardAdapter
     }
 
     private fun onCardClicked(card: Card) {

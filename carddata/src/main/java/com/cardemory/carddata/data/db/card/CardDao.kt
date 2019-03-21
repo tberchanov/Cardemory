@@ -1,4 +1,4 @@
-package com.cardemory.carddata.data.db
+package com.cardemory.carddata.data.db.card
 
 import androidx.room.Dao
 import androidx.room.Insert

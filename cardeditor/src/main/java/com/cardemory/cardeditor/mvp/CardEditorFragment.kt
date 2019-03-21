@@ -64,6 +64,7 @@ class CardEditorFragment :
     private fun getCard(): Card {
         return Card(
             getCardArg()?.id ?: Card.UNDEFINED_ID,
+            TODO("After adding cardsets, current cardset will be saved in this fragment"),
             cardTitleEditText.text.toString(),
             cardDescriptionEditText.text.toString()
         )

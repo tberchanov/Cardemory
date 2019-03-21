@@ -6,7 +6,8 @@ import com.cardemory.carddata.data.CardRepository
 import com.cardemory.carddata.data.CollectionCardRepository
 import com.cardemory.carddata.data.DbCardRepository
 import com.cardemory.carddata.data.db.AppDatabase
-import com.cardemory.carddata.data.db.CardDao
+import com.cardemory.carddata.data.db.card.CardDao
+import com.cardemory.carddata.data.db.cardset.CardSetDao
 import com.cardemory.carddata.di.qualifier.CollectionData
 import com.cardemory.carddata.di.qualifier.DbData
 import com.cardemory.carddata.entity.CardDbToDomainMapper
@@ -24,13 +25,18 @@ class CardDataModule {
     @Provides
     fun provideCardDao(database: AppDatabase) = database.cardDao()
 
+    @Provides
+    fun provideCardSetDao(database: AppDatabase) = database.cardSetDao()
+
     @DbData
     @Provides
     fun provideCardDbRepository(
         cardDao: CardDao,
+        cardSetDao: CardSetDao,
         cardDbToDomainMapper: CardDbToDomainMapper
     ): CardRepository = DbCardRepository(
         cardDao,
+        cardSetDao,
         cardDbToDomainMapper
     )
 

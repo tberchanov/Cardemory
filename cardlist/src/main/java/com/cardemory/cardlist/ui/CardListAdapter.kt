@@ -17,15 +17,11 @@ class CardListAdapter(
 
     inner class CardHolder(itemView: View) : BaseHolder<Card>(itemView) {
 
-        private val titleTextView = itemView.titleTextView
-        private val descriptionTextView = itemView.descriptionTextView
-        private val cardContainer = itemView.cardContainer
-
         override fun bind(uiEntity: Card, position: Int) {
             super.bind(uiEntity, position)
-            titleTextView.text = uiEntity.title
-            descriptionTextView.text = uiEntity.description
-            cardContainer.setOnClickListener {
+            itemView.titleTextView.text = uiEntity.title
+            itemView.descriptionTextView.text = uiEntity.description
+            itemView.cardContainer.setOnClickListener {
                 onCardClickListener(uiEntity)
             }
         }

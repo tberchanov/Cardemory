@@ -2,6 +2,7 @@ package com.cardemory.carddata.data
 
 import android.annotation.SuppressLint
 import com.cardemory.carddata.entity.Card
+import com.cardemory.carddata.entity.CardSet
 import kotlinx.coroutines.delay
 import java.util.*
 
@@ -16,6 +17,7 @@ class CollectionCardRepository : CardRepository {
         repeat(10) { counter ->
             Card(
                 counter.toLong(),
+                STUB_CARD_SET_ID,
                 "Title: $counter",
                 "Description, can be long: $counter"
             ).let { cards.put(it.id, it) }
@@ -34,7 +36,12 @@ class CollectionCardRepository : CardRepository {
         }
     }
 
+    override suspend fun getAllCardSets(): List<CardSet> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     companion object {
         private const val REPOSITORY_OPERATION_DELAY = 1000L
+        private const val STUB_CARD_SET_ID = 0L
     }
 }

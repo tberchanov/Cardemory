@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import dagger.android.support.AndroidSupportInjection
@@ -81,6 +82,13 @@ abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>
 
     protected fun getToolbar(): Toolbar? {
         return (activity as? BaseActivity<*, *>)?.getToolbar()
+    }
+
+    protected fun setBackButtonVisibility(visible: Boolean) {
+        (activity as? AppCompatActivity)?.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(visible)
+            setDisplayShowHomeEnabled(visible)
+        }
     }
 
     companion object {

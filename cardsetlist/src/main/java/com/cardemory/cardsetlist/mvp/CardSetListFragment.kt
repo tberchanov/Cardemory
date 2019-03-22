@@ -20,6 +20,10 @@ class CardSetListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        createCardSetButton.setOnClickListener {
+            presenter.onCreateCardSetClicked()
+        }
+
         cardSetAdapter = CardSetListAdapter(::onCardSetClicked)
         cardSetsRecyclerView.adapter = cardSetAdapter
     }

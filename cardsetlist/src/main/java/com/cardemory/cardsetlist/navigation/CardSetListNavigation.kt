@@ -1,3 +1,10 @@
 package com.cardemory.cardsetlist.navigation
 
-interface CardSetListNavigation
+import com.cardemory.carddata.entity.CardSet
+
+interface CardSetListNavigation {
+
+    fun showCreateCardSetScreen()
+
+    fun showEditCardSetScreen(cardSet: CardSet)
+}

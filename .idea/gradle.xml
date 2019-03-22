@@ -10,6 +10,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/base" />
+            <option value="$PROJECT_DIR$/card_set_editor" />
             <option value="$PROJECT_DIR$/carddata" />
             <option value="$PROJECT_DIR$/cardeditor" />
             <option value="$PROJECT_DIR$/cardlist" />

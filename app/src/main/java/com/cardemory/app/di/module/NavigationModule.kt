@@ -1,6 +1,7 @@
 package com.cardemory.app.di.module
 
 import com.cardemory.app.mvp.main.navigation.*
+import com.cardemory.card_set_editor.navigation.CardSetEditorNavigation
 import com.cardemory.cardeditor.navigation.CardEditorNavigation
 import com.cardemory.cardlist.navigation.CardListNavigation
 import com.cardemory.cardsetlist.navigation.CardSetListNavigation
@@ -42,4 +43,9 @@ class NavigationModule {
     @ActivityScope
     fun provideCardSetListNavigation(router: Router): CardSetListNavigation =
         CardSetListNavigationImpl(router)
+
+    @Provides
+    @ActivityScope
+    fun provideCardSetEditorNavigation(router: Router): CardSetEditorNavigation =
+        CardSetEditorNavigationImpl(router)
 }

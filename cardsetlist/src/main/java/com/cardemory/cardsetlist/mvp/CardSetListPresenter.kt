@@ -8,4 +8,9 @@ class CardSetListPresenter(
     private val cardSetListNavigation: CardSetListNavigation,
     private val getAllCardSetsInteractor: GetAllCardSetsInteractor
 ) : BasePresenter<CardSetListContract.View>(),
-    CardSetListContract.Presenter
+    CardSetListContract.Presenter {
+
+    override fun onCreateCardSetClicked() {
+        cardSetListNavigation.showCreateCardSetScreen()
+    }
+}

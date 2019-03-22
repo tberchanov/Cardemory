@@ -3,7 +3,6 @@ package com.cardemory.cardeditor.mvp
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.cardemory.carddata.entity.Card
 import com.cardemory.cardeditor.R
 import com.cardemory.common.mvp.BaseFragment
@@ -52,13 +51,6 @@ class CardEditorFragment :
     override fun onStop() {
         setBackButtonVisibility(false)
         super.onStop()
-    }
-
-    private fun setBackButtonVisibility(visible: Boolean) {
-        (activity as? AppCompatActivity)?.supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(visible)
-            setDisplayShowHomeEnabled(visible)
-        }
     }
 
     private fun getCard(): Card {

@@ -1,6 +1,6 @@
 apply from: '../versions.gradle'
 
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
@@ -8,19 +8,18 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion versions.android.compileSdk
     defaultConfig {
-        applicationId "com.cardemory.app"
-
         minSdkVersion versions.android.minSdk
         targetSdkVersion versions.android.targetSdk
         versionCode versions.application.versionCode
         versionName versions.application.versionName
     }
+
     buildTypes {
         debug {
             minifyEnabled false
         }
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -31,14 +30,16 @@ androidExtensions {
 }
 
 dependencies {
-    implementation "androidx.constraintlayout:constraintlayout:$versions.androidx.constraint"
 
+    // android
+    implementation "androidx.constraintlayout:constraintlayout:$versions.androidx.constraint"
+    implementation "com.google.android.material:material:$versions.androidx.material"
+
+    // dagger
     kapt "com.google.dagger:dagger-android-processor:$versions.frameworks.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
 
+    // modules
     implementation project(":base")
-    implementation project(":cardlist")
-    implementation project(":cardeditor")
-    implementation project(":cardsetlist")
-    implementation project(":card_set_editor")
+    implementation project(":carddata")
 }

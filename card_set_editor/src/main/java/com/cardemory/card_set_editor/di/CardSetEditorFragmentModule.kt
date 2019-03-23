@@ -4,6 +4,7 @@ import com.cardemory.card_set_editor.mvp.CardSetEditorContract
 import com.cardemory.card_set_editor.mvp.CardSetEditorPresenter
 import com.cardemory.card_set_editor.navigation.CardSetEditorNavigation
 import com.cardemory.carddata.di.CardDataModule
+import com.cardemory.carddata.interactor.SaveCardSetInteractor
 import com.cardemory.common.di.scope.FragmentScope
 import dagger.Module
 import dagger.Provides
@@ -14,9 +15,11 @@ class CardSetEditorFragmentModule {
     @FragmentScope
     @Provides
     fun providePresenter(
-        cardSetEditorNavigation: CardSetEditorNavigation
+        cardSetEditorNavigation: CardSetEditorNavigation,
+        saveCardSetInteractor: SaveCardSetInteractor
     ): CardSetEditorContract.Presenter =
         CardSetEditorPresenter(
-            cardSetEditorNavigation
+            cardSetEditorNavigation,
+            saveCardSetInteractor
         )
 }

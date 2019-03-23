@@ -29,7 +29,11 @@ class CardSetListFragment :
     }
 
     private fun onCardSetClicked(cardSet: CardSet) {
-        TODO()
+        presenter.onCardSetClicked(cardSet)
+    }
+
+    override fun showCardSets(cardSets: List<CardSet>) {
+        cardSetAdapter?.swapData(cardSets)
     }
 
     override fun onDestroyView() {

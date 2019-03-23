@@ -2,7 +2,6 @@ package com.cardemory.common.mvp
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import dagger.android.support.AndroidSupportInjection
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -56,7 +58,7 @@ abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>
 
     override fun onStart() {
         super.onStart()
-        Handler().post {
+        GlobalScope.launch(Dispatchers.Main) {
             getToolbar()?.title = title
         }
     }

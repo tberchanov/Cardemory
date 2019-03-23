@@ -1,6 +1,7 @@
 package com.cardemory.cardlist.mvp
 
 import com.cardemory.carddata.entity.Card
+import com.cardemory.carddata.entity.CardSet
 import com.cardemory.common.mvp.BaseContract
 
 interface CardListContract {
@@ -12,8 +13,10 @@ interface CardListContract {
 
     interface Presenter : BaseContract.Presenter<View> {
 
-        fun onCreateCardClicked()
+        fun onCreateCardClicked(cardSet: CardSet)
 
         fun onCardClicked(card: Card)
+
+        fun showCards(cardSet: CardSet)
     }
 }

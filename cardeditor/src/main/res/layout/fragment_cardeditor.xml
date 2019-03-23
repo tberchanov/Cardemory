@@ -24,7 +24,7 @@
             app:layout_constraintVertical_bias="0"
             app:layout_constraintVertical_chainStyle="packed">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/cardTitleEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -46,7 +46,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardTitleTIL">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <EditText
                 android:id="@+id/cardDescriptionEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

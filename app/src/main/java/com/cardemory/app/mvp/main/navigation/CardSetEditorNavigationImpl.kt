@@ -7,7 +7,7 @@ class CardSetEditorNavigationImpl(
     private val router: Router
 ) : CardSetEditorNavigation {
 
-    override fun back() {
+    override fun closeScreen() {
         router.exit()
     }
 }

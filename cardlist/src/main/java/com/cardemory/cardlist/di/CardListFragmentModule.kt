@@ -1,7 +1,6 @@
 package com.cardemory.cardlist.di
 
 import com.cardemory.carddata.di.CardDataModule
-import com.cardemory.carddata.interactor.GetAllCardsInteractor
 import com.cardemory.cardlist.mvp.CardListContract
 import com.cardemory.cardlist.mvp.CardListPresenter
 import com.cardemory.cardlist.navigation.CardListNavigation
@@ -15,12 +14,10 @@ class CardListFragmentModule {
     @FragmentScope
     @Provides
     fun providePresenter(
-        cardListNavigation: CardListNavigation,
-        getAllCardsInteractor: GetAllCardsInteractor
+        cardListNavigation: CardListNavigation
     ): CardListContract.Presenter {
         return CardListPresenter(
-            cardListNavigation,
-            getAllCardsInteractor
+            cardListNavigation
         )
     }
 }

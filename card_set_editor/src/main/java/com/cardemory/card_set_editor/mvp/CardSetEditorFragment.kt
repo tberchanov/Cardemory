@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import com.cardemory.card_set_editor.R
-import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.util.hideKeyboard
@@ -26,7 +25,18 @@ class CardSetEditorFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        saveCardSetButton.setOnClickListener {
+            presenter.onSaveCardSetClicked(getCardSet())
+        }
         cardSetNameEditText.showKeyboard()
+    }
+
+    private fun getCardSet(): CardSet {
+        return CardSet(
+            getCardSetArg()?.id ?: CardSet.UNDEFINED_ID,
+            cardSetNameEditText.text.toString(),
+            emptyMap()
+        )
     }
 
     override fun onStart() {
@@ -61,7 +71,7 @@ class CardSetEditorFragment :
             }
         }
 
-        private fun CardSetEditorFragment.getCardSetArg(): Card? =
+        private fun CardSetEditorFragment.getCardSetArg(): CardSet? =
             arguments?.getParcelable(CARD_SET_KEY)
     }
 }

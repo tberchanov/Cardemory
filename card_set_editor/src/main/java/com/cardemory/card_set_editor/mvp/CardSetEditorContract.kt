@@ -1,5 +1,6 @@
 package com.cardemory.card_set_editor.mvp
 
+import com.cardemory.carddata.entity.CardSet
 import com.cardemory.common.mvp.BaseContract
 
 interface CardSetEditorContract {
@@ -9,5 +10,8 @@ interface CardSetEditorContract {
         fun hideKeyboard()
     }
 
-    interface Presenter : BaseContract.Presenter<View>
+    interface Presenter : BaseContract.Presenter<View> {
+
+        fun onSaveCardSetClicked(cardSet: CardSet)
+    }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import com.cardemory.carddata.entity.Card
+import com.cardemory.carddata.entity.CardSet
 import com.cardemory.cardeditor.R
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.util.hideKeyboard
@@ -54,9 +55,10 @@ class CardEditorFragment :
     }
 
     private fun getCard(): Card {
+        val cardArg = getCardArg()
         return Card(
-            getCardArg()?.id ?: Card.UNDEFINED_ID,
-            TODO("After adding cardsets, current cardset will be saved in this fragment"),
+            cardArg?.id ?: Card.UNDEFINED_ID,
+            cardArg?.cardSetId ?: getCardSetArg()!!.id,
             cardTitleEditText.text.toString(),
             cardDescriptionEditText.text.toString()
         )
@@ -69,8 +71,7 @@ class CardEditorFragment :
     companion object {
 
         private const val CARD_KEY = "CARD_KEY"
-
-        fun newInstance() = CardEditorFragment()
+        private const val CARD_SET_KEY = "CARD_SET_KEY"
 
         fun newInstance(card: Card): CardEditorFragment {
             val fragment = CardEditorFragment()
@@ -80,7 +81,18 @@ class CardEditorFragment :
             return fragment
         }
 
+        fun newInstance(cardSet: CardSet): CardEditorFragment {
+            val fragment = CardEditorFragment()
+            fragment.arguments = Bundle().apply {
+                putParcelable(CARD_SET_KEY, cardSet)
+            }
+            return fragment
+        }
+
         private fun CardEditorFragment.getCardArg(): Card? =
             arguments?.getParcelable(CARD_KEY)
+
+        private fun CardEditorFragment.getCardSetArg(): CardSet? =
+            arguments?.getParcelable(CARD_SET_KEY)
     }
 }

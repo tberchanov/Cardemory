@@ -7,4 +7,6 @@ interface CardSetListNavigation {
     fun showCreateCardSetScreen()
 
     fun showEditCardSetScreen(cardSet: CardSet)
+
+    fun showCardsScreen(cardSet: CardSet)
 }

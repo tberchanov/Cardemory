@@ -11,6 +11,7 @@ import com.cardemory.carddata.data.db.cardset.CardSetDao
 import com.cardemory.carddata.di.qualifier.CollectionData
 import com.cardemory.carddata.di.qualifier.DbData
 import com.cardemory.carddata.entity.CardDbToDomainMapper
+import com.cardemory.carddata.entity.CardSetDbToDomainMapper
 import dagger.Module
 import dagger.Provides
 
@@ -33,11 +34,13 @@ class CardDataModule {
     fun provideCardDbRepository(
         cardDao: CardDao,
         cardSetDao: CardSetDao,
-        cardDbToDomainMapper: CardDbToDomainMapper
+        cardDbToDomainMapper: CardDbToDomainMapper,
+        cardSetDbToDomainMapper: CardSetDbToDomainMapper
     ): CardRepository = DbCardRepository(
         cardDao,
         cardSetDao,
-        cardDbToDomainMapper
+        cardDbToDomainMapper,
+        cardSetDbToDomainMapper
     )
 
     @CollectionData

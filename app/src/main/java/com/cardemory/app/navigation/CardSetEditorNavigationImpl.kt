@@ -1,4 +1,4 @@
-package com.cardemory.app.mvp.main.navigation
+package com.cardemory.app.navigation
 
 import com.cardemory.card_set_editor.navigation.CardSetEditorNavigation
 import ru.terrakok.cicerone.Router

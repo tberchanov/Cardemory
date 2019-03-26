@@ -1,4 +1,4 @@
-package com.cardemory.app.mvp.main.navigation
+package com.cardemory.app.navigation
 
 import com.cardemory.card_set_editor.navigation.CardSetEditorScreen
 import com.cardemory.carddata.entity.CardSet

@@ -2,7 +2,7 @@ package com.cardemory.app.di.module
 
 import com.cardemory.app.di.module.activity.MainActivityFragmentProvider
 import com.cardemory.app.di.module.activity.MainActivityModule
-import com.cardemory.app.mvp.main.MainActivity
+import com.cardemory.app.mvp.MainActivity
 import com.cardemory.common.di.scope.ActivityScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

@@ -2,6 +2,7 @@ package com.cardemory.common.mvp
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,7 +84,7 @@ abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>
     }
 
     protected fun getToolbar(): Toolbar? {
-        return (activity as? BaseActivity<*, *>)?.getToolbar()
+        return getBaseActivity().getToolbar()
     }
 
     protected fun setBackButtonVisibility(visible: Boolean) {
@@ -92,6 +93,18 @@ abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>
             setDisplayShowHomeEnabled(visible)
         }
     }
+
+    protected fun writeToActivityStorage(key: String, value: Parcelable) {
+        getBaseActivity().writeToStorage(key, value)
+    }
+
+    protected fun <T : Parcelable> readFromActivityStorage(key: String) =
+        getBaseActivity().readFromStorage<T>(key)
+
+    protected fun removeFromActivityStorage(key: String) =
+        getBaseActivity().removeFromStorage(key)
+
+    private fun getBaseActivity() = activity as BaseActivity<*, *>
 
     companion object {
 

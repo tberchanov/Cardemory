@@ -10,6 +10,8 @@ class CardEditorScreen private constructor() : SupportAppScreen() {
     private lateinit var card: Card
     private lateinit var cardSet: CardSet
 
+    private var fragment: CardEditorFragment? = null
+
     constructor(card: Card) : this() {
         this.card = card
     }
@@ -18,10 +20,9 @@ class CardEditorScreen private constructor() : SupportAppScreen() {
         this.cardSet = cardSet
     }
 
-    override fun getFragment() =
-        if (::card.isInitialized) {
-            CardEditorFragment.newInstance(card)
-        } else {
-            CardEditorFragment.newInstance(cardSet)
-        }
+    override fun getFragment() = when {
+        fragment != null -> fragment
+        ::card.isInitialized -> CardEditorFragment.newInstance(card).also { fragment = it }
+        else -> CardEditorFragment.newInstance(cardSet).also { fragment = it }
+    }
 }

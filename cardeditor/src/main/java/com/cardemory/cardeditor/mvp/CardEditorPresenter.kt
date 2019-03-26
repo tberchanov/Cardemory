@@ -26,6 +26,6 @@ class CardEditorPresenter(
     private fun onSaveCardSuccess(card: Card) {
         Timber.d("onSaveCardSuccess: $card")
         view?.hideKeyboard()
-        cardEditorNavigation.closeScreen()
+        cardEditorNavigation.closeScreen(card)
     }
 }

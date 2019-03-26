@@ -1,4 +1,4 @@
-package com.cardemory.app.mvp.main
+package com.cardemory.app.mvp
 
 import android.os.Bundle
 import com.cardemory.app.R

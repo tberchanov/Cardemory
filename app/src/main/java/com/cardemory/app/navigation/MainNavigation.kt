@@ -1,4 +1,4 @@
-package com.cardemory.app.mvp.main.navigation
+package com.cardemory.app.navigation
 
 interface MainNavigation {
 

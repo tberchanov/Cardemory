@@ -9,6 +9,8 @@ interface CardListContract {
     interface View : BaseContract.View {
 
         fun showCards(cards: List<Card>)
+
+        fun showNewCard(card: Card)
     }
 
     interface Presenter : BaseContract.Presenter<View> {
@@ -18,5 +20,7 @@ interface CardListContract {
         fun onCardClicked(card: Card)
 
         fun showCards(cardSet: CardSet)
+
+        fun onCardSaved(card: Card)
     }
 }

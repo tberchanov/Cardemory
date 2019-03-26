@@ -1,20 +1,24 @@
-package com.cardemory.app.mvp.main.navigation
+package com.cardemory.app.navigation
 
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.cardeditor.navigation.CardEditorScreen
 import com.cardemory.cardlist.navigation.CardListNavigation
-import ru.terrakok.cicerone.Router
+import com.cardemory.common.navigation.AppRouter
 
 class CardListNavigationImpl(
-    private val router: Router
+    private val router: AppRouter
 ) : CardListNavigation {
 
     override fun showCreateCardScreen(cardSet: CardSet) {
-        router.navigateTo(CardEditorScreen(cardSet))
+        router.navigateForResult(CardEditorScreen(cardSet), CARD_EDITOR_REQUEST)
     }
 
     override fun showEditCardScreen(card: Card) {
-        router.navigateTo(CardEditorScreen(card))
+        router.navigateForResult(CardEditorScreen(card), CARD_EDITOR_REQUEST)
+    }
+
+    companion object {
+        private const val CARD_EDITOR_REQUEST = 1
     }
 }

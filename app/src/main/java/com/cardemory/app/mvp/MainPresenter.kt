@@ -1,6 +1,6 @@
-package com.cardemory.app.mvp.main
+package com.cardemory.app.mvp
 
-import com.cardemory.app.mvp.main.navigation.MainNavigation
+import com.cardemory.app.navigation.MainNavigation
 import com.cardemory.common.mvp.BasePresenter
 import timber.log.Timber
 

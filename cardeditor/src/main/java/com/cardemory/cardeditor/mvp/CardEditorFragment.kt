@@ -17,11 +17,12 @@ class CardEditorFragment :
 
     override val layoutResId = R.layout.fragment_cardeditor
 
-    override val titleRes =
+    override val titleRes by lazy {
         if (getCardArg() == null)
             R.string.title_create
         else
             R.string.title_edit
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

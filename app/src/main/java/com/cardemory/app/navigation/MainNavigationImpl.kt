@@ -1,4 +1,4 @@
-package com.cardemory.app.mvp.main.navigation
+package com.cardemory.app.navigation
 
 import com.cardemory.cardsetlist.navigation.CardSetListScreen
 import ru.terrakok.cicerone.Router

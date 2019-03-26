@@ -29,10 +29,12 @@ abstract class BaseAdapter<T : Any, H : BaseHolder<T>> :
         holder.bind(item, position)
     }
 
-    open fun swapData(items: List<T>) {
+    open fun swapData(items: List<T>, withNotify: Boolean = true) {
         itemList.clear()
         itemList.addAll(items)
-        notifyDataSetChanged()
+        if (withNotify) {
+            notifyDataSetChanged()
+        }
     }
 
     open fun removeItem(item: T) {

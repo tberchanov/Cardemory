@@ -1,4 +1,4 @@
-package com.cardemory.app.mvp.main.navigation
+package com.cardemory.app.navigation
 
 import androidx.fragment.app.FragmentActivity
 import com.cardemory.app.R

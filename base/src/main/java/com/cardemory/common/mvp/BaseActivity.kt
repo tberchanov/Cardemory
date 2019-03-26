@@ -2,6 +2,7 @@ package com.cardemory.common.mvp
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
@@ -41,13 +42,24 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
             getString(it)
         } ?: ""
 
+    private val storage = mutableMapOf<String, Parcelable>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        savedInstanceState?.also(::restoreStorage)
         showLayout()
 
         @Suppress("UNCHECKED_CAST")
         presenter.attachView(this as V)
+    }
+
+    private fun restoreStorage(savedInstanceState: Bundle) {
+        val keysArray = savedInstanceState.getStringArray(KEYS_ARRAY_KEY)!!
+        for (key in keysArray) {
+            savedInstanceState.getParcelable<Parcelable>(key)?.also {
+                writeToStorage(key, it)
+            }
+        }
     }
 
     private fun showLayout() {
@@ -93,6 +105,12 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         presenter.saveViewState(outState)
+
+        val storageKeys = storage.keys.toTypedArray()
+        outState.putStringArray(KEYS_ARRAY_KEY, storageKeys)
+        for (key in storageKeys) {
+            outState.putParcelable(key, readFromStorage(key))
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -121,7 +139,22 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
 
     abstract fun getToolbar(): Toolbar?
 
+    fun writeToStorage(key: String, value: Parcelable) {
+        storage[key] = value
+    }
+
+    fun <T : Parcelable> readFromStorage(key: String): T? {
+        @Suppress("UNCHECKED_CAST")
+        return (storage[key] as? T).also {
+            storage.remove(key)
+        }
+    }
+
+    fun removeFromStorage(key: String) = storage.remove(key) != null
+
     companion object {
+        const val KEYS_ARRAY_KEY = "KEYS_ARRAY_KEY"
+
         const val NO_LAYOUT = 0
         const val NO_ID = 0
         const val NO_TITLE = 0

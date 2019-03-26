@@ -22,4 +22,8 @@ class CardListPresenter(
         val cards = cardSet.cards.values.toList()
         view?.showCards(cards)
     }
+
+    override fun onCardSaved(card: Card) {
+        view?.showNewCard(card)
+    }
 }

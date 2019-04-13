@@ -13,7 +13,8 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        keys: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+        keys:
+        - jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
         - v1-dependencies-{{ checksum "build.gradle" }}
         - v1-dependencies-
     #      - run:

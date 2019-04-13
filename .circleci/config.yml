@@ -33,3 +33,37 @@ jobs:
         path: app/build/test-results
     # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
 
+  # run ui test in test lab
+  build:
+    docker:
+    - image: circleci/android:api-28-node8-alpha
+
+    working_directory: ~/repo
+
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+
+    steps:
+    - checkout
+
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "build.gradle" }}
+        - v1-dependencies-
+
+    - run: ./gradlew dependencies
+
+    - save_cache:
+        paths:
+        - ~/.gradle
+        key: v1-dependencies-{{ checksum "build.gradle" }}
+
+
+    - run: ./gradlew assembleDebug
+    - run: ./gradlew assembleAndroidTest
+
+    - run: sudo gcloud config set project <FIREBASE_PROJECT_ID>
+    - run: sudo gcloud auth activate-service-account <FIREBASE_SERVICE_ACCOUNT> --key-file ${HOME}/client-secret.json
+    - run: sudo gcloud config set account <FIREBASE_SERVICE_ACCOUNT>
+    - run: sudo gcloud firebase test android run --type instrumentation --app app/build/outputs/apk/debug/app-debug.apk --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk --device model=Nexus9,version=25 --use-orchestrator

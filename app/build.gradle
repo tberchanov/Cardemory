@@ -42,3 +42,9 @@ dependencies {
     implementation project(":cardsetlist")
     implementation project(":card_set_editor")
 }
+
+task runInstrumentationTestsOnTestLab(type: Exec) {
+    commandLine './run_test_lab.sh'
+}
+assembleAndroidTest.dependsOn('assembleDebug')
+runInstrumentationTestsOnTestLab.dependsOn('assembleAndroidTest')

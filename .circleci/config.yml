@@ -66,6 +66,7 @@ jobs:
               --type robo \
               --app ./app/build/outputs/apk/debug/app-debug.apk \
               --device model=Nexus9,version=25 \
+              --robo-script=cardemory_robo_script.json
 
 workflows:
   version: 2

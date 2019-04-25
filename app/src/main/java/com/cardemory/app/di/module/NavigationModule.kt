@@ -7,6 +7,7 @@ import com.cardemory.cardlist.navigation.CardListNavigation
 import com.cardemory.cardsetlist.navigation.CardSetListNavigation
 import com.cardemory.common.di.scope.ActivityScope
 import com.cardemory.common.navigation.AppRouter
+import com.cardemory.train.navigation.TrainNavigation
 import dagger.Module
 import dagger.Provides
 import ru.terrakok.cicerone.Cicerone
@@ -48,4 +49,9 @@ class NavigationModule {
     @ActivityScope
     fun provideCardSetEditorNavigation(router: AppRouter): CardSetEditorNavigation =
         CardSetEditorNavigationImpl(router)
+
+    @Provides
+    @ActivityScope
+    fun provideTrainNavigation(): TrainNavigation =
+        TrainNavigationImpl()
 }

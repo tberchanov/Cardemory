@@ -20,13 +20,18 @@ class CardSetListAdapter(
 
     inner class CardSetHolder(itemView: View) : BaseHolder<CardSet>(itemView) {
 
+        init {
+            GlobalScope.launch(Dispatchers.Main) {
+                itemView.cardSetContainer.setCardsCount(CARDSET_CARDS_COUNT)
+            }
+        }
+
         override fun bind(uiEntity: CardSet, position: Int) {
             super.bind(uiEntity, position)
             itemView.cardSetContainer.setOnClickListener {
                 onCardSetClickListener(uiEntity)
             }
             GlobalScope.launch(Dispatchers.Main) {
-                itemView.cardSetContainer.setCardsCount(CARDSET_CARDS_COUNT)
                 itemView.cardSetContainer.setText(uiEntity.name)
             }
         }

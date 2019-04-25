@@ -8,4 +8,6 @@ interface CardListNavigation {
     fun showCreateCardScreen(cardSet: CardSet)
 
     fun showEditCardScreen(card: Card)
+
+    fun showTrainScreen()
 }

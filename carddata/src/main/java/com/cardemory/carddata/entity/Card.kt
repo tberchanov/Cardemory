@@ -11,6 +11,8 @@ data class Card(
     val description: String
 ) : Parcelable {
 
+    constructor() : this(UNDEFINED_ID, -1, "", "")
+
     companion object {
         const val UNDEFINED_ID = -1L
     }

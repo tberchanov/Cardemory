@@ -22,5 +22,7 @@ interface CardListContract {
         fun showCards(cardSet: CardSet)
 
         fun onCardSaved(card: Card)
+
+        fun onTrainClicked()
     }
 }

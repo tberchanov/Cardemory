@@ -42,7 +42,7 @@ abstract class BaseAdapter<T : Any, H : BaseHolder<T>> :
         notifyDataSetChanged()
     }
 
-    fun getItems(): List<T> = Collections.unmodifiableList(itemList)
+    open fun getItems(): List<T> = Collections.unmodifiableList(itemList)
 
     fun getItem(index: Int) = itemList[index]
 

@@ -34,7 +34,7 @@ class CardListFragment :
             presenter.onCreateCardClicked(cardSet)
         }
 
-        cardAdapter = CardListAdapter(::onCardClicked)
+        cardAdapter = CardListAdapter(::onCardClicked, ::onTrainClicked)
         cardsRecyclerView.adapter = cardAdapter
 
         presenter.showCards(cardSet)
@@ -42,6 +42,10 @@ class CardListFragment :
 
     private fun onCardClicked(card: Card) {
         presenter.onCardClicked(card)
+    }
+
+    private fun onTrainClicked() {
+        presenter.onTrainClicked()
     }
 
     override fun onStart() {

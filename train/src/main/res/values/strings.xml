@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Train</string>
+    <string name="forgot">Forgot</string>
+    <string name="remembered">Remembered</string>
 </resources>

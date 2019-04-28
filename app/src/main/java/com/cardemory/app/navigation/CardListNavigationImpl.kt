@@ -19,8 +19,8 @@ class CardListNavigationImpl(
         router.navigateForResult(CardEditorScreen(card), CARD_EDITOR_REQUEST)
     }
 
-    override fun showTrainScreen() {
-        router.navigateTo(TrainScreen())
+    override fun showTrainScreen(cardSet: CardSet) {
+        router.navigateTo(TrainScreen(cardSet))
     }
 
     companion object {

@@ -42,10 +42,14 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$versions.androidx.constraint"
     implementation "com.google.android.material:material:$versions.androidx.material"
 
+    // ui
+    api "com.yuyakaido.android:card-stack-view:2.3.2"
+
     // dagger
     kapt "com.google.dagger:dagger-android-processor:$versions.frameworks.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
 
     // modules
     implementation project(":base")
+    api project(":carddata")
 }

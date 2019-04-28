@@ -45,7 +45,7 @@ class CardListFragment :
     }
 
     private fun onTrainClicked() {
-        presenter.onTrainClicked()
+        presenter.onTrainClicked(getCardSetArg())
     }
 
     override fun onStart() {

@@ -9,5 +9,5 @@ interface CardListNavigation {
 
     fun showEditCardScreen(card: Card)
 
-    fun showTrainScreen()
+    fun showTrainScreen(cardSet: CardSet)
 }

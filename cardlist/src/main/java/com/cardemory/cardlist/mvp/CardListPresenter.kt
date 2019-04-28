@@ -27,7 +27,7 @@ class CardListPresenter(
         view?.showNewCard(card)
     }
 
-    override fun onTrainClicked() {
-        navigation.showTrainScreen()
+    override fun onTrainClicked(cardSet: CardSet) {
+        navigation.showTrainScreen(cardSet)
     }
 }

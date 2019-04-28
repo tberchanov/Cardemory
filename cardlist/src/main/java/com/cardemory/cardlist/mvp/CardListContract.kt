@@ -23,6 +23,6 @@ interface CardListContract {
 
         fun onCardSaved(card: Card)
 
-        fun onTrainClicked()
+        fun onTrainClicked(cardSet: CardSet)
     }
 }

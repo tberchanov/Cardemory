@@ -18,7 +18,7 @@ class TrainFragment :
     BaseFragment<TrainContract.View, TrainContract.Presenter>(),
     TrainContract.View {
 
-    private val cardStackAdapter = TrainCardStackAdapter()
+    private lateinit var cardStackAdapter: TrainCardStackAdapter
 
     private lateinit var cardStackManager: CardStackLayoutManager
 
@@ -26,7 +26,10 @@ class TrainFragment :
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        cardStackManager = CardStackLayoutManager(context, TrainCardStackListener())
+        context?.also {
+            cardStackAdapter = TrainCardStackAdapter(context)
+            cardStackManager = CardStackLayoutManager(context, TrainCardStackListener())
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,6 +41,11 @@ class TrainFragment :
         rememberedButton.setOnClickListener {
             swipeCard(Direction.Right)
         }
+    }
+
+    override fun onDestroyView() {
+        cardStackAdapter.removeAnimationListeners()
+        super.onDestroyView()
     }
 
     private fun swipeCard(direction: Direction) {

@@ -47,6 +47,7 @@
         android:layout_width="300dp"
         android:layout_height="400dp"
         android:layout_above="@+id/button_container"
+        android:clipChildren="false"
         app:layout_constraintBottom_toTopOf="@id/button_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

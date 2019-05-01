@@ -37,7 +37,7 @@ abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>
             getString(it)
         } ?: ""
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }

@@ -19,7 +19,9 @@ class CollectionCardRepository : CardRepository {
                 counter.toLong(),
                 STUB_CARD_SET_ID,
                 "Title: $counter",
-                "Description, can be long: $counter"
+                "Description, can be long: $counter",
+                42.42,
+                100
             ).let { cards.put(it.id, it) }
         }
     }

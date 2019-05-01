@@ -61,7 +61,9 @@ class CardEditorFragment :
             cardArg?.id ?: Card.UNDEFINED_ID,
             cardArg?.cardSetId ?: getCardSetArg()!!.id,
             cardTitleEditText.text.toString(),
-            cardDescriptionEditText.text.toString()
+            cardDescriptionEditText.text.toString(),
+            cardArg?.memoryRank ?: 0.0,
+            cardArg?.lastTrainMillis ?: -1
         )
     }
 

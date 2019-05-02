@@ -1,14 +1,20 @@
 package com.cardemory.common.navigation
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.MediaStore
 import androidx.annotation.IdRes
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import com.cardemory.common.navigation.command.BackWithResult
 import com.cardemory.common.navigation.command.ForwardForResult
+import com.cardemory.common.navigation.command.TakePhotoForResult
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 import ru.terrakok.cicerone.commands.Command
+import timber.log.Timber
 
 abstract class BaseNavigator(
     private val activity: FragmentActivity,
@@ -22,6 +28,7 @@ abstract class BaseNavigator(
         when (command) {
             is ForwardForResult -> applyFragmentForwardForResult(command)
             is BackWithResult -> applyFragmentBackWithResult(command)
+            is TakePhotoForResult -> applyTakePhotoForResult(command)
             else -> super.applyCommand(command)
         }
     }
@@ -37,6 +44,19 @@ abstract class BaseNavigator(
         fragmentBack()
         activity.supportFragmentManager.executePendingTransactions()
         onResultListener?.onResult(command.resultCode, command.data)
+    }
+
+    private fun applyTakePhotoForResult(command: TakePhotoForResult) {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        takePictureIntent.resolveActivity(activity.packageManager)?.also {
+            val photoURI: Uri = FileProvider.getUriForFile(
+                activity,
+                activity.packageName,
+                command.photoFile
+            )
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            activity.startActivityForResult(takePictureIntent, command.requestCode)
+        } ?: Timber.d("There is no activity for taking photo!")
     }
 
     override fun setupFragmentTransaction(

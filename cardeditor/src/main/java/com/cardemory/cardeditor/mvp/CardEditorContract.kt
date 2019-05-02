@@ -13,5 +13,13 @@ interface CardEditorContract {
     interface Presenter : BaseContract.Presenter<View> {
 
         fun onSaveCardClicked(card: Card)
+
+        fun onScanTextClicked()
+
+        fun onTakePhotoResult()
+    }
+
+    companion object {
+        const val REQUEST_TAKE_PHOTO = 1
     }
 }

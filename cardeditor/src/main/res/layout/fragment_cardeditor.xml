@@ -55,6 +55,26 @@
                 tools:ignore="Autofill,LabelFor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/scanTextCardView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardDescriptionTIL">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ocr_icon"
+                tools:ignore="ContentDescription"/>
+
+        </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

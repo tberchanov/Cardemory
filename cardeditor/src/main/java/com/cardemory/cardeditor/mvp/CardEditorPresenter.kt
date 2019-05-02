@@ -2,16 +2,21 @@ package com.cardemory.cardeditor.mvp
 
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.interactor.SaveCardInteractor
+import com.cardemory.cardeditor.interactor.GetPhotoFileInteractor
 import com.cardemory.cardeditor.navigation.CardEditorNavigation
 import com.cardemory.common.mvp.BasePresenter
 import com.cardemory.infrastructure.entity.Failure
 import timber.log.Timber
+import java.io.File
 
 class CardEditorPresenter(
     private val cardEditorNavigation: CardEditorNavigation,
-    private val saveCardInteractor: SaveCardInteractor
+    private val saveCardInteractor: SaveCardInteractor,
+    private val getPhotoFileInteractor: GetPhotoFileInteractor
 ) : BasePresenter<CardEditorContract.View>(),
     CardEditorContract.Presenter {
+
+    private var cachedPhotoFile: File? = null
 
     override fun onSaveCardClicked(card: Card) {
         saveCardInteractor(card) {
@@ -27,5 +32,32 @@ class CardEditorPresenter(
         Timber.d("onSaveCardSuccess: $card")
         view?.hideKeyboard()
         cardEditorNavigation.closeScreen(card)
+    }
+
+    override fun onScanTextClicked() {
+        getPhotoFileInteractor(Unit).either(
+            ::onGetPhotoFileFailure,
+            ::onGetPhotoFileSuccess
+        )
+    }
+
+    private fun onGetPhotoFileFailure(failure: Failure) {
+        Timber.e("onGetPhotoFileFailure: $failure")
+    }
+
+    private fun onGetPhotoFileSuccess(photoFile: File) {
+        cachedPhotoFile = photoFile
+        cardEditorNavigation.showTakePhotoScreen(
+            photoFile,
+            CardEditorContract.REQUEST_TAKE_PHOTO
+        )
+    }
+
+    override fun onTakePhotoResult() {
+        if (cachedPhotoFile == null) {
+            Timber.e("onTakePhotoResult: cached photo is null!")
+        } else {
+            TODO("show screen with photo and crop")
+        }
     }
 }

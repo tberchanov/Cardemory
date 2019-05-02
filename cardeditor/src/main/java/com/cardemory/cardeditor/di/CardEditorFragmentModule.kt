@@ -2,6 +2,7 @@ package com.cardemory.cardeditor.di
 
 import com.cardemory.carddata.di.CardDataModule
 import com.cardemory.carddata.interactor.SaveCardInteractor
+import com.cardemory.cardeditor.interactor.GetPhotoFileInteractor
 import com.cardemory.cardeditor.mvp.CardEditorContract
 import com.cardemory.cardeditor.mvp.CardEditorPresenter
 import com.cardemory.cardeditor.navigation.CardEditorNavigation
@@ -16,10 +17,12 @@ class CardEditorFragmentModule {
     @Provides
     fun providePresenter(
         cardEditorNavigation: CardEditorNavigation,
-        saveCardInteractor: SaveCardInteractor
+        saveCardInteractor: SaveCardInteractor,
+        getPhotoFileInteractor: GetPhotoFileInteractor
     ): CardEditorContract.Presenter =
         CardEditorPresenter(
             cardEditorNavigation,
-            saveCardInteractor
+            saveCardInteractor,
+            getPhotoFileInteractor
         )
 }

@@ -42,4 +42,5 @@ dependencies {
     // modules
     implementation project(":base")
     implementation project(":carddata")
+    implementation project(":infrastructure")
 }

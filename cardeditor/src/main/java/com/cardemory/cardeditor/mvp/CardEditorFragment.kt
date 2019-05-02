@@ -1,15 +1,19 @@
 package com.cardemory.cardeditor.mvp
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.cardeditor.R
+import com.cardemory.cardeditor.mvp.CardEditorContract.Companion.REQUEST_TAKE_PHOTO
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.util.hideKeyboard
 import com.cardemory.common.util.showKeyboard
 import kotlinx.android.synthetic.main.fragment_cardeditor.*
+import timber.log.Timber
 
 class CardEditorFragment :
     BaseFragment<CardEditorContract.View, CardEditorContract.Presenter>(),
@@ -30,10 +34,25 @@ class CardEditorFragment :
         saveCardButton.setOnClickListener {
             presenter.onSaveCardClicked(getCard())
         }
+        scanTextCardView.setOnClickListener { presenter.onScanTextClicked() }
 
         showCardDataIfNeeded()
 
         cardTitleEditText.showKeyboard()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_TAKE_PHOTO -> onTakePhotoResult(resultCode)
+        }
+    }
+
+    private fun onTakePhotoResult(resultCode: Int) {
+        Timber.d("onTakePhotoResult: $resultCode")
+        if (resultCode == Activity.RESULT_OK) {
+            presenter.onTakePhotoResult()
+        }
     }
 
     private fun showCardDataIfNeeded() {

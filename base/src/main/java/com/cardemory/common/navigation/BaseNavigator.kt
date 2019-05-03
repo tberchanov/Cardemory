@@ -49,12 +49,12 @@ abstract class BaseNavigator(
     private fun applyTakePhotoForResult(command: TakePhotoForResult) {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         takePictureIntent.resolveActivity(activity.packageManager)?.also {
-            val photoURI: Uri = FileProvider.getUriForFile(
+            val photoUri: Uri = FileProvider.getUriForFile(
                 activity,
                 activity.packageName,
                 command.photoFile
             )
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
             activity.startActivityForResult(takePictureIntent, command.requestCode)
         } ?: Timber.d("There is no activity for taking photo!")
     }

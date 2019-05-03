@@ -39,6 +39,8 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$versions.frameworks.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
 
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+
     // modules
     implementation project(":base")
     implementation project(":carddata")

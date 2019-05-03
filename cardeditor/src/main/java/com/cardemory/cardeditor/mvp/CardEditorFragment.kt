@@ -2,9 +2,11 @@ package com.cardemory.cardeditor.mvp
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import androidx.core.content.FileProvider
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.cardeditor.R
@@ -12,8 +14,12 @@ import com.cardemory.cardeditor.mvp.CardEditorContract.Companion.REQUEST_TAKE_PH
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.util.hideKeyboard
 import com.cardemory.common.util.showKeyboard
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_cardeditor.*
 import timber.log.Timber
+import java.io.File
+
 
 class CardEditorFragment :
     BaseFragment<CardEditorContract.View, CardEditorContract.Presenter>(),
@@ -45,6 +51,7 @@ class CardEditorFragment :
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQUEST_TAKE_PHOTO -> onTakePhotoResult(resultCode)
+            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> onCropPhotoResult(resultCode, data)
         }
     }
 
@@ -52,6 +59,17 @@ class CardEditorFragment :
         Timber.d("onTakePhotoResult: $resultCode")
         if (resultCode == Activity.RESULT_OK) {
             presenter.onTakePhotoResult()
+        }
+    }
+
+    private fun onCropPhotoResult(resultCode: Int, data: Intent?) {
+        Timber.d("onCropPhotoResult: $resultCode")
+        val result = CropImage.getActivityResult(data)
+        if (resultCode == Activity.RESULT_OK) {
+            val resultUri = result.uri
+            // TOOD process crop result
+        } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            Timber.e(result.error, "onCropPhotoResult error!")
         }
     }
 
@@ -88,6 +106,19 @@ class CardEditorFragment :
 
     override fun hideKeyboard() {
         cardTitleEditText.hideKeyboard()
+    }
+
+    override fun showCropPhotoScreen(photoFile: File) {
+        val photoUri: Uri = FileProvider.getUriForFile(
+            activity!!,
+            activity!!.packageName,
+            photoFile
+        )
+
+        CropImage.activity(photoUri)
+            .setGuidelines(CropImageView.Guidelines.ON)
+            .setActivityTitle(getString(R.string.crop_title))
+            .start(context!!, this)
     }
 
     companion object {

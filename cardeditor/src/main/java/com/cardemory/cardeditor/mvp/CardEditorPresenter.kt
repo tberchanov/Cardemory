@@ -54,10 +54,8 @@ class CardEditorPresenter(
     }
 
     override fun onTakePhotoResult() {
-        if (cachedPhotoFile == null) {
-            Timber.e("onTakePhotoResult: cached photo is null!")
-        } else {
-            TODO("show screen with photo and crop")
-        }
+        cachedPhotoFile?.let {
+            view?.showCropPhotoScreen(it)
+        } ?: Timber.e("onTakePhotoResult: cached photo is null!")
     }
 }

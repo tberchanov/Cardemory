@@ -7,6 +7,7 @@ import com.cardemory.cardeditor.mvp.CardEditorContract
 import com.cardemory.cardeditor.mvp.CardEditorPresenter
 import com.cardemory.cardeditor.navigation.CardEditorNavigation
 import com.cardemory.common.di.scope.FragmentScope
+import com.cardemory.ocr.RecognizeTextInteractor
 import dagger.Module
 import dagger.Provides
 
@@ -18,11 +19,13 @@ class CardEditorFragmentModule {
     fun providePresenter(
         cardEditorNavigation: CardEditorNavigation,
         saveCardInteractor: SaveCardInteractor,
-        getPhotoFileInteractor: GetPhotoFileInteractor
+        getPhotoFileInteractor: GetPhotoFileInteractor,
+        recognizeTextInteractor: RecognizeTextInteractor
     ): CardEditorContract.Presenter =
         CardEditorPresenter(
             cardEditorNavigation,
             saveCardInteractor,
-            getPhotoFileInteractor
+            getPhotoFileInteractor,
+            recognizeTextInteractor
         )
 }

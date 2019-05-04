@@ -31,11 +31,14 @@ androidExtensions {
 }
 
 dependencies {
+    // Android
     implementation "androidx.constraintlayout:constraintlayout:$versions.androidx.constraint"
-
+    // Firebase
+    implementation "com.google.firebase:firebase-core:$versions.firebase.core"
+    // Dagger
     kapt "com.google.dagger:dagger-android-processor:$versions.frameworks.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
-
+    // Modules
     implementation project(":base")
     implementation project(":cardlist")
     implementation project(":cardeditor")
@@ -49,3 +52,5 @@ task runInstrumentationTestsOnTestLab(type: Exec) {
 }
 assembleAndroidTest.dependsOn('assembleDebug')
 runInstrumentationTestsOnTestLab.dependsOn('assembleAndroidTest')
+
+apply plugin: 'com.google.gms.google-services'

@@ -66,8 +66,7 @@ class CardEditorFragment :
         Timber.d("onCropPhotoResult: $resultCode")
         val result = CropImage.getActivityResult(data)
         if (resultCode == Activity.RESULT_OK) {
-            val resultUri = result.uri
-            // TOOD process crop result
+            presenter.recognizeText(result.uri)
         } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
             Timber.e(result.error, "onCropPhotoResult error!")
         }
@@ -119,6 +118,10 @@ class CardEditorFragment :
             .setGuidelines(CropImageView.Guidelines.ON)
             .setActivityTitle(getString(R.string.crop_title))
             .start(context!!, this)
+    }
+
+    override fun showCardDescription(cardDescription: String) {
+        cardDescriptionEditText.setText(cardDescription)
     }
 
     companion object {

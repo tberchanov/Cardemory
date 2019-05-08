@@ -6,9 +6,11 @@ import com.cardemory.app.mvp.MainPresenter
 import com.cardemory.app.navigation.MainNavigation
 import com.cardemory.app.navigation.MainNavigator
 import com.cardemory.common.di.scope.ActivityScope
+import com.cardemory.common.interactor.RequestPermissionsInteractor
 import com.cardemory.common.navigation.BaseNavigator
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 @Module
 class MainActivityModule {
@@ -22,4 +24,10 @@ class MainActivityModule {
     @ActivityScope
     fun providePresenter(mainNavigation: MainNavigation): MainContract.Presenter =
         MainPresenter(mainNavigation)
+
+    @ObsoleteCoroutinesApi
+    @Provides
+    @ActivityScope
+    fun provideRequestPermissionsInteractor(activity: MainActivity) =
+        RequestPermissionsInteractor(activity)
 }

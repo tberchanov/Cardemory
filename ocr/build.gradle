@@ -39,6 +39,8 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
     // Firebase
     implementation "com.google.firebase:firebase-ml-vision:$versions.firebase.ml_vision"
+    // Tesseract
+    implementation 'com.rmtheis:tess-two:9.0.0'
     // Modules
     implementation project(':infrastructure')
 }

@@ -7,11 +7,13 @@ import com.cardemory.cardeditor.mvp.CardEditorContract
 import com.cardemory.cardeditor.mvp.CardEditorPresenter
 import com.cardemory.cardeditor.navigation.CardEditorNavigation
 import com.cardemory.common.di.scope.FragmentScope
-import com.cardemory.ocr.RecognizeTextInteractor
+import com.cardemory.ocr.di.module.TextRecognitionModule
+import com.cardemory.ocr.di.qualifier.TesseractOcr
+import com.cardemory.ocr.interactor.BaseRecognizeTextInteractor
 import dagger.Module
 import dagger.Provides
 
-@Module(includes = [CardDataModule::class])
+@Module(includes = [CardDataModule::class, TextRecognitionModule::class])
 class CardEditorFragmentModule {
 
     @FragmentScope
@@ -20,7 +22,7 @@ class CardEditorFragmentModule {
         cardEditorNavigation: CardEditorNavigation,
         saveCardInteractor: SaveCardInteractor,
         getPhotoFileInteractor: GetPhotoFileInteractor,
-        recognizeTextInteractor: RecognizeTextInteractor
+        @TesseractOcr recognizeTextInteractor: BaseRecognizeTextInteractor
     ): CardEditorContract.Presenter =
         CardEditorPresenter(
             cardEditorNavigation,

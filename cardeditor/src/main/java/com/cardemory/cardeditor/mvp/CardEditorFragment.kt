@@ -9,7 +9,6 @@ import android.view.View
 import androidx.core.content.FileProvider
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
-import com.cardemory.cardeditor.R
 import com.cardemory.cardeditor.mvp.CardEditorContract.Companion.REQUEST_TAKE_PHOTO
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.util.hideKeyboard
@@ -25,13 +24,13 @@ class CardEditorFragment :
     BaseFragment<CardEditorContract.View, CardEditorContract.Presenter>(),
     CardEditorContract.View {
 
-    override val layoutResId = R.layout.fragment_cardeditor
+    override val layoutResId = com.cardemory.cardeditor.R.layout.fragment_cardeditor
 
     override val titleRes by lazy {
         if (getCardArg() == null)
-            R.string.title_create
+            com.cardemory.cardeditor.R.string.title_create
         else
-            R.string.title_edit
+            com.cardemory.cardeditor.R.string.title_edit
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,7 +115,7 @@ class CardEditorFragment :
 
         CropImage.activity(photoUri)
             .setGuidelines(CropImageView.Guidelines.ON)
-            .setActivityTitle(getString(R.string.crop_title))
+            .setActivityTitle(getString(com.cardemory.cardeditor.R.string.crop_title))
             .start(context!!, this)
     }
 

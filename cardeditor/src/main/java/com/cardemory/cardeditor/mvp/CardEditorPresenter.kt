@@ -7,7 +7,7 @@ import com.cardemory.cardeditor.interactor.GetPhotoFileInteractor
 import com.cardemory.cardeditor.navigation.CardEditorNavigation
 import com.cardemory.common.mvp.BasePresenter
 import com.cardemory.infrastructure.entity.Failure
-import com.cardemory.ocr.RecognizeTextInteractor
+import com.cardemory.ocr.interactor.BaseRecognizeTextInteractor
 import timber.log.Timber
 import java.io.File
 
@@ -15,7 +15,7 @@ class CardEditorPresenter(
     private val cardEditorNavigation: CardEditorNavigation,
     private val saveCardInteractor: SaveCardInteractor,
     private val getPhotoFileInteractor: GetPhotoFileInteractor,
-    private val recognizeTextInteractor: RecognizeTextInteractor
+    private val recognizeTextInteractor: BaseRecognizeTextInteractor
 ) : BasePresenter<CardEditorContract.View>(),
     CardEditorContract.Presenter {
 

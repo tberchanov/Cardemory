@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CardSetList</string>
     <string name="title">Cardemory</string>
+    <string name="create_your_first_card_set">Create your first card set</string>
 </resources>

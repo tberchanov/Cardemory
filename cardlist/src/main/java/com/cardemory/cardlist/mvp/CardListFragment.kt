@@ -19,7 +19,7 @@ class CardListFragment :
     CardListContract.View,
     OnResultListener {
 
-    private var cardAdapter: CardListAdapter? = null
+    private lateinit var cardAdapter: CardListAdapter
 
     override val layoutResId = R.layout.fragment_cardlist
 
@@ -45,7 +45,9 @@ class CardListFragment :
     }
 
     private fun onTrainClicked() {
-        presenter.onTrainClicked(getCardSetArg())
+        val cardsMap = cardAdapter.getItems().associate { it.id to it }
+        val currentCardSet = getCardSetArg().copy(cards = cardsMap)
+        presenter.onTrainClicked(currentCardSet)
     }
 
     override fun onStart() {
@@ -61,11 +63,11 @@ class CardListFragment :
     }
 
     override fun showCards(cards: List<Card>) {
-        cardAdapter?.swapData(cards)
+        cardAdapter.swapData(cards)
     }
 
     override fun showNewCard(card: Card) {
-        val oldCards = cardAdapter!!.getItems()
+        val oldCards = cardAdapter.getItems()
         val newCards = oldCards.toMutableList().apply {
             saveCard(card)
         }
@@ -73,8 +75,8 @@ class CardListFragment :
         val cardDiffUtilCallback = CardDiffUtilCallback(oldCards, newCards)
         val diffResult = DiffUtil.calculateDiff(cardDiffUtilCallback)
 
-        cardAdapter!!.swapData(newCards, false)
-        diffResult.dispatchUpdatesTo(cardAdapter!!)
+        cardAdapter.swapData(newCards, false)
+        diffResult.dispatchUpdatesTo(cardAdapter)
     }
 
     private fun MutableList<Card>.saveCard(card: Card) {
@@ -86,7 +88,6 @@ class CardListFragment :
 
     override fun onDestroyView() {
         saveCardSetToActivityStorage()
-        cardAdapter = null
         super.onDestroyView()
     }
 
@@ -96,7 +97,7 @@ class CardListFragment :
     }
 
     private fun saveCardSetToActivityStorage() {
-        val cards = cardAdapter!!.getItems()
+        val cards = cardAdapter.getItems()
         val cardMap = mutableMapOf<Long, Card>()
         for (card in cards) {
             cardMap[card.id] = card

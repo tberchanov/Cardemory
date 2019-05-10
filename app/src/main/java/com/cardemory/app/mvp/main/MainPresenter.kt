@@ -1,4 +1,4 @@
-package com.cardemory.app.mvp
+package com.cardemory.app.mvp.main
 
 import com.cardemory.app.navigation.MainNavigation
 import com.cardemory.common.mvp.BasePresenter

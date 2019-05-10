@@ -54,4 +54,9 @@ class NavigationModule {
     @ActivityScope
     fun provideTrainNavigation(router: AppRouter): TrainNavigation =
         TrainNavigationImpl(router)
+
+    @Provides
+    @ActivityScope
+    fun provideSplashNavigation(router: AppRouter): SplashNavigation =
+        SplashNavigationImpl(router)
 }

@@ -1,8 +1,8 @@
 package com.cardemory.app.di.module.activity
 
-import com.cardemory.app.mvp.MainActivity
-import com.cardemory.app.mvp.MainContract
-import com.cardemory.app.mvp.MainPresenter
+import com.cardemory.app.mvp.main.MainActivity
+import com.cardemory.app.mvp.main.MainContract
+import com.cardemory.app.mvp.main.MainPresenter
 import com.cardemory.app.navigation.MainNavigation
 import com.cardemory.app.navigation.MainNavigator
 import com.cardemory.common.di.scope.ActivityScope

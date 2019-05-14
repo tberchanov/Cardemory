@@ -51,5 +51,6 @@ dependencies {
 
     // modules
     implementation project(":base")
+    api project(":memorykit")
     api project(":carddata")
 }

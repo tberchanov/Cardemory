@@ -9,6 +9,8 @@ interface CardRepository {
 
     suspend fun saveCard(card: Card): Card
 
+    suspend fun saveCards(cards: List<Card>)
+
     suspend fun getAllCardSets(): List<CardSet>
 
     suspend fun saveCardSet(cardSet: CardSet): CardSet

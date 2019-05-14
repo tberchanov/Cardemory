@@ -16,4 +16,7 @@ interface CardDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(entity: CardDbEntity): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveAll(cards: List<CardDbEntity>): List<Long>
 }

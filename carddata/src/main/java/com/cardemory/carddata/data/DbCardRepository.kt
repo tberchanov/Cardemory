@@ -28,6 +28,11 @@ class DbCardRepository(
         }
     }
 
+    override suspend fun saveCards(cards: List<Card>) {
+        cards.map(cardDbToDomainMapper::to)
+            .also { cardDao.saveAll(it) }
+    }
+
     override suspend fun getAllCardSets(): List<CardSet> {
         val cardSetsDb = cardSetDao.getAll()
         val cards = getAllCards()

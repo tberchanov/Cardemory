@@ -24,7 +24,7 @@
             android:layout_height="60dp"
             android:layout_margin="8dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_brain"
+            android:src="@drawable/ic_brain_white"
             tools:ignore="ContentDescription"/>
 
     </androidx.cardview.widget.CardView>

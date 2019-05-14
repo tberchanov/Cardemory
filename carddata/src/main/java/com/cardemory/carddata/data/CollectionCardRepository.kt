@@ -38,6 +38,12 @@ class CollectionCardRepository : CardRepository {
         }
     }
 
+    override suspend fun saveCards(cards: List<Card>) {
+        cards.forEach {
+            saveCard(it)
+        }
+    }
+
     override suspend fun getAllCardSets(): List<CardSet> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

@@ -1,11 +1,17 @@
 package com.cardemory.train.mvp
 
 import com.cardemory.carddata.entity.Card
+import com.cardemory.carddata.interactor.SaveCardsInteractor
 import com.cardemory.common.mvp.BasePresenter
+import com.cardemory.infrastructure.entity.Failure
+import com.cardemory.memorykit.MemoryManager
 import com.cardemory.train.navigation.TrainNavigation
+import timber.log.Timber
 
 class TrainPresenter(
-    private val trainNavigation: TrainNavigation
+    private val trainNavigation: TrainNavigation,
+    private val memoryManager: MemoryManager,
+    private val saveCardsInteractor: SaveCardsInteractor
 ) : BasePresenter<TrainContract.View>(),
     TrainContract.Presenter {
 
@@ -13,27 +19,21 @@ class TrainPresenter(
 
     override fun onCardRemembered(card: Card) {
         val trainedCard = card.copy(
-            memoryRank = calculateRememberedCardMemoryRank(card),
+            memoryRank = memoryManager.remember(card.toCardHolder()),
             lastTrainMillis = System.currentTimeMillis()
         )
         trainedCards.add(trainedCard)
     }
-
-    // +10 up to 100
-    private fun calculateRememberedCardMemoryRank(card: Card) =
-        (card.memoryRank + 10).takeUnless { it > 100 } ?: 100.0
 
     override fun onCardForgot(card: Card) {
         val trainedCard = card.copy(
-            memoryRank = calculateForgottenCardMemoryRank(card),
+            memoryRank = memoryManager.forget(card.toCardHolder()),
             lastTrainMillis = System.currentTimeMillis()
         )
         trainedCards.add(trainedCard)
     }
 
-    // -10 down to 0
-    private fun calculateForgottenCardMemoryRank(card: Card) =
-        (card.memoryRank - 10).takeUnless { it < 0 } ?: 0.0
+    private fun Card.toCardHolder() = CardHolder(this)
 
     override fun onLastCardSwiped(cardsList: List<Card>) {
         val initialMemoryRank = getTotalMemoryRank(cardsList)
@@ -50,7 +50,17 @@ class TrainPresenter(
     }
 
     override fun onFinishMessageConfirmed() {
-        // todo save trainedCards
+        saveCardsInteractor(trainedCards) {
+            it.either(::onSaveCardsFailure) { onSaveCardsSuccess() }
+        }
+    }
+
+    private fun onSaveCardsSuccess() {
+        Timber.d("onSaveCardsSuccess")
         trainNavigation.back()
+    }
+
+    private fun onSaveCardsFailure(failure: Failure) {
+        Timber.e("onSaveCardFailure: $failure")
     }
 }

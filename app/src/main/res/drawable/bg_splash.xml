@@ -4,6 +4,6 @@
         <color android:color="@color/white"/>
     </item>
     <item
-        android:drawable="@drawable/ic_brain"
+        android:drawable="@drawable/ic_brain_green"
         android:gravity="center"/>
 </layer-list>

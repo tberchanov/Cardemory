@@ -1,6 +1,7 @@
 package com.cardemory.cardlist.ui
 
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.cardemory.carddata.entity.Card
 import com.cardemory.cardlist.R
 import com.cardemory.common.ui.BaseAdapter
@@ -10,7 +11,8 @@ import kotlinx.android.synthetic.main.item_train.view.*
 
 class CardListAdapter(
     private val onCardClickListener: (card: Card) -> Unit,
-    private val onTrainClickListener: () -> Unit
+    private val onTrainClickListener: () -> Unit,
+    private val requiredCardsForTrain: Int
 ) : BaseAdapter<Card, BaseHolder<Card>>() {
 
     override fun swapData(items: List<Card>, withNotify: Boolean) {
@@ -55,11 +57,23 @@ class CardListAdapter(
             itemView.trainButton.setOnClickListener {
                 onTrainClickListener()
             }
+            val backgroundColor = ContextCompat.getColor(
+                itemView.context,
+                getTrainButtonBackgroundColorRes()
+            )
+            itemView.trainButton.setCardBackgroundColor(backgroundColor)
         }
+
+        private fun getTrainButtonBackgroundColorRes() =
+            if (itemCount <= requiredCardsForTrain + TRAIN_CARD_ITEM_OFFSET)
+                R.color.silver
+            else
+                R.color.fruit_salad
     }
 
     companion object {
         private const val ITEM_TRAIN = 0
         private const val ITEM_CARD = 1
+        private const val TRAIN_CARD_ITEM_OFFSET = 0
     }
 }

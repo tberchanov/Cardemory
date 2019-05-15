@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.cardlist.R
+import com.cardemory.cardlist.mvp.CardListContract.Companion.REQUIRED_CARDS_FOR_TRAIN
 import com.cardemory.cardlist.ui.CardDiffUtilCallback
 import com.cardemory.cardlist.ui.CardListAdapter
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.navigation.OnResultListener
+import com.cardemory.common.util.EmptyMessageObserver
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_cardlist.*
 import timber.log.Timber
 
@@ -21,23 +24,37 @@ class CardListFragment :
 
     private lateinit var cardAdapter: CardListAdapter
 
+    private lateinit var emptyMessageObserver: EmptyMessageObserver
+
     override val layoutResId = R.layout.fragment_cardlist
 
     override val title by lazy { getCardSetArg().name }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val cardSet = readFromActivityStorage(CARD_SET_STORAGE_KEY) ?: getCardSetArg()
-
         createCardButton.setOnClickListener {
             presenter.onCreateCardClicked(cardSet)
         }
-
-        cardAdapter = CardListAdapter(::onCardClicked, ::onTrainClicked)
-        cardsRecyclerView.adapter = cardAdapter
+        setupCardRecyclerView()
+        firstCardLabel.text = getString(R.string.create_first_card_format, cardSet.name)
 
         presenter.showCards(cardSet)
+    }
+
+    private fun setupCardRecyclerView() {
+        cardAdapter = CardListAdapter(
+            ::onCardClicked,
+            ::onTrainClicked,
+            REQUIRED_CARDS_FOR_TRAIN
+        )
+        cardsRecyclerView.adapter = cardAdapter
+        emptyMessageObserver = EmptyMessageObserver(
+            cardAdapter,
+            firstCardLabel,
+            createCardArrowImageView
+        )
+        cardAdapter.registerAdapterDataObserver(emptyMessageObserver)
     }
 
     private fun onCardClicked(card: Card) {
@@ -64,9 +81,14 @@ class CardListFragment :
 
     override fun showCards(cards: List<Card>) {
         cardAdapter.swapData(cards)
+        if (cards.isEmpty()) {
+            setEmptyCardsMessageVisibility(true)
+        }
     }
 
     override fun showNewCard(card: Card) {
+        setEmptyCardsMessageVisibility(false)
+
         val oldCards = cardAdapter.getItems()
         val newCards = oldCards.toMutableList().apply {
             saveCard(card)
@@ -79,6 +101,12 @@ class CardListFragment :
         diffResult.dispatchUpdatesTo(cardAdapter)
     }
 
+    private fun setEmptyCardsMessageVisibility(visible: Boolean) {
+        val visibility = if (visible) View.VISIBLE else View.GONE
+        firstCardLabel.visibility = visibility
+        createCardArrowImageView.visibility = visibility
+    }
+
     private fun MutableList<Card>.saveCard(card: Card) {
         indexOfFirst { it.id == card.id }
             .takeUnless { it == -1 }?.let {
@@ -88,6 +116,7 @@ class CardListFragment :
 
     override fun onDestroyView() {
         saveCardSetToActivityStorage()
+        cardAdapter.unregisterAdapterDataObserver(emptyMessageObserver)
         super.onDestroyView()
     }
 
@@ -108,6 +137,14 @@ class CardListFragment :
     override fun onResult(resultCode: Int, data: Any?) {
         Timber.d("on card saving result: $data")
         presenter.onCardSaved(data as Card)
+    }
+
+    override fun showNotEnoughCardsMessage(neededCardsCount: Int) {
+        Snackbar.make(
+            createCardButton,
+            getString(R.string.not_enough_cards_format, neededCardsCount),
+            Snackbar.LENGTH_LONG
+        ).show()
     }
 
     companion object {

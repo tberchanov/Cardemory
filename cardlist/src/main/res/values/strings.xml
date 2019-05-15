@@ -1,4 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CardList</string>
     <string name="title">Cardemory</string>
+    <string name="not_enough_cards_format">Not enough cards for training. %d cards more.</string>
+    <string name="create_first_card_format">Create your fist card\nin \'%s\' cardset</string>
 </resources>

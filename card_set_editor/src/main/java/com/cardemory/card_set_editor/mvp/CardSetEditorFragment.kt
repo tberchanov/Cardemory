@@ -18,9 +18,9 @@ class CardSetEditorFragment :
 
     override val titleRes =
         if (getCardSetArg() == null)
-            R.string.title_create
+            R.string.title_create_card_set
         else
-            R.string.title_edit
+            R.string.title_edit_edit_card_set
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

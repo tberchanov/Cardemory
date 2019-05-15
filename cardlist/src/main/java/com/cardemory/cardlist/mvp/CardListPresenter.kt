@@ -2,6 +2,7 @@ package com.cardemory.cardlist.mvp
 
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
+import com.cardemory.cardlist.mvp.CardListContract.Companion.REQUIRED_CARDS_FOR_TRAIN
 import com.cardemory.cardlist.navigation.CardListNavigation
 import com.cardemory.common.mvp.BasePresenter
 
@@ -28,6 +29,11 @@ class CardListPresenter(
     }
 
     override fun onTrainClicked(cardSet: CardSet) {
-        navigation.showTrainScreen(cardSet)
+        val cardsCount = cardSet.cards.size
+        if (cardsCount < REQUIRED_CARDS_FOR_TRAIN) {
+            view?.showNotEnoughCardsMessage(REQUIRED_CARDS_FOR_TRAIN - cardsCount)
+        } else {
+            navigation.showTrainScreen(cardSet)
+        }
     }
 }

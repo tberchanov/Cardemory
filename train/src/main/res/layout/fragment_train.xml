@@ -15,29 +15,35 @@
 
         <Button
             android:id="@+id/forgotButton"
-            android:layout_width="160dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
             android:layout_height="60dp"
-            android:background="@color/pomegranate"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="10dp"
             android:text="@string/forgot"
-            android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textColor="@color/pomegranate"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/rememberedButton"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="@color/pomegranate"/>
 
         <Button
             android:id="@+id/rememberedButton"
-            android:layout_width="160dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
             android:layout_height="60dp"
-            android:background="@color/fruit_salad"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="12dp"
             android:text="@string/remembered"
-            android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textColor="@color/fruit_salad"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/forgotButton"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="@color/fruit_salad"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

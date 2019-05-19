@@ -1,13 +1,21 @@
 package com.cardemory.train.mvp
 
+import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
 import com.cardemory.carddata.entity.Card
 import com.cardemory.common.mvp.BaseContract
+import com.cardemory.train.ui.widget.StarState
 
 interface TrainContract {
 
     interface View : BaseContract.View {
 
-        fun showFinishMessage(resultMemoryRank: Double)
+        fun showFinishMessage(
+            @StringRes finishTrainDialogTitleRes: Int,
+            @StringRes finishTrainDialogMessageRes: Int,
+            @ColorRes textColorRes: Int,
+            vararg starState: StarState
+        )
     }
 
     interface Presenter : BaseContract.Presenter<View> {

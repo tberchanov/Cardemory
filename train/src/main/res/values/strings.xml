@@ -2,4 +2,12 @@
     <string name="app_name">Train</string>
     <string name="forgot">Forgot</string>
     <string name="remembered">Remembered</string>
+    <string name="empty"/>
+
+    <!--Finish train dialog-->
+    <string name="great">Great</string>
+    <string name="good">Good</string>
+    <string name="insufficiently">Insufficiently</string>
+    <string name="back_to_cards">Back to cards</string>
+    <string name="bad_result_advice">You should train more often\nto have better results!</string>
 </resources>

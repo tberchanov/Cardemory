@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
-import androidx.appcompat.app.AlertDialog
+import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.train.R
+import com.cardemory.train.ui.FinishTrainDialog
 import com.cardemory.train.ui.SwipeCardStackItemListener
 import com.cardemory.train.ui.TrainCardStackAdapter
+import com.cardemory.train.ui.widget.StarState
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.Duration
@@ -105,20 +108,30 @@ class TrainFragment :
 
     private fun getCardsList() = getCardSetArg().cards.values.toList()
 
-    override fun showFinishMessage(resultMemoryRank: Double) {
-        // TODO show correct message according to ux/ui. Use resources.
-        context?.also {
-            AlertDialog.Builder(it)
-                .setTitle("Train is finished!")
-                .setMessage("Your result memory rank is: $resultMemoryRank")
-                .setPositiveButton("OK") { _, _ -> presenter.onFinishMessageConfirmed() }
-                .setCancelable(false)
-                .create()
-                .show()
-        }
+    override fun showFinishMessage(
+        @StringRes finishTrainDialogTitleRes: Int,
+        @StringRes finishTrainDialogMessageRes: Int,
+        @ColorRes textColorRes: Int,
+        vararg starState: StarState
+    ) {
+        FinishTrainDialog(
+            finishTrainDialogTitleRes,
+            finishTrainDialogMessageRes,
+            textColorRes,
+            ::onFinishTrainDialogBackClicked,
+            *starState
+        ).apply {
+            isCancelable = false
+        }.show(fragmentManager!!, FINISH_TRAIN_DIALOG_TAG)
+    }
+
+    private fun onFinishTrainDialogBackClicked() {
+        presenter.onFinishMessageConfirmed()
     }
 
     companion object {
+
+        private const val FINISH_TRAIN_DIALOG_TAG = "FINISH_TRAIN_DIALOG"
 
         private const val VISIBLE_TRAIN_CARDS_COUNT = 2
 

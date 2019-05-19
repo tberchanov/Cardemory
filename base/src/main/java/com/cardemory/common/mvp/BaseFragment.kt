@@ -79,10 +79,6 @@ abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>
 
     protected fun isPresenterInitialized() = ::presenter.isInitialized
 
-    fun requireArguments(): Bundle {
-        return arguments ?: throw IllegalStateException("Arguments not found")
-    }
-
     protected fun getToolbar(): Toolbar? {
         return getBaseActivity().getToolbar()
     }

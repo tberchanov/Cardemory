@@ -82,6 +82,7 @@ class TrainPresenter(
         return when (rememberedCardsCount) {
             0 -> arrayOf(OUTLINE, OUTLINE, OUTLINE)
             in 1..2 -> arrayOf(HALF, OUTLINE, OUTLINE)
+            in 3..4 -> arrayOf(FULL, OUTLINE, OUTLINE)
             in 5..7 -> arrayOf(FULL, HALF, OUTLINE)
             in 8..9 -> arrayOf(FULL, FULL, HALF)
             10 -> arrayOf(FULL, FULL, FULL)
@@ -102,6 +103,9 @@ class TrainPresenter(
                 rememberedCardsCount++
             }
         }
+        Timber.d("initial cards: $initialCards")
+        Timber.d("trained cards: $trainedCards")
+        Timber.d("rememberedCardsCount: $rememberedCardsCount")
         return rememberedCardsCount
     }
 

@@ -98,7 +98,7 @@ class CardEditorFragment :
             cardTitleEditText.text.toString(),
             cardDescriptionEditText.text.toString(),
             cardArg?.memoryRank ?: 0.0,
-            cardArg?.lastTrainMillis ?: -1
+            cardArg?.lastTrainMillis ?: 0
         )
     }
 

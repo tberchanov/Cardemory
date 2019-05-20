@@ -5,6 +5,7 @@ import com.cardemory.carddata.entity.CardSet
 import com.cardemory.cardlist.mvp.CardListContract.Companion.REQUIRED_CARDS_FOR_TRAIN
 import com.cardemory.cardlist.navigation.CardListNavigation
 import com.cardemory.common.mvp.BasePresenter
+import kotlin.random.Random
 
 class CardListPresenter(
     private val navigation: CardListNavigation
@@ -33,7 +34,45 @@ class CardListPresenter(
         if (cardsCount < REQUIRED_CARDS_FOR_TRAIN) {
             view?.showNotEnoughCardsMessage(REQUIRED_CARDS_FOR_TRAIN - cardsCount)
         } else {
-            navigation.showTrainScreen(cardSet)
+            navigation.showTrainScreen(selectCardsForTrain(cardSet))
         }
+    }
+
+    private fun selectCardsForTrain(cardSet: CardSet): CardSet {
+        val cards = cardSet
+            .cards
+            .values
+            .map(::invertCardMemoryRank)
+            .sortedByDescending { it.memoryRank }
+            .toMutableList()
+
+        val selectedCards = mutableSetOf<Card>()
+        while (selectedCards.size < REQUIRED_CARDS_FOR_TRAIN) {
+            val memoryRankSum = cards.sumByDouble { it.memoryRank }
+            val randomSelector = when (memoryRankSum) {
+                0.0 -> 0.0
+                else -> Random.nextDouble(memoryRankSum)
+            }
+
+            var currentMemoryRank = 0.0
+            for (card in cards) {
+                currentMemoryRank += card.memoryRank
+                if (randomSelector <= currentMemoryRank) {
+                    cardSet.cards.get(card.id)?.let {
+                        selectedCards.add(it)
+                    }
+                    cards.remove(card)
+                    break
+                }
+            }
+        }
+        return cardSet.copy(
+            cards = selectedCards.associate { it.id to it }
+        )
+    }
+
+
+    private fun invertCardMemoryRank(card: Card): Card {
+        return card.copy(memoryRank = 1 - card.memoryRank)
     }
 }

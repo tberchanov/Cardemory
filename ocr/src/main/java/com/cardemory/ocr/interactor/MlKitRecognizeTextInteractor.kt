@@ -2,15 +2,12 @@ package com.cardemory.ocr.interactor
 
 import android.content.Context
 import android.net.Uri
-import android.os.Environment
 import com.cardemory.infrastructure.entity.Either
 import com.cardemory.infrastructure.entity.Failure
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import com.googlecode.tesseract.android.TessBaseAPI
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.sendBlocking
-import java.io.File
 import javax.inject.Inject
 
 
@@ -34,14 +31,4 @@ class MlKitRecognizeTextInteractor
                 }
         }.receive()
 
-    @Throws(Exception::class)
-    private fun extractText(photoFile: File): String {
-        val tessBaseApi = TessBaseAPI()
-        val DATA_PATH = Environment.getExternalStorageDirectory().toString() + "/OCR/"
-        tessBaseApi.init(DATA_PATH, "eng")
-        tessBaseApi.setImage(photoFile)
-        val extractedText = tessBaseApi.utF8Text
-        tessBaseApi.end()
-        return extractedText
-    }
 }

@@ -8,6 +8,7 @@ import com.cardemory.app.navigation.MainNavigator
 import com.cardemory.common.di.scope.ActivityScope
 import com.cardemory.common.interactor.RequestPermissionsInteractor
 import com.cardemory.common.navigation.BaseNavigator
+import com.cardemory.common.util.ProgressInteractorExecutor
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -30,4 +31,9 @@ class MainActivityModule {
     @ActivityScope
     fun provideRequestPermissionsInteractor(activity: MainActivity) =
         RequestPermissionsInteractor(activity)
+
+    @Provides
+    @ActivityScope
+    fun provideProgressInteractorExecutor(activity: MainActivity) =
+        ProgressInteractorExecutor(activity)
 }

@@ -15,6 +15,8 @@ class TesseractRecognizeTextInteractor
     private val context: Context
 ) : BaseRecognizeTextInteractor() {
 
+    private val tessBaseApi = TessBaseAPI()
+
     private val dataPath =
         context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)!!.path + "/OCR/"
 
@@ -30,11 +32,11 @@ class TesseractRecognizeTextInteractor
 
     @Throws(Exception::class)
     private fun extractText(photoFile: File): String {
-        val tessBaseApi = TessBaseAPI()
         tessBaseApi.init(dataPath, LANGUAGE)
         tessBaseApi.setImage(photoFile)
         val extractedText = tessBaseApi.utF8Text
         tessBaseApi.end()
+        tessBaseApi.stop()
         return extractedText
     }
 
@@ -85,6 +87,11 @@ class TesseractRecognizeTextInteractor
         } while (len > 0)
         src.close()
         dst.close()
+    }
+
+    override fun cancel() {
+        super.cancel()
+        tessBaseApi.stop()
     }
 
     companion object {

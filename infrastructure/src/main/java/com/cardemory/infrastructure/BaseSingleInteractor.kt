@@ -1,5 +1,6 @@
 package com.cardemory.infrastructure
 
+import androidx.annotation.CallSuper
 import com.cardemory.infrastructure.entity.Either
 import com.cardemory.infrastructure.entity.Failure
 import kotlinx.coroutines.*
@@ -19,7 +20,8 @@ abstract class BaseSingleInteractor<out Type, in Params>
         }
     }
 
-    fun cancel() {
+    @CallSuper
+    open fun cancel() {
         job.cancel()
     }
 

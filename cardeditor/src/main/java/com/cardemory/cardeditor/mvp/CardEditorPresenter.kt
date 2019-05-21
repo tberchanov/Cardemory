@@ -3,9 +3,11 @@ package com.cardemory.cardeditor.mvp
 import android.net.Uri
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.interactor.SaveCardInteractor
+import com.cardemory.cardeditor.R
 import com.cardemory.cardeditor.interactor.GetPhotoFileInteractor
 import com.cardemory.cardeditor.navigation.CardEditorNavigation
 import com.cardemory.common.mvp.BasePresenter
+import com.cardemory.common.util.ProgressInteractorExecutor
 import com.cardemory.infrastructure.entity.Failure
 import com.cardemory.ocr.interactor.BaseRecognizeTextInteractor
 import timber.log.Timber
@@ -15,7 +17,8 @@ class CardEditorPresenter(
     private val cardEditorNavigation: CardEditorNavigation,
     private val saveCardInteractor: SaveCardInteractor,
     private val getPhotoFileInteractor: GetPhotoFileInteractor,
-    private val recognizeTextInteractor: BaseRecognizeTextInteractor
+    private val recognizeTextInteractor: BaseRecognizeTextInteractor,
+    private val progressInteractorExecutor: ProgressInteractorExecutor
 ) : BasePresenter<CardEditorContract.View>(),
     CardEditorContract.Presenter {
 
@@ -63,9 +66,11 @@ class CardEditorPresenter(
     }
 
     override fun recognizeText(photoUri: Uri) {
-        recognizeTextInteractor(photoUri) {
-            it.either(::onRecognizeTextFailure, ::onRecognizeTextSuccess)
-        }
+        progressInteractorExecutor.executeWithProgress(
+            R.string.processing_image,
+            recognizeTextInteractor,
+            photoUri
+        ) { it.either(::onRecognizeTextFailure, ::onRecognizeTextSuccess) }
     }
 
     private fun onRecognizeTextFailure(failure: Failure) {

@@ -11,7 +11,7 @@ class MemoryManager {
         }
         val lastTrainDaysDelta = millisToDays(lastTrainMillisDelta)
         var calculatedMemoryRank =
-            1.0 - Math.exp(-lastTrainDaysDelta / (FORGETTING_SCALE_FACTOR / (1.0 - memoryHolder.memoryRank)))
+            1.0 - Math.exp(-lastTrainDaysDelta / (FORGETTING_SCALE_FACTOR / memoryHolder.memoryRank))
         if (calculatedMemoryRank >= memoryHolder.memoryRank) {
             calculatedMemoryRank = 0.0
         }

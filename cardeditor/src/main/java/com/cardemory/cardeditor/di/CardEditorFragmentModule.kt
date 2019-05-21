@@ -7,6 +7,7 @@ import com.cardemory.cardeditor.mvp.CardEditorContract
 import com.cardemory.cardeditor.mvp.CardEditorPresenter
 import com.cardemory.cardeditor.navigation.CardEditorNavigation
 import com.cardemory.common.di.scope.FragmentScope
+import com.cardemory.common.util.ProgressInteractorExecutor
 import com.cardemory.ocr.di.module.TextRecognitionModule
 import com.cardemory.ocr.di.qualifier.TesseractOcr
 import com.cardemory.ocr.interactor.BaseRecognizeTextInteractor
@@ -22,12 +23,14 @@ class CardEditorFragmentModule {
         cardEditorNavigation: CardEditorNavigation,
         saveCardInteractor: SaveCardInteractor,
         getPhotoFileInteractor: GetPhotoFileInteractor,
-        @TesseractOcr recognizeTextInteractor: BaseRecognizeTextInteractor
+        @TesseractOcr recognizeTextInteractor: BaseRecognizeTextInteractor,
+        progressInteractorExecutor: ProgressInteractorExecutor
     ): CardEditorContract.Presenter =
         CardEditorPresenter(
             cardEditorNavigation,
             saveCardInteractor,
             getPhotoFileInteractor,
-            recognizeTextInteractor
+            recognizeTextInteractor,
+            progressInteractorExecutor
         )
 }

@@ -45,6 +45,13 @@ class DbCardRepository(
         return cardSets
     }
 
+    override suspend fun getCardSet(cardSetId: Long): CardSet? {
+        val cardSetDb = cardSetDao.findById(cardSetId) ?: return null
+        val cardsDb = cardDao.findByCardSetId(cardSetId)
+            .map(cardDbToDomainMapper::from)
+        return mapToCardSet(cardSetDb, cardsDb)
+    }
+
     override suspend fun saveCardSet(cardSet: CardSet): CardSet {
         val cardSetId = cardSetDbToDomainMapper
             .to(cardSet)
@@ -58,10 +65,7 @@ class DbCardRepository(
         cardSetDbEntity: CardSetDbEntity,
         cardsInSet: List<Card>
     ): CardSet {
-        val cardsMap = mutableMapOf<Long, Card>()
-        for (card in cardsInSet) {
-            cardsMap[card.id] = card
-        }
+        val cardsMap = cardsInSet.associate { it.id to it }
         return CardSet(cardSetDbEntity.id!!, cardSetDbEntity.name, cardsMap)
     }
 }

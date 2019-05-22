@@ -13,5 +13,7 @@ interface CardRepository {
 
     suspend fun getAllCardSets(): List<CardSet>
 
+    suspend fun getCardSet(cardSetId: Long): CardSet?
+
     suspend fun saveCardSet(cardSet: CardSet): CardSet
 }

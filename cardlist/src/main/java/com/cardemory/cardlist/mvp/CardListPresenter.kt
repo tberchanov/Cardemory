@@ -2,13 +2,17 @@ package com.cardemory.cardlist.mvp
 
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
+import com.cardemory.carddata.interactor.GetCardSetInteractor
 import com.cardemory.cardlist.mvp.CardListContract.Companion.REQUIRED_CARDS_FOR_TRAIN
 import com.cardemory.cardlist.navigation.CardListNavigation
 import com.cardemory.common.mvp.BasePresenter
+import com.cardemory.infrastructure.entity.Failure
+import timber.log.Timber
 import kotlin.random.Random
 
 class CardListPresenter(
-    private val navigation: CardListNavigation
+    private val navigation: CardListNavigation,
+    private val getCardSetInteractor: GetCardSetInteractor
 ) : BasePresenter<CardListContract.View>(),
     CardListContract.Presenter {
 
@@ -18,11 +22,6 @@ class CardListPresenter(
 
     override fun onCardClicked(card: Card) {
         navigation.showEditCardScreen(card)
-    }
-
-    override fun showCards(cardSet: CardSet) {
-        val cards = cardSet.cards.values.toList()
-        view?.showCards(cards)
     }
 
     override fun onCardSaved(card: Card) {
@@ -74,5 +73,19 @@ class CardListPresenter(
 
     private fun invertCardMemoryRank(card: Card): Card {
         return card.copy(memoryRank = 1 - card.memoryRank)
+    }
+
+    override fun loadCardSet(cardSet: CardSet) {
+        getCardSetInteractor(cardSet.id) {
+            it.either(::onLoadCardSetFailure, ::onLoadCardSetSuccess)
+        }
+    }
+
+    private fun onLoadCardSetSuccess(cardSet: CardSet) {
+        view?.showCardSetData(cardSet)
+    }
+
+    private fun onLoadCardSetFailure(failure: Failure) {
+        Timber.e("onLoadCardSetFailure: $failure")
     }
 }

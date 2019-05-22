@@ -32,14 +32,24 @@ class CardListFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val cardSet = readFromActivityStorage(CARD_SET_STORAGE_KEY) ?: getCardSetArg()
+        val cardSetArg = getCardSetArg()
         createCardButton.setOnClickListener {
-            presenter.onCreateCardClicked(cardSet)
+            presenter.onCreateCardClicked(cardSetArg)
         }
         setupCardRecyclerView()
-        firstCardLabel.text = getString(R.string.create_first_card_format, cardSet.name)
+        presenter.loadCardSet(cardSetArg)
+    }
 
-        presenter.showCards(cardSet)
+    override fun showCardSetData(cardSet: CardSet) {
+        firstCardLabel.text = getString(R.string.create_first_card_format, cardSet.name)
+        showCards(cardSet.cards.values.toList())
+    }
+
+    private fun showCards(cards: List<Card>) {
+        cardAdapter.swapData(cards)
+        if (cards.isEmpty()) {
+            setEmptyCardsMessageVisibility(true)
+        }
     }
 
     private fun setupCardRecyclerView() {
@@ -79,13 +89,6 @@ class CardListFragment :
         super.onStop()
     }
 
-    override fun showCards(cards: List<Card>) {
-        cardAdapter.swapData(cards)
-        if (cards.isEmpty()) {
-            setEmptyCardsMessageVisibility(true)
-        }
-    }
-
     override fun showNewCard(card: Card) {
         setEmptyCardsMessageVisibility(false)
 
@@ -115,23 +118,8 @@ class CardListFragment :
     }
 
     override fun onDestroyView() {
-        saveCardSetToActivityStorage()
         cardAdapter.unregisterAdapterDataObserver(emptyMessageObserver)
         super.onDestroyView()
-    }
-
-    override fun onDetach() {
-        removeFromActivityStorage(CARD_SET_STORAGE_KEY)
-        super.onDetach()
-    }
-
-    private fun saveCardSetToActivityStorage() {
-        val cards = cardAdapter.getItems()
-        val cardMap = mutableMapOf<Long, Card>()
-        for (card in cards) {
-            cardMap[card.id] = card
-        }
-        writeToActivityStorage(CARD_SET_STORAGE_KEY, getCardSetArg().copy(cards = cardMap))
     }
 
     override fun onResult(resultCode: Int, data: Any?) {
@@ -150,7 +138,6 @@ class CardListFragment :
     companion object {
 
         private const val CARD_SET_KEY = "CARD_SET_KEY"
-        private const val CARD_SET_STORAGE_KEY = "CARD_SET_STORAGE_KEY"
 
         fun newInstance(cardSet: CardSet): CardListFragment {
             val fragment = CardListFragment()

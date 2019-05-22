@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Train</string>
     <string name="forgot">Forgot</string>
-    <string name="remembered">Remembered</string>
+    <string name="know">Know</string>
     <string name="empty"/>
 
     <!--Back message dialog-->

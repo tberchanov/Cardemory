@@ -13,7 +13,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardStackView">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/forgotButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
@@ -29,14 +29,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:rippleColor="@color/pomegranate"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/rememberedButton"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="12dp"
-            android:text="@string/remembered"
+            android:text="@string/know"
             android:textColor="@color/fruit_salad"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"

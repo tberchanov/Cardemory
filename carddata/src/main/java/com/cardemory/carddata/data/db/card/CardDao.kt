@@ -14,6 +14,9 @@ interface CardDao {
     @Query("SELECT * FROM card where card_id = :id")
     suspend fun findById(id: Long): CardDbEntity?
 
+    @Query("SELECT * FROM card where set_id = :cardSetId")
+    suspend fun findByCardSetId(cardSetId: Long): List<CardDbEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(entity: CardDbEntity): Long
 

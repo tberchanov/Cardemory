@@ -8,11 +8,11 @@ interface CardListContract {
 
     interface View : BaseContract.View {
 
-        fun showCards(cards: List<Card>)
-
         fun showNewCard(card: Card)
 
         fun showNotEnoughCardsMessage(neededCardsCount: Int)
+
+        fun showCardSetData(cardSet: CardSet)
     }
 
     interface Presenter : BaseContract.Presenter<View> {
@@ -21,11 +21,11 @@ interface CardListContract {
 
         fun onCardClicked(card: Card)
 
-        fun showCards(cardSet: CardSet)
-
         fun onCardSaved(card: Card)
 
         fun onTrainClicked(cardSet: CardSet)
+
+        fun loadCardSet(cardSet: CardSet)
     }
 
     companion object {

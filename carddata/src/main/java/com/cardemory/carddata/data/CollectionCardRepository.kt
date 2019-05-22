@@ -48,6 +48,10 @@ class CollectionCardRepository : CardRepository {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun getCardSet(cardSetId: Long): CardSet {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override suspend fun saveCardSet(cardSet: CardSet): CardSet {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

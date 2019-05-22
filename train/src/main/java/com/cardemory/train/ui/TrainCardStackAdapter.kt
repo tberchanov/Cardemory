@@ -5,17 +5,17 @@ import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.content.Context
 import android.view.View
-import com.cardemory.carddata.entity.Card
 import com.cardemory.common.ui.BaseAdapter
 import com.cardemory.common.ui.BaseHolder
 import com.cardemory.train.R
 import com.cardemory.train.ui.TrainCardStackAdapter.TrainCardStackHolder
+import com.cardemory.train.ui.model.TrainCard
 import kotlinx.android.synthetic.main.item_train_card_stack.view.*
 
 
 class TrainCardStackAdapter(
     private val context: Context
-) : BaseAdapter<Card, TrainCardStackHolder>() {
+) : BaseAdapter<TrainCard, TrainCardStackHolder>() {
 
     private lateinit var setRightOut: AnimatorSet
     private lateinit var setLeftIn: AnimatorSet
@@ -44,14 +44,17 @@ class TrainCardStackAdapter(
         setLeftIn.removeAllListeners()
     }
 
-    inner class TrainCardStackHolder(itemView: View) : BaseHolder<Card>(itemView) {
+    inner class TrainCardStackHolder(itemView: View) : BaseHolder<TrainCard>(itemView) {
 
-        private var isBackVisible = false
-
-        override fun bind(uiEntity: Card, position: Int) {
+        override fun bind(uiEntity: TrainCard, position: Int) {
             super.bind(uiEntity, position)
-            itemView.trainCardTitleTextView.text = uiEntity.title
-            itemView.trainCardDescriptionTextView.text = uiEntity.description
+            itemView.trainCardTitleTextView.text = uiEntity.card.title
+            itemView.trainCardDescriptionTextView.text = uiEntity.card.description
+            if (uiEntity.isBackVisible) {
+                showCardBack()
+            } else {
+                showCardFront()
+            }
             changeCameraDistance(itemView)
 
             itemView.trainCardContainer.setOnClickListener {
@@ -64,8 +67,22 @@ class TrainCardStackAdapter(
             }
         }
 
+        private fun showCardBack() {
+            itemView.cardFrontLayout.alpha = 0f
+            itemView.cardBackLayout.alpha = 1f
+            itemView.cardFrontLayout.rotationY = 180f
+            itemView.cardBackLayout.rotationY = 0f
+        }
+
+        private fun showCardFront() {
+            itemView.cardFrontLayout.alpha = 1f
+            itemView.cardBackLayout.alpha = 0f
+            itemView.cardFrontLayout.rotationY = 0f
+            itemView.cardBackLayout.rotationY = 180f
+        }
+
         private fun flipCard(frontLayout: View, backLayout: View) {
-            if (isBackVisible) {
+            if (data.isBackVisible) {
                 setRightOut.setTarget(backLayout)
                 setLeftIn.setTarget(frontLayout)
                 setRightOut.start()
@@ -76,7 +93,7 @@ class TrainCardStackAdapter(
                 setRightOut.start()
                 setLeftIn.start()
             }
-            isBackVisible = !isBackVisible
+            data.isBackVisible = !data.isBackVisible
         }
 
         private fun changeCameraDistance(itemView: View) {

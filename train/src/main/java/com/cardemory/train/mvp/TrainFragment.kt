@@ -17,6 +17,7 @@ import com.cardemory.train.R
 import com.cardemory.train.ui.FinishTrainDialog
 import com.cardemory.train.ui.SwipeCardStackItemListener
 import com.cardemory.train.ui.TrainCardStackAdapter
+import com.cardemory.train.ui.model.TrainCard
 import com.cardemory.train.ui.widget.StarState
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.Direction
@@ -92,7 +93,9 @@ class TrainFragment :
     }
 
     private fun initCardStackView() {
-        cardStackAdapter.swapData(getCardsList())
+        cardStackAdapter.swapData(
+            getCardsList().map { TrainCard(it) }
+        )
 
         cardStackManager.apply {
             setVisibleCount(VISIBLE_TRAIN_CARDS_COUNT)

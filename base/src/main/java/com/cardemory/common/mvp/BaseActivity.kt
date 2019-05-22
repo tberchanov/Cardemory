@@ -3,6 +3,7 @@ package com.cardemory.common.mvp
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.MenuItem
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
@@ -151,6 +152,16 @@ abstract class BaseActivity<V : BaseContract.View, P : BaseContract.Presenter<V>
     }
 
     fun removeFromStorage(key: String) = storage.remove(key) != null
+
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackButtonClicked()
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+
+    open fun onBackButtonClicked() = onTopFragmentBackPressed()
 
     companion object {
         const val KEYS_ARRAY_KEY = "KEYS_ARRAY_KEY"

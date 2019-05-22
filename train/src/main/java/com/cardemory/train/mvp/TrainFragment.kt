@@ -2,14 +2,17 @@ package com.cardemory.train.mvp
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.common.mvp.BaseFragment
+import com.cardemory.common.mvp.OnBackPressedListener
 import com.cardemory.train.R
 import com.cardemory.train.ui.FinishTrainDialog
 import com.cardemory.train.ui.SwipeCardStackItemListener
@@ -22,9 +25,10 @@ import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
 import kotlinx.android.synthetic.main.fragment_train.*
 import timber.log.Timber
 
+
 class TrainFragment :
     BaseFragment<TrainContract.View, TrainContract.Presenter>(),
-    TrainContract.View {
+    TrainContract.View, OnBackPressedListener {
 
     private lateinit var cardStackAdapter: TrainCardStackAdapter
 
@@ -127,6 +131,35 @@ class TrainFragment :
 
     private fun onFinishTrainDialogBackClicked() {
         presenter.onFinishMessageConfirmed()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Handler().post {
+            setBackButtonVisibility(true)
+        }
+    }
+
+    override fun onStop() {
+        setBackButtonVisibility(false)
+        super.onStop()
+    }
+
+    override fun onBackPressed(): Boolean {
+        presenter.onBackClicked()
+        return true
+    }
+
+    override fun showBackMessage() {
+        AlertDialog.Builder(activity!!)
+            .setTitle(R.string.train_is_not_finished)
+            .setMessage(R.string.answers_wont_be_saved)
+            .setPositiveButton(R.string.back) { _, _ ->
+                presenter.onBackMessageConfirmed()
+            }
+            .setNegativeButton(R.string.keep_training, null)
+            .create()
+            .show()
     }
 
     companion object {

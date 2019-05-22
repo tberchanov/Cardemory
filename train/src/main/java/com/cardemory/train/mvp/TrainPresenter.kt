@@ -123,4 +123,12 @@ class TrainPresenter(
     private fun onSaveCardsFailure(failure: Failure) {
         Timber.e("onSaveCardFailure: $failure")
     }
+
+    override fun onBackClicked() {
+        view?.showBackMessage()
+    }
+
+    override fun onBackMessageConfirmed() {
+        trainNavigation.back()
+    }
 }

@@ -16,6 +16,8 @@ interface TrainContract {
             @ColorRes textColorRes: Int,
             vararg starState: StarState
         )
+
+        fun showBackMessage()
     }
 
     interface Presenter : BaseContract.Presenter<View> {
@@ -27,5 +29,9 @@ interface TrainContract {
         fun onLastCardSwiped(cardsList: List<Card>)
 
         fun onFinishMessageConfirmed()
+
+        fun onBackClicked()
+
+        fun onBackMessageConfirmed()
     }
 }

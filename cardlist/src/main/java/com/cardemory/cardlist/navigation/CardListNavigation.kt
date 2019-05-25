@@ -10,4 +10,6 @@ interface CardListNavigation {
     fun showEditCardScreen(card: Card)
 
     fun showTrainScreen(cardSet: CardSet)
+
+    fun showAppSettings()
 }

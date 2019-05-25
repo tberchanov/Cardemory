@@ -99,6 +99,10 @@ class CardSetEditorFragment :
         cardSetNameEditText.setText(cardSet.name)
     }
 
+    override fun showEmptyNameError() {
+        cardSetNameTIL.error = getString(R.string.empty_name_error)
+    }
+
     companion object {
 
         private const val CARD_SET_KEY = "CARD_SET_KEY"

@@ -37,6 +37,10 @@ class TrainFragment :
 
     override val layoutResId = R.layout.fragment_train
 
+    override val title by lazy {
+        getString(R.string.title_format, getCardSetArg().name)
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         cardStackAdapter = TrainCardStackAdapter(context)
@@ -113,7 +117,11 @@ class TrainFragment :
         }
     }
 
-    private fun getCardsList() = getCardSetArg().cards.values.toList()
+    private fun getCardsList() = getCardSetArg()
+        .cards
+        .values
+        .toList()
+        .sortedByDescending { it.memoryRank }
 
     override fun showFinishMessage(
         @StringRes finishTrainDialogTitleRes: Int,

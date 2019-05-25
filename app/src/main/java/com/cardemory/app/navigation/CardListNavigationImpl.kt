@@ -23,6 +23,10 @@ class CardListNavigationImpl(
         router.navigateTo(TrainScreen(cardSet))
     }
 
+    override fun showAppSettings() {
+        router.forwardToAppSettings()
+    }
+
     companion object {
         private const val CARD_EDITOR_REQUEST = 1
     }

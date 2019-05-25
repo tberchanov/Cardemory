@@ -5,4 +5,5 @@
     <string name="title_edit_edit_card_set">Edit card set</string>
     <string name="import_from_file">Import from file</string>
     <string name="invalid_file_format">Invalid file contents format!</string>
+    <string name="empty_name_error">Let\'s enter the name</string>
 </resources>

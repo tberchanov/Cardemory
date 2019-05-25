@@ -13,6 +13,8 @@ interface CardSetEditorContract {
         fun showInvalidFileContentsMessage()
 
         fun showCardSet(cardSet: CardSet)
+
+        fun showEmptyNameError()
     }
 
     interface Presenter : BaseContract.Presenter<View> {

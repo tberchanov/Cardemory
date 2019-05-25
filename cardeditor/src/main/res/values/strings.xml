@@ -6,4 +6,6 @@
     <string name="description_hint">Description</string>
     <string name="crop_title">Crop text area</string>
     <string name="processing_image">Processing image</string>
+    <string name="empty_title_error">Title should not be empty</string>
+    <string name="empty_description_error">Come on, enter the description</string>
 </resources>

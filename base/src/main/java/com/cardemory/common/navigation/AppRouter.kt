@@ -1,9 +1,6 @@
 package com.cardemory.common.navigation
 
-import com.cardemory.common.navigation.command.BackWithResult
-import com.cardemory.common.navigation.command.ChooseFileForResult
-import com.cardemory.common.navigation.command.ForwardForResult
-import com.cardemory.common.navigation.command.TakePhotoForResult
+import com.cardemory.common.navigation.command.*
 import ru.terrakok.cicerone.Router
 import ru.terrakok.cicerone.Screen
 import java.io.File
@@ -24,5 +21,9 @@ class AppRouter : Router() {
 
     fun chooseFileForResult(requestCode: Int, mimeTypeFilter: String?) {
         executeCommands(ChooseFileForResult(requestCode, mimeTypeFilter))
+    }
+
+    fun forwardToAppSettings() {
+        executeCommands(ForwardToAppSettings())
     }
 }

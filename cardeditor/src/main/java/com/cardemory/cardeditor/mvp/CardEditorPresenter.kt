@@ -25,9 +25,21 @@ class CardEditorPresenter(
     private var cachedPhotoFile: File? = null
 
     override fun onSaveCardClicked(card: Card) {
-        saveCardInteractor(card) {
-            it.either(::onSaveCardFailure, ::onSaveCardSuccess)
+        if (isCardValid(card)) {
+            saveCardInteractor(card) {
+                it.either(::onSaveCardFailure, ::onSaveCardSuccess)
+            }
         }
+    }
+
+    private fun isCardValid(card: Card): Boolean {
+        val titleEmpty = card.title.isEmpty().also {
+            view?.setEmptyTitleErrorVisibility(it)
+        }
+        val descriptionEmpty = card.description.isEmpty().also {
+            view?.setEmptyDescriptionErrorVisibility(it)
+        }
+        return !titleEmpty && !descriptionEmpty
     }
 
     private fun onSaveCardFailure(f: Failure) {

@@ -19,8 +19,19 @@ class CardSetEditorPresenter(
     CardSetEditorContract.Presenter {
 
     override fun onSaveCardSetClicked(cardSet: CardSet) {
-        saveCardSetInteractor(cardSet) {
-            it.either(::onSaveCardSetFailure, ::onSaveCardSetSuccess)
+        if (isCardSetValid(cardSet)) {
+            saveCardSetInteractor(cardSet) {
+                it.either(::onSaveCardSetFailure, ::onSaveCardSetSuccess)
+            }
+        }
+    }
+
+    private fun isCardSetValid(cardSet: CardSet): Boolean {
+        if (cardSet.name.isEmpty()) {
+            view?.showEmptyNameError()
+            return false
+        } else {
+            return true
         }
     }
 

@@ -3,6 +3,7 @@
     <string name="forgot">Forgot</string>
     <string name="know">Know</string>
     <string name="empty"/>
+    <string name="title_format">Training: %s</string>
 
     <!--Back message dialog-->
     <string name="train_is_not_finished">Train is not finished</string>

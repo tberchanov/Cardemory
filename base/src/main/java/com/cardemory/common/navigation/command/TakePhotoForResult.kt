@@ -5,5 +5,6 @@ import java.io.File
 
 class TakePhotoForResult(
     val photoFile: File,
-    val requestCode: Int
+    val requestCode: Int,
+    val chooserTitle: String? = null
 ) : Command

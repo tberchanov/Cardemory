@@ -11,6 +11,10 @@ interface CardEditorContract {
 
         fun hideKeyboard()
 
+        fun setEmptyTitleErrorVisibility(visible: Boolean)
+
+        fun setEmptyDescriptionErrorVisibility(visible: Boolean)
+
         fun showCropPhotoScreen(photoFile: File)
 
         fun showCardDescription(cardDescription: String)

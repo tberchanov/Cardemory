@@ -9,6 +9,7 @@ import android.view.View
 import androidx.core.content.FileProvider
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
+import com.cardemory.cardeditor.R
 import com.cardemory.cardeditor.mvp.CardEditorContract.Companion.REQUEST_TAKE_PHOTO
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.util.hideKeyboard
@@ -104,6 +105,22 @@ class CardEditorFragment :
 
     override fun hideKeyboard() {
         cardTitleEditText.hideKeyboard()
+    }
+
+    override fun setEmptyTitleErrorVisibility(visible: Boolean) {
+        if (visible) {
+            cardTitleTIL.error = getString(R.string.empty_title_error)
+        } else {
+            cardTitleTIL.error = ""
+        }
+    }
+
+    override fun setEmptyDescriptionErrorVisibility(visible: Boolean) {
+        if (visible) {
+            cardDescriptionTIL.error = getString(R.string.empty_description_error)
+        } else {
+            cardDescriptionTIL.error = ""
+        }
     }
 
     override fun showCropPhotoScreen(photoFile: File) {

@@ -6,9 +6,6 @@ import com.cardemory.cardsetlist.R
 import com.cardemory.common.ui.BaseAdapter
 import com.cardemory.common.ui.BaseHolder
 import kotlinx.android.synthetic.main.item_card_set.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class CardSetListAdapter(
     private val onCardSetClickListener: (card: CardSet) -> Unit
@@ -20,24 +17,12 @@ class CardSetListAdapter(
 
     inner class CardSetHolder(itemView: View) : BaseHolder<CardSet>(itemView) {
 
-        init {
-            GlobalScope.launch(Dispatchers.Main) {
-                itemView.cardSetContainer.setCardsCount(CARDSET_CARDS_COUNT)
-            }
-        }
-
         override fun bind(uiEntity: CardSet, position: Int) {
             super.bind(uiEntity, position)
-            itemView.cardSetContainer.setOnClickListener {
+            itemView.container.setOnClickListener {
                 onCardSetClickListener(uiEntity)
             }
-            GlobalScope.launch(Dispatchers.Main) {
-                itemView.cardSetContainer.setText(uiEntity.name)
-            }
+            itemView.cardSetNameTextView.text = uiEntity.name
         }
-    }
-
-    companion object {
-        private const val CARDSET_CARDS_COUNT = 3
     }
 }

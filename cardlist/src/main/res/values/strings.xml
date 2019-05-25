@@ -7,4 +7,8 @@
     <string name="export_to_file">Export to file</string>
     <string name="exporting">Exporting</string>
     <string name="success_export_format">Exported: %s</string>
+    <string name="missing_permission">Missing permission</string>
+    <string name="missing_permission_message">"Permission is required for exporting into file. You can provide it in the settings."</string>
+    <string name="go_to_settings">Go to settings</string>
+    <string name="cancel">Cancel</string>
 </resources>

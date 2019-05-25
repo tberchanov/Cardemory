@@ -1,12 +1,12 @@
-package com.cardemory.carddata.data
+package com.cardemory.carddata.data.repository
 
 import com.cardemory.carddata.data.db.card.CardDao
 import com.cardemory.carddata.data.db.cardset.CardSetDao
 import com.cardemory.carddata.data.db.cardset.CardSetDbEntity
 import com.cardemory.carddata.entity.Card
-import com.cardemory.carddata.entity.CardDbToDomainMapper
 import com.cardemory.carddata.entity.CardSet
-import com.cardemory.carddata.entity.CardSetDbToDomainMapper
+import com.cardemory.carddata.mapper.CardDbToDomainMapper
+import com.cardemory.carddata.mapper.CardSetDbToDomainMapper
 import timber.log.Timber
 
 class DbCardRepository(
@@ -30,7 +30,9 @@ class DbCardRepository(
 
     override suspend fun saveCards(cards: List<Card>) {
         cards.map(cardDbToDomainMapper::to)
-            .also { cardDao.saveAll(it) }
+            .also {
+                cardDao.saveAll(it)
+            }
     }
 
     override suspend fun getAllCardSets(): List<CardSet> {
@@ -56,6 +58,12 @@ class DbCardRepository(
         val cardSetId = cardSetDbToDomainMapper
             .to(cardSet)
             .let { cardSetDao.save(it) }
+
+        cardSet.cards.values.map {
+            it.copy(cardSetId = cardSetId)
+        }.also {
+            saveCards(it)
+        }
         return cardSet.copy(id = cardSetId).also {
             Timber.d("Saved card set id: $it")
         }

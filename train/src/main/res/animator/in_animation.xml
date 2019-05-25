@@ -7,7 +7,6 @@
         android:valueFrom="1.0"
         android:valueTo="0.0"/>
 
-
     <objectAnimator
         android:duration="@integer/anim_length"
         android:propertyName="rotationY"

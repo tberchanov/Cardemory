@@ -10,6 +10,12 @@ data class CardSet(
     val cards: Map<Long, Card>
 ) : Parcelable {
 
+    constructor(name: String, cards: List<Card>) : this(
+        UNDEFINED_ID,
+        name,
+        cards.associate { it.id to it }
+    )
+
     companion object {
         const val UNDEFINED_ID = -1L
     }

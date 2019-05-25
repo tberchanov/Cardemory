@@ -1,18 +1,32 @@
 package com.cardemory.cardlist.mvp
 
+import android.Manifest
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.carddata.interactor.GetCardSetInteractor
+import com.cardemory.carddata.interactor.SaveCardSetToFileInteractor
+import com.cardemory.cardlist.R
 import com.cardemory.cardlist.mvp.CardListContract.Companion.REQUIRED_CARDS_FOR_TRAIN
 import com.cardemory.cardlist.navigation.CardListNavigation
+import com.cardemory.common.interactor.CheckedPermissionResponse
+import com.cardemory.common.interactor.PermissionResult
+import com.cardemory.common.interactor.RequestPermissionsInteractor
+import com.cardemory.common.interactor.ShowRationalePermissionResponse
 import com.cardemory.common.mvp.BasePresenter
+import com.cardemory.common.util.ProgressInteractorExecutor
 import com.cardemory.infrastructure.entity.Failure
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import timber.log.Timber
+import java.io.File
 import kotlin.random.Random
 
-class CardListPresenter(
+@ObsoleteCoroutinesApi
+class CardListPresenter constructor(
     private val navigation: CardListNavigation,
-    private val getCardSetInteractor: GetCardSetInteractor
+    private val getCardSetInteractor: GetCardSetInteractor,
+    private val saveCardSetToFileInteractor: SaveCardSetToFileInteractor,
+    private val progressInteractorExecutor: ProgressInteractorExecutor,
+    private val requestPermissionsInteractor: RequestPermissionsInteractor
 ) : BasePresenter<CardListContract.View>(),
     CardListContract.Presenter {
 
@@ -87,5 +101,52 @@ class CardListPresenter(
 
     private fun onLoadCardSetFailure(failure: Failure) {
         Timber.e("onLoadCardSetFailure: $failure")
+    }
+
+    override fun exportCardSet(cardSet: CardSet) {
+        requestPermission(cardSet)
+    }
+
+    private fun requestPermission(cardSet: CardSet) {
+        requestPermissionsInteractor(
+            listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            onResult = {
+                it.either(::onRequestPermissionFailure,
+                          { onRequestPermissionSuccess(it, cardSet) })
+            })
+    }
+
+    private fun onRequestPermissionFailure(failure: Failure) {
+        Timber.e("onRequestPermissionFailure: $failure")
+    }
+
+    private fun onRequestPermissionSuccess(permissionResult: PermissionResult, cardSet: CardSet) =
+        when (permissionResult) {
+            is ShowRationalePermissionResponse -> {
+            }
+            is CheckedPermissionResponse -> onCheckedPermission(permissionResult, cardSet)
+        }
+
+    private fun onCheckedPermission(
+        checkedPermissionResponse: CheckedPermissionResponse,
+        cardSet: CardSet
+    ) {
+        if (checkedPermissionResponse.areAllPermissionsGranted()) {
+            progressInteractorExecutor.executeWithProgress(
+                R.string.exporting,
+                saveCardSetToFileInteractor,
+                cardSet
+            ) {
+                it.either(::onExportingFailure, ::onExportingSuccess)
+            }
+        }
+    }
+
+    private fun onExportingFailure(failure: Failure) {
+        Timber.e("onExportingFailure: $failure")
+    }
+
+    private fun onExportingSuccess(exportedFile: File) {
+        view?.showSuccessExportingMessage(exportedFile.path)
     }
 }

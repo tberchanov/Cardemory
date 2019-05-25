@@ -1,6 +1,6 @@
 package com.cardemory.carddata.interactor
 
-import com.cardemory.carddata.data.CardRepository
+import com.cardemory.carddata.data.repository.CardRepository
 import com.cardemory.carddata.di.qualifier.DbData
 import com.cardemory.carddata.entity.Card
 import com.cardemory.infrastructure.BaseSingleInteractor

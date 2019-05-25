@@ -3,4 +3,6 @@
     <string name="name_hint">Name</string>
     <string name="title_create_card_set">Create card set</string>
     <string name="title_edit_edit_card_set">Edit card set</string>
+    <string name="import_from_file">Import from file</string>
+    <string name="invalid_file_format">Invalid file contents format!</string>
 </resources>

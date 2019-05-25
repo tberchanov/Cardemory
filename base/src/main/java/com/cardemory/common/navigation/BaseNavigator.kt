@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTransaction
 import com.cardemory.common.navigation.command.BackWithResult
+import com.cardemory.common.navigation.command.ChooseFileForResult
 import com.cardemory.common.navigation.command.ForwardForResult
 import com.cardemory.common.navigation.command.TakePhotoForResult
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
@@ -21,6 +22,8 @@ abstract class BaseNavigator(
     @param:IdRes @field:IdRes private val containerId: Int
 ) : SupportAppNavigator(activity, containerId) {
 
+    private val providerAuthority = activity.packageName + ".provider"
+
     val topFragment: Fragment?
         get() = activity.supportFragmentManager.findFragmentById(containerId)
 
@@ -29,6 +32,7 @@ abstract class BaseNavigator(
             is ForwardForResult -> applyFragmentForwardForResult(command)
             is BackWithResult -> applyFragmentBackWithResult(command)
             is TakePhotoForResult -> applyTakePhotoForResult(command)
+            is ChooseFileForResult -> applyChooseFileForResult(command)
             else -> super.applyCommand(command)
         }
     }
@@ -51,12 +55,20 @@ abstract class BaseNavigator(
         takePictureIntent.resolveActivity(activity.packageManager)?.also {
             val photoUri: Uri = FileProvider.getUriForFile(
                 activity,
-                activity.packageName,
+                providerAuthority,
                 command.photoFile
             )
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
             activity.startActivityForResult(takePictureIntent, command.requestCode)
         } ?: Timber.d("There is no activity for taking photo!")
+    }
+
+    private fun applyChooseFileForResult(command: ChooseFileForResult) {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+            .addCategory(Intent.CATEGORY_OPENABLE)
+            .setType(command.mimeTypeFilter)
+        // TODO check for available activity
+        activity.startActivityForResult(intent, command.requestCode)
     }
 
     override fun setupFragmentTransaction(
@@ -69,5 +81,9 @@ abstract class BaseNavigator(
             android.R.anim.fade_in, android.R.anim.fade_out,
             android.R.anim.fade_in, android.R.anim.fade_out
         )
+    }
+
+    companion object {
+        private const val DIRECTORY_NAME = "Cardemory"
     }
 }

@@ -7,7 +7,6 @@ import com.cardemory.cardlist.mvp.CardListContract
 import com.cardemory.cardlist.mvp.CardListPresenter
 import com.cardemory.cardlist.navigation.CardListNavigation
 import com.cardemory.common.di.scope.FragmentScope
-import com.cardemory.common.interactor.RequestPermissionsInteractor
 import com.cardemory.common.util.ProgressInteractorExecutor
 import dagger.Module
 import dagger.Provides
@@ -23,15 +22,13 @@ class CardListFragmentModule {
         cardListNavigation: CardListNavigation,
         getCardSetInteractor: GetCardSetInteractor,
         saveCardSetToFileInteractor: SaveCardSetToFileInteractor,
-        progressInteractorExecutor: ProgressInteractorExecutor,
-        requestPermissionsInteractor: RequestPermissionsInteractor
+        progressInteractorExecutor: ProgressInteractorExecutor
     ): CardListContract.Presenter {
         return CardListPresenter(
             cardListNavigation,
             getCardSetInteractor,
             saveCardSetToFileInteractor,
-            progressInteractorExecutor,
-            requestPermissionsInteractor
+            progressInteractorExecutor
         )
     }
 }

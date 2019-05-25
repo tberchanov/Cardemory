@@ -50,10 +50,7 @@ dependencies {
     /* navigation */
     api "ru.terrakok.cicerone:cicerone:$versions.navigation.cicerone"
 
-    // Permissions
-    implementation 'com.karumi:dexter:5.0.0'
-
-    // Modules
+    /* modules */
     api project(":infrastructure")
 }
 repositories {

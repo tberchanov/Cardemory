@@ -15,6 +15,8 @@ interface CardListContract {
         fun showCardSetData(cardSet: CardSet)
 
         fun showSuccessExportingMessage(exportedFilePath: String)
+
+        fun showExportDeniedPermissionMessage()
     }
 
     interface Presenter : BaseContract.Presenter<View> {
@@ -30,6 +32,10 @@ interface CardListContract {
         fun loadCardSet(cardSet: CardSet)
 
         fun exportCardSet(cardSet: CardSet)
+
+        fun onPermissionDenied()
+
+        fun showAppSettings()
     }
 
     companion object {

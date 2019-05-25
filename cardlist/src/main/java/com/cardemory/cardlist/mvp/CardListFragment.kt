@@ -1,11 +1,15 @@
 package com.cardemory.cardlist.mvp
 
+import android.Manifest
+import android.app.AlertDialog
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
@@ -20,6 +24,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_cardlist.*
 import timber.log.Timber
 
+
 class CardListFragment :
     BaseFragment<CardListContract.View, CardListContract.Presenter>(),
     CardListContract.View,
@@ -29,7 +34,7 @@ class CardListFragment :
 
     private lateinit var emptyMessageObserver: EmptyMessageObserver
 
-    override val layoutResId = R.layout.fragment_cardlist
+    override val layoutResId = com.cardemory.cardlist.R.layout.fragment_cardlist
 
     override val title by lazy { getCardSetArg().name }
 
@@ -49,7 +54,8 @@ class CardListFragment :
     }
 
     override fun showCardSetData(cardSet: CardSet) {
-        firstCardLabel.text = getString(R.string.create_first_card_format, cardSet.name)
+        firstCardLabel.text =
+            getString(com.cardemory.cardlist.R.string.create_first_card_format, cardSet.name)
         showCards(cardSet.cards.values.toList())
     }
 
@@ -138,7 +144,7 @@ class CardListFragment :
     override fun showNotEnoughCardsMessage(neededCardsCount: Int) {
         Snackbar.make(
             createCardButton,
-            getString(R.string.not_enough_cards_format, neededCardsCount),
+            getString(com.cardemory.cardlist.R.string.not_enough_cards_format, neededCardsCount),
             Snackbar.LENGTH_LONG
         ).show()
     }
@@ -157,6 +163,39 @@ class CardListFragment :
         }
 
     private fun onExportClick() {
+        requestWriteExternalPermission()
+    }
+
+    private fun requestWriteExternalPermission() {
+        if (isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            exportCardSet()
+        } else {
+            requestPermissions(
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                REQUEST_WRITE_EXTERNAL_PERMISSION
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) = when (requestCode) {
+        REQUEST_WRITE_EXTERNAL_PERMISSION ->
+            onRequestWriteExternalPermissionResult(grantResults)
+        else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun onRequestWriteExternalPermissionResult(grantResults: IntArray) {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            exportCardSet()
+        } else {
+            presenter.onPermissionDenied()
+        }
+    }
+
+    private fun exportCardSet() {
         cardAdapter.getItems().associate { it.id to it }.let { cards ->
             getCardSetArg().copy(cards = cards)
         }.let {
@@ -164,15 +203,33 @@ class CardListFragment :
         }
     }
 
+    private fun isPermissionGranted(permission: String) =
+        ContextCompat.checkSelfPermission(
+            context!!,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+
     override fun showSuccessExportingMessage(exportedFilePath: String) {
-        val exportedMessage = getString(R.string.success_export_format, exportedFilePath)
+        val exportedMessage =
+            getString(R.string.success_export_format, exportedFilePath)
         Snackbar.make(
             containerCoordinator,
             exportedMessage, Snackbar.LENGTH_INDEFINITE
         ).show()
     }
 
+    override fun showExportDeniedPermissionMessage() {
+        AlertDialog.Builder(context)
+            .setTitle(R.string.missing_permission)
+            .setMessage(R.string.missing_permission_message)
+            .setPositiveButton(R.string.go_to_settings) { _, _ -> presenter.showAppSettings() }
+            .setNegativeButton(R.string.cancel, null)
+            .create()
+            .show()
+    }
+
     companion object {
+        private const val REQUEST_WRITE_EXTERNAL_PERMISSION = 1
 
         private const val CARD_SET_KEY = "CARD_SET_KEY"
 

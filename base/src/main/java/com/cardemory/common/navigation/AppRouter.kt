@@ -1,6 +1,7 @@
 package com.cardemory.common.navigation
 
 import com.cardemory.common.navigation.command.BackWithResult
+import com.cardemory.common.navigation.command.ChooseFileForResult
 import com.cardemory.common.navigation.command.ForwardForResult
 import com.cardemory.common.navigation.command.TakePhotoForResult
 import ru.terrakok.cicerone.Router
@@ -19,5 +20,9 @@ class AppRouter : Router() {
 
     fun takePhotoForResult(photoFile: File, requestCode: Int) {
         executeCommands(TakePhotoForResult(photoFile, requestCode))
+    }
+
+    fun chooseFileForResult(requestCode: Int, mimeTypeFilter: String?) {
+        executeCommands(ChooseFileForResult(requestCode, mimeTypeFilter))
     }
 }

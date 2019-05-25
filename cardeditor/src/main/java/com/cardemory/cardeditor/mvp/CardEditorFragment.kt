@@ -109,7 +109,7 @@ class CardEditorFragment :
     override fun showCropPhotoScreen(photoFile: File) {
         val photoUri: Uri = FileProvider.getUriForFile(
             activity!!,
-            activity!!.packageName,
+            activity!!.packageName + ".provider",
             photoFile
         )
 

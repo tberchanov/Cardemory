@@ -4,4 +4,7 @@
     <string name="title">Cardemory</string>
     <string name="not_enough_cards_format">Not enough cards for training. %d cards more.</string>
     <string name="create_first_card_format">Create your fist card\nin \'%s\' cardset</string>
+    <string name="export_to_file">Export to file</string>
+    <string name="exporting">Exporting</string>
+    <string name="success_export_format">Exported: %s</string>
 </resources>

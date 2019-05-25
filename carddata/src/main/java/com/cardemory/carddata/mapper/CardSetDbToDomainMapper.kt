@@ -1,6 +1,7 @@
-package com.cardemory.carddata.entity
+package com.cardemory.carddata.mapper
 
 import com.cardemory.carddata.data.db.cardset.CardSetDbEntity
+import com.cardemory.carddata.entity.CardSet
 import com.cardemory.infrastructure.entity.Mapper
 import javax.inject.Inject
 

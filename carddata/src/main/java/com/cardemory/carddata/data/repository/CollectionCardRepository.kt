@@ -1,4 +1,4 @@
-package com.cardemory.carddata.data
+package com.cardemory.carddata.data.repository
 
 import android.annotation.SuppressLint
 import com.cardemory.carddata.entity.Card

@@ -13,6 +13,8 @@ interface CardListContract {
         fun showNotEnoughCardsMessage(neededCardsCount: Int)
 
         fun showCardSetData(cardSet: CardSet)
+
+        fun showSuccessExportingMessage(exportedFilePath: String)
     }
 
     interface Presenter : BaseContract.Presenter<View> {
@@ -26,6 +28,8 @@ interface CardListContract {
         fun onTrainClicked(cardSet: CardSet)
 
         fun loadCardSet(cardSet: CardSet)
+
+        fun exportCardSet(cardSet: CardSet)
     }
 
     companion object {

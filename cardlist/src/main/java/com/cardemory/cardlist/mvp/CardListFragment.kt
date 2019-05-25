@@ -2,6 +2,9 @@ package com.cardemory.cardlist.mvp
 
 import android.os.Bundle
 import android.os.Handler
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.recyclerview.widget.DiffUtil
 import com.cardemory.carddata.entity.Card
@@ -29,6 +32,11 @@ class CardListFragment :
     override val layoutResId = R.layout.fragment_cardlist
 
     override val title by lazy { getCardSetArg().name }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -132,6 +140,35 @@ class CardListFragment :
             createCardButton,
             getString(R.string.not_enough_cards_format, neededCardsCount),
             Snackbar.LENGTH_LONG
+        ).show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_cardlist, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when (item.itemId) {
+            R.id.action_export -> {
+                onExportClick()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+
+    private fun onExportClick() {
+        cardAdapter.getItems().associate { it.id to it }.let { cards ->
+            getCardSetArg().copy(cards = cards)
+        }.let {
+            presenter.exportCardSet(it)
+        }
+    }
+
+    override fun showSuccessExportingMessage(exportedFilePath: String) {
+        val exportedMessage = getString(R.string.success_export_format, exportedFilePath)
+        Snackbar.make(
+            containerCoordinator,
+            exportedMessage, Snackbar.LENGTH_INDEFINITE
         ).show()
     }
 

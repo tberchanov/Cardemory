@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.cardemory.train.R
 import com.cardemory.train.ui.widget.StarState
-import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.dialog_finish_train.view.*
 
 class FinishTrainDialog(
@@ -29,9 +28,7 @@ class FinishTrainDialog(
         val textColor = ContextCompat.getColor(context!!, textColorRes)
         view.trainResultTitleTextView.setTextColor(textColor)
         view.trainResultDialogMessage.setTextColor(textColor)
-        view.backButton.let {
-            it as? MaterialButton
-        }?.also {
+        view.backButton.also {
             it.setTextColor(textColor)
             it.setRippleColorResource(textColorRes)
         }

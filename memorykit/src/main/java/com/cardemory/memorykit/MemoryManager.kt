@@ -13,7 +13,7 @@ class MemoryManager {
         var calculatedMemoryRank =
             1.0 - Math.exp(-lastTrainDaysDelta / (FORGETTING_SCALE_FACTOR / memoryHolder.memoryRank))
         if (calculatedMemoryRank >= memoryHolder.memoryRank) {
-            calculatedMemoryRank = 0.0
+            calculatedMemoryRank = MIN_MEMORY_RANK
         }
 
         memoryHolder.memoryRank = calculatedMemoryRank
@@ -29,17 +29,23 @@ class MemoryManager {
             currentTimeMillis - memoryHolder.lastTrainMillis
         }
         val lastTrainDaysDelta = millisToDays(lastTrainMillisDelta)
-        val calculatedMemoryRank =
+        var calculatedMemoryRank =
             1.0 / (1.0 + Math.exp(-lastTrainDaysDelta * SIGMOID_SCALE_FACTOR + OX_SIGMOID_TRANSITION))
-
-        memoryHolder.memoryRank += calculatedMemoryRank
+        calculatedMemoryRank += memoryHolder.memoryRank
+        if (calculatedMemoryRank > MAX_MEMORY_RANK) {
+            calculatedMemoryRank = MAX_MEMORY_RANK
+        }
+        memoryHolder.memoryRank = calculatedMemoryRank
         memoryHolder.lastTrainMillis = currentTimeMillis
-        return memoryHolder.memoryRank
+        return calculatedMemoryRank
     }
 
     private fun millisToDays(millis: Long): Double = millis / MILLIS_IN_DAY
 
     companion object {
+        private const val MIN_MEMORY_RANK = 0.0
+        private const val MAX_MEMORY_RANK = 1.0
+
         private const val FORGETTING_SCALE_FACTOR = 30.0
         private const val OX_SIGMOID_TRANSITION = 6.0
         private const val SIGMOID_SCALE_FACTOR = 0.5

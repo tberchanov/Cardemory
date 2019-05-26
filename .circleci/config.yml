@@ -29,7 +29,7 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Run Tests
+          name: Run Lint Tests
           command: ./gradlew lint test
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: app/build/reports
@@ -55,6 +55,14 @@ jobs:
           name: Load  google-services
           command: |
             echo $GOOGLE_SERVICES | base64 --decode > app/google-services.json
+      - run:
+          name: Run Memory Kit Unit Tests
+          command: ./gradlew memorykit:test
+      - store_artifacts:
+          path: memorykit/build/reports
+          destination: reports
+      - store_test_results:
+          path: memorykit/build/test-results
       - run:
           name: Build debug APK
           command: |

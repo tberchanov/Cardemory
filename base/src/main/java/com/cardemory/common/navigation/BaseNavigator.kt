@@ -32,12 +32,12 @@ abstract class BaseNavigator(
             is BackWithResult -> applyFragmentBackWithResult(command)
             is TakePhotoForResult -> applyTakePhotoForResult(command)
             is ChooseFileForResult -> applyChooseFileForResult(command)
-            is ForwardToAppSettings -> applyForwardToAppSettings(command)
+            is ForwardToAppSettings -> applyForwardToAppSettings()
             else -> super.applyCommand(command)
         }
     }
 
-    private fun applyForwardToAppSettings(command: ForwardToAppSettings) {
+    private fun applyForwardToAppSettings() {
         val intent = Intent()
         intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
         val uri = Uri.fromParts("package", activity.packageName, null)

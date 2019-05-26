@@ -43,6 +43,13 @@ ext {
             firebase   : [
                     core     : "16.0.8",
                     ml_vision: "19.0.3"
-            ]
+            ],
+            tests      : [
+                    junit    : "4.12",
+                    powermock: "2.0.2",
+                    androidx : [
+                            "test": "1.0.0"
+                    ]
+            ],
     ]
 }

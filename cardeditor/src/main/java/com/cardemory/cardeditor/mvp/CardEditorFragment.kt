@@ -25,13 +25,13 @@ class CardEditorFragment :
     BaseFragment<CardEditorContract.View, CardEditorContract.Presenter>(),
     CardEditorContract.View {
 
-    override val layoutResId = com.cardemory.cardeditor.R.layout.fragment_cardeditor
+    override val layoutResId = R.layout.fragment_cardeditor
 
     override val titleRes by lazy {
         if (getCardArg() == null)
-            com.cardemory.cardeditor.R.string.title_create
+            R.string.title_create
         else
-            com.cardemory.cardeditor.R.string.title_edit
+            R.string.title_edit
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -132,7 +132,7 @@ class CardEditorFragment :
 
         CropImage.activity(photoUri)
             .setGuidelines(CropImageView.Guidelines.ON)
-            .setActivityTitle(getString(com.cardemory.cardeditor.R.string.crop_title))
+            .setActivityTitle(getString(R.string.crop_title))
             .start(context!!, this)
     }
 

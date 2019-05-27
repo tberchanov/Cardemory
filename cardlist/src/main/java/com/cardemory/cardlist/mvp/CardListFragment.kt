@@ -34,7 +34,7 @@ class CardListFragment :
 
     private lateinit var emptyMessageObserver: EmptyMessageObserver
 
-    override val layoutResId = com.cardemory.cardlist.R.layout.fragment_cardlist
+    override val layoutResId = R.layout.fragment_cardlist
 
     override val title by lazy { getCardSetArg().name }
 
@@ -55,7 +55,7 @@ class CardListFragment :
 
     override fun showCardSetData(cardSet: CardSet) {
         firstCardLabel.text =
-            getString(com.cardemory.cardlist.R.string.create_first_card_format, cardSet.name)
+            getString(R.string.create_first_card_format, cardSet.name)
         showCards(cardSet.cards.values.toList())
     }
 
@@ -144,13 +144,13 @@ class CardListFragment :
     override fun showNotEnoughCardsMessage(neededCardsCount: Int) {
         Snackbar.make(
             createCardButton,
-            getString(com.cardemory.cardlist.R.string.not_enough_cards_format, neededCardsCount),
+            getString(R.string.not_enough_cards_format, neededCardsCount),
             Snackbar.LENGTH_LONG
         ).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_cardlist, menu)
+        inflater.inflate(R.menu.menu_card_list, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =

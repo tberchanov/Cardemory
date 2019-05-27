@@ -1,6 +1,9 @@
-package com.cardemory.cardsetlist.mvp
+package com.cardemory.cardsetlist.mvp.cardsetlist
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.cardsetlist.R
@@ -19,6 +22,11 @@ class CardSetListFragment :
 
     override val layoutResId = R.layout.fragment_card_set_list
     override val titleRes = R.string.title
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,6 +52,23 @@ class CardSetListFragment :
             firstCardSetLabel.visibility = View.VISIBLE
             arrowImageView.visibility = View.VISIBLE
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_cardset_list, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) =
+        when (item.itemId) {
+            R.id.action_privacy_policy -> {
+                onPrivacyPolicyClicked()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+
+    private fun onPrivacyPolicyClicked() {
+        presenter.onPrivacyPolicyClicked()
     }
 
     override fun onDestroyView() {

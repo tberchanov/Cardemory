@@ -1,4 +1,4 @@
-package com.cardemory.cardsetlist.mvp
+package com.cardemory.cardsetlist.mvp.cardsetlist
 
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.carddata.interactor.GetAllCardSetsInteractor
@@ -35,5 +35,9 @@ class CardSetListPresenter(
 
     override fun onCardSetClicked(cardSet: CardSet) {
         cardSetListNavigation.showCardsScreen(cardSet)
+    }
+
+    override fun onPrivacyPolicyClicked() {
+        cardSetListNavigation.showPrivacyPolicyScreen()
     }
 }

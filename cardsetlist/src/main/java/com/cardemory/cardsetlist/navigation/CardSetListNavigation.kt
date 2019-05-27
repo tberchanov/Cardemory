@@ -9,4 +9,6 @@ interface CardSetListNavigation {
     fun showEditCardSetScreen(cardSet: CardSet)
 
     fun showCardsScreen(cardSet: CardSet)
+
+    fun showPrivacyPolicyScreen()
 }

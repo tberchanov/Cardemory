@@ -5,14 +5,13 @@ import android.content.Context
 import android.util.Log
 import com.cardemory.app.util.DateTimeFormatter
 import com.cardemory.app.util.createChildDirectoryIfNotExists
-import timber.log.Timber
 import java.io.BufferedWriter
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FileTimberTree(context: Context) : Timber.DebugTree() {
+class FileTimberTree(context: Context) : DebugTree() {
 
     private var writer: BufferedWriter? = null
     private val dateTimeFormatter = DateTimeFormatter()

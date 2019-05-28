@@ -1,5 +1,5 @@
 static String getVersionName() {
-    return "1.0.1"
+    return "1.0.2"
 }
 
 static int getVersionCode() {
@@ -41,8 +41,9 @@ ext {
                     timber    : "4.7.1"
             ],
             firebase   : [
-                    core     : "16.0.8",
-                    ml_vision: "19.0.3"
+                    core       : "16.0.9",
+                    ml_vision  : "19.0.3",
+                    crashlytics: "2.10.1"
             ],
             tests      : [
                     junit    : "4.12",

@@ -35,8 +35,8 @@ class TesseractRecognizeTextInteractor
         tessBaseApi.init(dataPath, LANGUAGE)
         tessBaseApi.setImage(photoFile)
         val extractedText = tessBaseApi.utF8Text
-        tessBaseApi.end()
         tessBaseApi.stop()
+        tessBaseApi.end()
         return extractedText
     }
 

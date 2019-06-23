@@ -20,14 +20,19 @@
         android:clipChildren="false"
         android:clipToPadding="false">
 
-        <TextView
+        <com.cardemory.train.ui.widget.GradientTextView
             android:id="@+id/trainCardDescriptionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:ellipsize="end"
             android:gravity="center"
+            android:padding="8dp"
             android:textColor="@color/black"
             android:textSize="26sp"
+            app:gtvEnableGradient="true"
+            app:gtvEndColor="@color/transparent"
+            app:gtvGradientHeight="360dp"
+            app:gtvStartColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,10 +43,26 @@
         <View
             android:layout_width="0dp"
             android:layout_height="300dp"
-            android:background="@drawable/gradation_black"
+            android:background="@drawable/gradation_black_1a"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/longPressTextView"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@drawable/gradation_black"
+            android:gravity="center"
+            android:text="@string/long_press"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -55,6 +76,8 @@
             android:id="@+id/trainCardTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:padding="8dp"
             android:textColor="@color/black"
             android:textSize="26sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -67,7 +90,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="300dp"
-            android:background="@drawable/gradation_black"
+            android:background="@drawable/gradation_black_1a"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>

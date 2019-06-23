@@ -2,6 +2,7 @@ package com.cardemory.cardlist.mvp
 
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
+import com.cardemory.cardlist.BuildConfig
 import com.cardemory.common.mvp.BaseContract
 
 interface CardListContract {
@@ -39,6 +40,6 @@ interface CardListContract {
     }
 
     companion object {
-        const val REQUIRED_CARDS_FOR_TRAIN = 10
+        val REQUIRED_CARDS_FOR_TRAIN = if (BuildConfig.DEBUG) 1 else 10
     }
 }

@@ -5,8 +5,10 @@ import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.content.Context
 import android.view.View
+import android.widget.Toast
 import com.cardemory.common.ui.BaseAdapter
 import com.cardemory.common.ui.BaseHolder
+import com.cardemory.common.util.setVisible
 import com.cardemory.train.R
 import com.cardemory.train.ui.TrainCardStackAdapter.TrainCardStackHolder
 import com.cardemory.train.ui.model.TrainCard
@@ -46,6 +48,8 @@ class TrainCardStackAdapter(
 
     inner class TrainCardStackHolder(itemView: View) : BaseHolder<TrainCard>(itemView) {
 
+        private var longPressEnabled = false
+
         override fun bind(uiEntity: TrainCard, position: Int) {
             super.bind(uiEntity, position)
             itemView.trainCardTitleTextView.text = uiEntity.card.title
@@ -58,12 +62,33 @@ class TrainCardStackAdapter(
             changeCameraDistance(itemView)
 
             itemView.trainCardContainer.setOnClickListener {
-                flipCard(itemView.cardFrontLayout, itemView.cardBackLayout)
+                if (!setRightOut.isRunning && !setLeftIn.isRunning) {
+                    flipCard(itemView.cardFrontLayout, itemView.cardBackLayout)
+                }
+            }
+            itemView.trainCardContainer.setOnLongClickListener {
+                if (data.isBackVisible && longPressEnabled) {
+                    Toast.makeText(context, uiEntity.card.description, Toast.LENGTH_LONG).show()
+                }
+                true
             }
 
             FlipAnimationListener(itemView).also {
                 setRightOut.addListener(it)
                 setLeftIn.addListener(it)
+            }
+
+            setupLongPress()
+        }
+
+        private fun setupLongPress() {
+            itemView.post {
+                val containerHeight = itemView.height
+                val descriptionHeight = itemView.trainCardDescriptionTextView.height
+                val descriptionHeightPercent = descriptionHeight * MAX_PERCENTS / containerHeight
+                longPressEnabled = descriptionHeightPercent >= LONG_PRESS_PERCENT_THRESHOLD
+                itemView.longPressTextView.setVisible(longPressEnabled, true)
+                itemView.trainCardDescriptionTextView.gradientEnabled = longPressEnabled
             }
         }
 
@@ -126,5 +151,9 @@ class TrainCardStackAdapter(
 
     companion object {
         private const val FLIP_CAMERA_DISTANCE = 100_000
+
+        private const val MAX_PERCENTS = 100.0
+
+        private const val LONG_PRESS_PERCENT_THRESHOLD = 90.0
     }
 }

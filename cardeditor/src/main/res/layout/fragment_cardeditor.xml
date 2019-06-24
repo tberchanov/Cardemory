@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:hint="@string/description_hint"
+            android:scrollbars="vertical"
             app:errorEnabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +48,10 @@
                 android:id="@+id/cardDescriptionEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fadeScrollbars="false"
                 android:inputType="textMultiLine"
+                android:maxLines="10"
+
                 tools:ignore="Autofill,LabelFor"/>
         </com.google.android.material.textfield.TextInputLayout>
 

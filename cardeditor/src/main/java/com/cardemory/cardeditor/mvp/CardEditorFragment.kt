@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import androidx.core.content.FileProvider
 import com.cardemory.carddata.entity.Card
@@ -36,6 +37,8 @@ class CardEditorFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        cardDescriptionEditText.movementMethod = ScrollingMovementMethod()
 
         saveCardButton.setOnClickListener {
             presenter.onSaveCardClicked(getCard())
@@ -117,7 +120,8 @@ class CardEditorFragment :
 
     override fun setEmptyDescriptionErrorVisibility(visible: Boolean) {
         if (visible) {
-            cardDescriptionTIL.error = getString(R.string.empty_description_error)
+            cardDescriptionTIL.error =
+                getString(R.string.empty_description_error)
         } else {
             cardDescriptionTIL.error = ""
         }

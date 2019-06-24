@@ -5,7 +5,6 @@ import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.content.Context
 import android.view.View
-import android.widget.Toast
 import com.cardemory.common.ui.BaseAdapter
 import com.cardemory.common.ui.BaseHolder
 import com.cardemory.common.util.setVisible
@@ -16,7 +15,8 @@ import kotlinx.android.synthetic.main.item_train_card_stack.view.*
 
 
 class TrainCardStackAdapter(
-    private val context: Context
+    private val context: Context,
+    private val onLongClickListener: (TrainCard) -> Unit
 ) : BaseAdapter<TrainCard, TrainCardStackHolder>() {
 
     private lateinit var setRightOut: AnimatorSet
@@ -68,7 +68,7 @@ class TrainCardStackAdapter(
             }
             itemView.trainCardContainer.setOnLongClickListener {
                 if (data.isBackVisible && longPressEnabled) {
-                    Toast.makeText(context, uiEntity.card.description, Toast.LENGTH_LONG).show()
+                    onLongClickListener(uiEntity)
                 }
                 true
             }

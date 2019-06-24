@@ -1,8 +1,10 @@
 package com.cardemory.train.mvp
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.LinearInterpolator
@@ -23,6 +25,7 @@ import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.Duration
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
+import kotlinx.android.synthetic.main.dialog_card_content.view.*
 import kotlinx.android.synthetic.main.fragment_train.*
 import timber.log.Timber
 
@@ -43,11 +46,15 @@ class TrainFragment :
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        cardStackAdapter = TrainCardStackAdapter(context)
+        cardStackAdapter = TrainCardStackAdapter(context, ::onCardLongClicked)
         cardStackManager = CardStackLayoutManager(
             context,
             SwipeCardStackItemListener(::onCardSwiped)
         )
+    }
+
+    private fun onCardLongClicked(trainCard: TrainCard) {
+        presenter.onTrainCardLongPressed(trainCard)
     }
 
     private fun onCardSwiped(cardPosition: Int, direction: Direction) {
@@ -171,6 +178,25 @@ class TrainFragment :
             .setNegativeButton(R.string.keep_training, null)
             .create()
             .show()
+    }
+
+    @SuppressLint("InflateParams")
+    override fun showCardContent(trainCard: TrainCard) {
+        val view = layoutInflater.inflate(R.layout.dialog_card_content, null)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(view)
+            .create()
+        view.contentTextView.text = trainCard.card.description
+        view.contentTextView.movementMethod = ScrollingMovementMethod()
+        view.closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        with(dialog) {
+            window?.attributes?.windowAnimations = R.style.CardContentDialogAnimation
+            show()
+            window?.setBackgroundDrawableResource(R.color.transparent)
+        }
     }
 
     companion object {

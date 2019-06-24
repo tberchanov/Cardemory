@@ -4,6 +4,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import com.cardemory.carddata.entity.Card
 import com.cardemory.common.mvp.BaseContract
+import com.cardemory.train.ui.model.TrainCard
 import com.cardemory.train.ui.widget.StarState
 
 interface TrainContract {
@@ -18,6 +19,8 @@ interface TrainContract {
         )
 
         fun showBackMessage()
+
+        fun showCardContent(trainCard: TrainCard)
     }
 
     interface Presenter : BaseContract.Presenter<View> {
@@ -33,5 +36,7 @@ interface TrainContract {
         fun onBackClicked()
 
         fun onBackMessageConfirmed()
+
+        fun onTrainCardLongPressed(trainCard: TrainCard)
     }
 }

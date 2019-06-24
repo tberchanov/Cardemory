@@ -5,14 +5,14 @@ import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.util.AttributeSet
-import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
 import com.cardemory.train.R
 
 class GradientTextView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     private val defStyleAttr: Int = 0
-) : TextView(context, attrs, defStyleAttr) {
+) : AppCompatTextView(context, attrs, defStyleAttr) {
 
     private var textGradient: LinearGradient? = null
 

@@ -9,6 +9,7 @@ import com.cardemory.infrastructure.entity.Failure
 import com.cardemory.memorykit.MemoryManager
 import com.cardemory.train.R
 import com.cardemory.train.navigation.TrainNavigation
+import com.cardemory.train.ui.model.TrainCard
 import com.cardemory.train.ui.widget.StarState
 import com.cardemory.train.ui.widget.StarState.*
 import timber.log.Timber
@@ -130,5 +131,10 @@ class TrainPresenter(
 
     override fun onBackMessageConfirmed() {
         trainNavigation.back()
+    }
+
+    override fun onTrainCardLongPressed(trainCard: TrainCard) {
+        Timber.d("onTrainCardLongPressed: $trainCard")
+        view?.showCardContent(trainCard)
     }
 }

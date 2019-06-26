@@ -8,7 +8,9 @@ import com.cardemory.common.ui.BaseHolder
 import kotlinx.android.synthetic.main.item_card_set.view.*
 
 class CardSetListAdapter(
-    private val onCardSetClickListener: (card: CardSet) -> Unit
+    private val onCardSetClickListener: (card: CardSet) -> Unit,
+    private val onEditClicked: (card: CardSet) -> Unit,
+    private val onDeleteClicked: (card: CardSet) -> Unit
 ) : BaseAdapter<CardSet, CardSetListAdapter.CardSetHolder>() {
 
     override fun layoutId(viewType: Int) = R.layout.item_card_set
@@ -21,6 +23,16 @@ class CardSetListAdapter(
             super.bind(uiEntity, position)
             itemView.container.setOnClickListener {
                 onCardSetClickListener(uiEntity)
+            }
+            itemView.container.setOnCreateContextMenuListener { menu, view, menuInfo ->
+                menu.add(R.string.edit).setOnMenuItemClickListener {
+                    onEditClicked(uiEntity)
+                    true
+                }
+                menu.add(R.string.delete).setOnMenuItemClickListener {
+                    onDeleteClicked(uiEntity)
+                    true
+                }
             }
             itemView.cardSetNameTextView.text = uiEntity.name
         }

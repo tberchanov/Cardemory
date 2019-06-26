@@ -17,5 +17,9 @@ interface CardSetListContract {
         fun onCardSetClicked(cardSet: CardSet)
 
         fun onPrivacyPolicyClicked()
+
+        fun onEditCardSetClicked(cardSet: CardSet)
+
+        fun onDeleteCardSetClicked(cardSet: CardSet)
     }
 }

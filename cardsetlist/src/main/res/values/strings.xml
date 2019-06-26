@@ -3,4 +3,6 @@
     <string name="title">Cardemory</string>
     <string name="create_your_first_card_set">Create your first card set</string>
     <string name="privacy_policy">Privacy policy</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>

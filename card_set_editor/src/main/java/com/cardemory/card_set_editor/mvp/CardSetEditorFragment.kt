@@ -23,11 +23,12 @@ class CardSetEditorFragment :
 
     override val layoutResId = R.layout.fragment_card_set_editor
 
-    override val titleRes =
+    override val titleRes by lazy {
         if (getCardSetArg() == null)
             R.string.title_create_card_set
         else
             R.string.title_edit_edit_card_set
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,6 +38,9 @@ class CardSetEditorFragment :
         }
         importButton.setOnClickListener {
             presenter.selectFile()
+        }
+        getCardSetArg()?.also {
+            cardSetNameEditText.setText(it.name)
         }
         cardSetNameEditText.showKeyboard()
     }

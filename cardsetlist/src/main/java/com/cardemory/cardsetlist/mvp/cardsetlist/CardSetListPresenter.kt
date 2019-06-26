@@ -40,4 +40,12 @@ class CardSetListPresenter(
     override fun onPrivacyPolicyClicked() {
         cardSetListNavigation.showPrivacyPolicyScreen()
     }
+
+    override fun onEditCardSetClicked(cardSet: CardSet) {
+        cardSetListNavigation.showEditCardSetScreen(cardSet)
+    }
+
+    override fun onDeleteCardSetClicked(cardSet: CardSet) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

@@ -35,7 +35,11 @@ class CardSetListFragment :
             presenter.onCreateCardSetClicked()
         }
 
-        cardSetAdapter = CardSetListAdapter(::onCardSetClicked)
+        cardSetAdapter = CardSetListAdapter(
+            ::onCardSetClicked,
+            presenter::onEditCardSetClicked,
+            presenter::onDeleteCardSetClicked
+        )
         cardSetsRecyclerView.adapter = cardSetAdapter
         emptyMessageObserver =
             EmptyMessageObserver(cardSetAdapter!!, firstCardSetLabel, arrowImageView)

@@ -1,6 +1,7 @@
 package com.cardemory.cardlist.di
 
 import com.cardemory.carddata.di.CardDataModule
+import com.cardemory.carddata.interactor.DeleteCardsInteractor
 import com.cardemory.carddata.interactor.GetCardSetInteractor
 import com.cardemory.carddata.interactor.SaveCardSetToFileInteractor
 import com.cardemory.cardlist.mvp.CardListContract
@@ -22,12 +23,14 @@ class CardListFragmentModule {
         cardListNavigation: CardListNavigation,
         getCardSetInteractor: GetCardSetInteractor,
         saveCardSetToFileInteractor: SaveCardSetToFileInteractor,
+        deleteCardsInteractor: DeleteCardsInteractor,
         progressInteractorExecutor: ProgressInteractorExecutor
     ): CardListContract.Presenter {
         return CardListPresenter(
             cardListNavigation,
             getCardSetInteractor,
             saveCardSetToFileInteractor,
+            deleteCardsInteractor,
             progressInteractorExecutor
         )
     }

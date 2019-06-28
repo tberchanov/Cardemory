@@ -58,12 +58,12 @@ class CardSetListPresenter(
 
     override fun onDeleteCardSetsClicked(cardSets: List<CardSet>) {
         deleteCardSetsInteractor(cardSets) {
-            it.either(::onCardSetsDeleteFailue, ::onCardSetsDeleteSuccess)
+            it.either(::onCardSetsDeleteFailure, ::onCardSetsDeleteSuccess)
         }
     }
 
-    private fun onCardSetsDeleteFailue(failure: Failure) {
-        Timber.e("onCardSetsDeleteFailue: $failure")
+    private fun onCardSetsDeleteFailure(failure: Failure) {
+        Timber.e("onCardSetsDeleteFailure: $failure")
     }
 
     private fun onCardSetsDeleteSuccess(cardSets: List<CardSet>) {

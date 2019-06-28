@@ -60,6 +60,10 @@ class CollectionCardRepository : CardRepository {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun deleteCards(cards: List<Card>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     companion object {
         private const val REPOSITORY_OPERATION_DELAY = 1000L
         private const val STUB_CARD_SET_ID = 0L

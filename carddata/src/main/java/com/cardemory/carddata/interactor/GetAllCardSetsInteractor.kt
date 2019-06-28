@@ -10,10 +10,10 @@ import javax.inject.Inject
 
 class GetAllCardSetsInteractor
 @Inject constructor(
-    @DbData private val cardSetRepository: CardRepository
+    @DbData private val cardRepository: CardRepository
 ) : BaseSingleInteractor<List<CardSet>, Unit>() {
 
     override suspend fun run(params: Unit): Either<Failure, List<CardSet>> {
-        return Either.Right(cardSetRepository.getAllCardSets())
+        return Either.Right(cardRepository.getAllCardSets())
     }
 }

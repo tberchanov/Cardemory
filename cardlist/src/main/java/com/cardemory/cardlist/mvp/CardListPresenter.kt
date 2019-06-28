@@ -2,6 +2,7 @@ package com.cardemory.cardlist.mvp
 
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
+import com.cardemory.carddata.interactor.DeleteCardsInteractor
 import com.cardemory.carddata.interactor.GetCardSetInteractor
 import com.cardemory.carddata.interactor.SaveCardSetToFileInteractor
 import com.cardemory.cardlist.R
@@ -20,6 +21,7 @@ class CardListPresenter constructor(
     private val navigation: CardListNavigation,
     private val getCardSetInteractor: GetCardSetInteractor,
     private val saveCardSetToFileInteractor: SaveCardSetToFileInteractor,
+    private val deleteCardsInteractor: DeleteCardsInteractor,
     private val progressInteractorExecutor: ProgressInteractorExecutor
 ) : BasePresenter<CardListContract.View>(),
     CardListContract.Presenter {
@@ -65,7 +67,7 @@ class CardListPresenter constructor(
             for (card in cards) {
                 currentMemoryRank += card.memoryRank
                 if (randomSelector <= currentMemoryRank) {
-                    cardSet.cards.get(card.id)?.let {
+                    cardSet.cards[card.id]?.let {
                         selectedCards.add(it)
                     }
                     cards.remove(card)
@@ -74,10 +76,9 @@ class CardListPresenter constructor(
             }
         }
         return cardSet.copy(
-            cards = selectedCards.associate { it.id to it }
+            cards = selectedCards.associateBy { it.id }
         )
     }
-
 
     private fun invertCardMemoryRank(card: Card): Card {
         return card.copy(memoryRank = 1 - card.memoryRank)
@@ -121,5 +122,34 @@ class CardListPresenter constructor(
 
     private fun onExportingSuccess(exportedFile: File) {
         view?.showSuccessExportingMessage(exportedFile.path)
+    }
+
+    override fun onDeleteCardClicked(card: Card) {
+        view?.setSelectionModeEnabled(true)
+        view?.selectCardForDeletion(card)
+    }
+
+    override fun onCardSelected(card: Card, selected: Boolean) {
+        Timber.d("onCardSelected $selected: $card")
+        if (view?.getSelectedItemsCount() == 0) {
+            view?.setSelectionModeEnabled(false)
+        } else {
+            view?.showSelectionTitle()
+        }
+    }
+
+    override fun onDeleteCardsClicked(cards: List<Card>) {
+        deleteCardsInteractor(cards) {
+            it.either(::onCardsDeleteFailure, ::onCardsDeleteSuccess)
+        }
+    }
+
+    private fun onCardsDeleteFailure(failure: Failure) {
+        Timber.e("onCardsDeleteFailure: $failure")
+    }
+
+    private fun onCardsDeleteSuccess(cardSets: List<Card>) {
+        view?.setSelectionModeEnabled(false)
+        view?.clearCards(cardSets)
     }
 }

@@ -1,4 +1,4 @@
-include ':app', ':ocr', ':memorykit',
+include ':app', ':ocr', ':memorykit', ':resources',
         ':base',
         ':cardlist',
         ':carddata',

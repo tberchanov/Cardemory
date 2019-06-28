@@ -75,7 +75,7 @@ class CardSetListFragment :
         cardSetAdapter!!.setSelectionModeEnabled(enabled)
         if (enabled) {
             showSelectionTitle()
-            R.drawable.ic_cardset_delete
+            R.drawable.ic_delete
         } else {
             showTitle(titleRes)
             R.drawable.ic_plus

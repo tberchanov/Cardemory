@@ -52,6 +52,7 @@ dependencies {
 
     /* modules */
     api project(":infrastructure")
+    api project(":resources")
 }
 repositories {
     mavenCentral()

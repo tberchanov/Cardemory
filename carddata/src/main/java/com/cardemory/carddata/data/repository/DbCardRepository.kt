@@ -70,8 +70,17 @@ class DbCardRepository(
     }
 
     override suspend fun deleteCardSets(cardSets: List<CardSet>) {
+        cardSets.forEach {
+            deleteCards(it.cards.values.toList())
+        }
         cardSetDao.delete(cardSets.map(cardSetDbToDomainMapper::to)).let {
             Timber.d("Deleted cardsets count: $it")
+        }
+    }
+
+    override suspend fun deleteCards(cards: List<Card>) {
+        cardDao.delete(cards.map(cardDbToDomainMapper::to)).let {
+            Timber.d("Deleted cards count: $it")
         }
     }
 
@@ -79,7 +88,7 @@ class DbCardRepository(
         cardSetDbEntity: CardSetDbEntity,
         cardsInSet: List<Card>
     ): CardSet {
-        val cardsMap = cardsInSet.associate { it.id to it }
+        val cardsMap = cardsInSet.associateBy { it.id }
         return CardSet(cardSetDbEntity.id!!, cardSetDbEntity.name, cardsMap)
     }
 }

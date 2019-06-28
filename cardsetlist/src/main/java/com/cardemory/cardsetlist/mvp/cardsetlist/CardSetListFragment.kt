@@ -75,7 +75,7 @@ class CardSetListFragment :
         cardSetAdapter!!.setSelectionModeEnabled(enabled)
         if (enabled) {
             showSelectionTitle()
-            R.drawable.ic_delete
+            R.drawable.ic_cardset_delete
         } else {
             showTitle(titleRes)
             R.drawable.ic_plus
@@ -95,7 +95,12 @@ class CardSetListFragment :
     }
 
     override fun showSelectionTitle() {
-        showTitle(getString(R.string.selected_format, cardSetAdapter!!.getSelectedItemsCount()))
+        showTitle(
+            getString(
+                R.string.selected_format,
+                cardSetAdapter!!.getSelectedItemsCount()
+            )
+        )
     }
 
     override fun clearCardSets(cardSets: List<CardSet>) {

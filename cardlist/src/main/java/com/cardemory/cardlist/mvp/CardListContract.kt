@@ -18,6 +18,16 @@ interface CardListContract {
         fun showSuccessExportingMessage(exportedFilePath: String)
 
         fun showExportDeniedPermissionMessage()
+
+        fun setSelectionModeEnabled(enabled: Boolean)
+
+        fun selectCardForDeletion(card: Card)
+
+        fun getSelectedItemsCount(): Int
+
+        fun showSelectionTitle()
+
+        fun clearCards(cards: List<Card>)
     }
 
     interface Presenter : BaseContract.Presenter<View> {
@@ -37,6 +47,12 @@ interface CardListContract {
         fun onPermissionDenied()
 
         fun showAppSettings()
+
+        fun onDeleteCardClicked(card: Card)
+
+        fun onCardSelected(card: Card, selected: Boolean)
+
+        fun onDeleteCardsClicked(cards: List<Card>)
     }
 
     companion object {

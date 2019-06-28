@@ -18,6 +18,7 @@ import com.cardemory.cardlist.mvp.CardListContract.Companion.REQUIRED_CARDS_FOR_
 import com.cardemory.cardlist.ui.CardDiffUtilCallback
 import com.cardemory.cardlist.ui.CardListAdapter
 import com.cardemory.common.mvp.BaseFragment
+import com.cardemory.common.mvp.OnBackPressedListener
 import com.cardemory.common.navigation.OnResultListener
 import com.cardemory.common.util.EmptyMessageObserver
 import com.google.android.material.snackbar.Snackbar
@@ -28,7 +29,8 @@ import timber.log.Timber
 class CardListFragment :
     BaseFragment<CardListContract.View, CardListContract.Presenter>(),
     CardListContract.View,
-    OnResultListener {
+    OnResultListener,
+    OnBackPressedListener {
 
     private lateinit var cardAdapter: CardListAdapter
 
@@ -45,12 +47,17 @@ class CardListFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val cardSetArg = getCardSetArg()
-        createCardButton.setOnClickListener {
-            presenter.onCreateCardClicked(cardSetArg)
-        }
+        actionButton.setOnClickListener { onActionButtonClicked() }
         setupCardRecyclerView()
-        presenter.loadCardSet(cardSetArg)
+        presenter.loadCardSet(getCardSetArg())
+    }
+
+    private fun onActionButtonClicked() {
+        if (cardAdapter.selectionMode) {
+            presenter.onDeleteCardsClicked(cardAdapter.getSelectedItems())
+        } else {
+            presenter.onCreateCardClicked(getCardSetArg())
+        }
     }
 
     override fun showCardSetData(cardSet: CardSet) {
@@ -68,9 +75,11 @@ class CardListFragment :
 
     private fun setupCardRecyclerView() {
         cardAdapter = CardListAdapter(
-            ::onCardClicked,
+            presenter::onCardClicked,
             ::onTrainClicked,
-            REQUIRED_CARDS_FOR_TRAIN
+            REQUIRED_CARDS_FOR_TRAIN,
+            presenter::onDeleteCardClicked,
+            presenter::onCardSelected
         )
         cardsRecyclerView.adapter = cardAdapter
         emptyMessageObserver = EmptyMessageObserver(
@@ -81,12 +90,8 @@ class CardListFragment :
         cardAdapter.registerAdapterDataObserver(emptyMessageObserver)
     }
 
-    private fun onCardClicked(card: Card) {
-        presenter.onCardClicked(card)
-    }
-
     private fun onTrainClicked() {
-        val cardsMap = cardAdapter.getItems().associate { it.id to it }
+        val cardsMap = cardAdapter.getItems().associateBy { it.id }
         val currentCardSet = getCardSetArg().copy(cards = cardsMap)
         presenter.onTrainClicked(currentCardSet)
     }
@@ -143,7 +148,7 @@ class CardListFragment :
 
     override fun showNotEnoughCardsMessage(neededCardsCount: Int) {
         Snackbar.make(
-            createCardButton,
+            actionButton,
             getString(R.string.not_enough_cards_format, neededCardsCount),
             Snackbar.LENGTH_LONG
         ).show()
@@ -196,7 +201,7 @@ class CardListFragment :
     }
 
     private fun exportCardSet() {
-        cardAdapter.getItems().associate { it.id to it }.let { cards ->
+        cardAdapter.getItems().associateBy { it.id }.let { cards ->
             getCardSetArg().copy(cards = cards)
         }.let {
             presenter.exportCardSet(it)
@@ -226,6 +231,50 @@ class CardListFragment :
             .setNegativeButton(R.string.cancel, null)
             .create()
             .show()
+    }
+
+    override fun setSelectionModeEnabled(enabled: Boolean) {
+        cardAdapter.setSelectionModeEnabled(enabled)
+        if (enabled) {
+            showSelectionTitle()
+            R.drawable.ic_card_delete
+        } else {
+            showTitle(title)
+            R.drawable.ic_plus
+        }.also {
+            val drawable = ContextCompat.getDrawable(requireContext(), it)
+            actionButton.setImageDrawable(drawable)
+        }
+    }
+
+    override fun selectCardForDeletion(card: Card) {
+        cardAdapter.apply {
+            selectItem(getItems().indexOf(card))
+        }
+    }
+
+    override fun getSelectedItemsCount() = cardAdapter.getSelectedItemsCount()
+
+    override fun showSelectionTitle() {
+        showTitle(
+            getString(
+                R.string.selected_format,
+                cardAdapter.getSelectedItemsCount()
+            )
+        )
+    }
+
+    override fun clearCards(cards: List<Card>) {
+        cardAdapter.removeItems(cards)
+    }
+
+    override fun onBackPressed(): Boolean {
+        return if (cardAdapter.selectionMode) {
+            setSelectionModeEnabled(false)
+            true
+        } else {
+            false
+        }
     }
 
     companion object {

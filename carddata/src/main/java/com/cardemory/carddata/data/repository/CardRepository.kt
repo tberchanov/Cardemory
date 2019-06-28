@@ -18,4 +18,6 @@ interface CardRepository {
     suspend fun saveCardSet(cardSet: CardSet): CardSet
 
     suspend fun deleteCardSets(cardSets: List<CardSet>)
+
+    suspend fun deleteCards(cards: List<Card>)
 }

@@ -31,7 +31,6 @@
                 tools:ignore="Autofill,LabelFor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!--TODO hide import button when screen in Edit mode-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/importButton"
             style="@style/Widget.MaterialComponents.Button.Icon"
@@ -39,9 +38,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/import_from_file"
+            android:visibility="invisible"
             app:icon="@drawable/ic_import_icon"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardSetNameTIL"/>
+            app:layout_constraintTop_toBottomOf="@id/cardSetNameTIL"
+            tools:visibility="visible"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

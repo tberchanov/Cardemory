@@ -237,7 +237,7 @@ class CardListFragment :
         cardAdapter.setSelectionModeEnabled(enabled)
         if (enabled) {
             showSelectionTitle()
-            R.drawable.ic_card_delete
+            R.drawable.ic_delete
         } else {
             showTitle(title)
             R.drawable.ic_plus

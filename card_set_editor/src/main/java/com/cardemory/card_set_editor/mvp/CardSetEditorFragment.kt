@@ -10,6 +10,7 @@ import com.cardemory.card_set_editor.mvp.CardSetEditorContract.Companion.SELECT_
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.util.hideKeyboard
+import com.cardemory.common.util.setVisible
 import com.cardemory.common.util.showKeyboard
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_card_set_editor.*
@@ -36,13 +37,16 @@ class CardSetEditorFragment :
         saveCardSetButton.setOnClickListener {
             presenter.onSaveCardSetClicked(getCardSet())
         }
+        importButton.setVisible(getCardSetArg() == null)
         importButton.setOnClickListener {
             presenter.selectFile()
         }
         getCardSetArg()?.also {
             cardSetNameEditText.setText(it.name)
         }
-        cardSetNameEditText.showKeyboard()
+        cardSetNameEditText.post {
+            cardSetNameEditText.showKeyboard()
+        }
     }
 
     private fun getCardSet() =

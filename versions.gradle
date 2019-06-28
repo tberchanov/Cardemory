@@ -25,7 +25,7 @@ ext {
                     appcompat : "1.1.0-alpha02",
                     ktx       : "1.1.0-alpha04",
                     constraint: "1.1.3",
-                    material  : "1.1.0-alpha06"
+                    material  : "1.1.0-alpha07"
             ],
             navigation : [
                     cicerone: "5.0.0",

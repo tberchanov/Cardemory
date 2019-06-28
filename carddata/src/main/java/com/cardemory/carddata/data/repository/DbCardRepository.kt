@@ -69,6 +69,12 @@ class DbCardRepository(
         }
     }
 
+    override suspend fun deleteCardSets(cardSets: List<CardSet>) {
+        cardSetDao.delete(cardSets.map(cardSetDbToDomainMapper::to)).let {
+            Timber.d("Deleted cardsets count: $it")
+        }
+    }
+
     private fun mapToCardSet(
         cardSetDbEntity: CardSetDbEntity,
         cardsInSet: List<Card>

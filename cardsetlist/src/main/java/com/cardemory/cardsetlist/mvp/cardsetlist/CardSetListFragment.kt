@@ -5,16 +5,19 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.cardsetlist.R
 import com.cardemory.cardsetlist.ui.CardSetListAdapter
 import com.cardemory.common.mvp.BaseFragment
+import com.cardemory.common.mvp.OnBackPressedListener
 import com.cardemory.common.util.EmptyMessageObserver
 import kotlinx.android.synthetic.main.fragment_card_set_list.*
 
 class CardSetListFragment :
     BaseFragment<CardSetListContract.View, CardSetListContract.Presenter>(),
-    CardSetListContract.View {
+    CardSetListContract.View,
+    OnBackPressedListener {
 
     private var cardSetAdapter: CardSetListAdapter? = null
 
@@ -31,14 +34,13 @@ class CardSetListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        createCardSetButton.setOnClickListener {
-            presenter.onCreateCardSetClicked()
-        }
+        actionButton.setOnClickListener { onActionButtonClicked() }
 
         cardSetAdapter = CardSetListAdapter(
-            ::onCardSetClicked,
+            presenter::onCardSetClicked,
             presenter::onEditCardSetClicked,
-            presenter::onDeleteCardSetClicked
+            presenter::onDeleteCardSetClicked,
+            presenter::onCardSetSelected
         )
         cardSetsRecyclerView.adapter = cardSetAdapter
         emptyMessageObserver =
@@ -46,8 +48,12 @@ class CardSetListFragment :
         cardSetAdapter!!.registerAdapterDataObserver(emptyMessageObserver)
     }
 
-    private fun onCardSetClicked(cardSet: CardSet) {
-        presenter.onCardSetClicked(cardSet)
+    private fun onActionButtonClicked() {
+        if (cardSetAdapter!!.selectionMode) {
+            presenter.onDeleteCardSetsClicked(cardSetAdapter!!.getSelectedItems())
+        } else {
+            presenter.onCreateCardSetClicked()
+        }
     }
 
     override fun showCardSets(cardSets: List<CardSet>) {
@@ -57,6 +63,46 @@ class CardSetListFragment :
             arrowImageView.visibility = View.VISIBLE
         }
     }
+
+    override fun selectCardSetForDeletion(cardSet: CardSet) {
+        cardSetAdapter?.apply {
+            selectItem(getItems().indexOf(cardSet))
+        }
+    }
+
+    override fun setSelectionModeEnabled(enabled: Boolean) {
+        setBackButtonVisibility(enabled)
+        cardSetAdapter!!.setSelectionModeEnabled(enabled)
+        if (enabled) {
+            showSelectionTitle()
+            R.drawable.ic_delete
+        } else {
+            showTitle(titleRes)
+            R.drawable.ic_plus
+        }.also {
+            val drawable = ContextCompat.getDrawable(requireContext(), it)
+            actionButton.setImageDrawable(drawable)
+        }
+    }
+
+    override fun onBackPressed(): Boolean {
+        return if (cardSetAdapter!!.selectionMode) {
+            setSelectionModeEnabled(false)
+            true
+        } else {
+            false
+        }
+    }
+
+    override fun showSelectionTitle() {
+        showTitle(getString(R.string.selected_format, cardSetAdapter!!.getSelectedItemsCount()))
+    }
+
+    override fun clearCardSets(cardSets: List<CardSet>) {
+        cardSetAdapter!!.removeItems(cardSets)
+    }
+
+    override fun getSelectedItemsCount() = cardSetAdapter!!.getSelectedItemsCount()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_cardset_list, menu)

@@ -38,8 +38,13 @@ abstract class BaseAdapter<T : Any, H : BaseHolder<T>> :
     }
 
     open fun removeItem(item: T) {
-        itemList.remove(item)
-        notifyDataSetChanged()
+        val position = itemList.indexOf(item)
+        itemList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    open fun removeItems(items: List<T>) {
+        items.forEach(::removeItem)
     }
 
     open fun getItems(): List<T> = Collections.unmodifiableList(itemList)

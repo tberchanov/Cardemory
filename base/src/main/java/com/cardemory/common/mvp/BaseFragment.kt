@@ -12,9 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -59,9 +56,21 @@ abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>
 
     override fun onStart() {
         super.onStart()
-        GlobalScope.launch(Dispatchers.Main) {
-            getToolbar()?.title = title
+        getToolbar()?.let { toolbar ->
+            toolbar.post {
+                toolbar.title = title
+            }
         }
+    }
+
+    fun showTitle(title: String) {
+        getToolbar()?.also {
+            it.title = title
+        }
+    }
+
+    fun showTitle(@StringRes titleRes: Int) {
+        showTitle(getString(titleRes))
     }
 
     override fun onDestroyView() {

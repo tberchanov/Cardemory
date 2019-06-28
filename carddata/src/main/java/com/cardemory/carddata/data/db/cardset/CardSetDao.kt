@@ -1,9 +1,8 @@
 package com.cardemory.carddata.data.db.cardset
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+
+
 
 @Dao
 interface CardSetDao {
@@ -15,5 +14,8 @@ interface CardSetDao {
     suspend fun findById(cardSetId: Long): CardSetDbEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun save(entity: CardSetDbEntity): Long
+    suspend fun save(cardSet: CardSetDbEntity): Long
+
+    @Delete
+    suspend fun delete(cardSets: List<CardSetDbEntity>): Int
 }

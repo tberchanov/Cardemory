@@ -1,6 +1,7 @@
 package com.cardemory.cardsetlist.di
 
 import com.cardemory.carddata.di.CardDataModule
+import com.cardemory.carddata.interactor.DeleteCardSetsInteractor
 import com.cardemory.carddata.interactor.GetAllCardSetsInteractor
 import com.cardemory.cardsetlist.mvp.cardsetlist.CardSetListContract
 import com.cardemory.cardsetlist.mvp.cardsetlist.CardSetListPresenter
@@ -16,11 +17,13 @@ class CardSetListFragmentModule {
     @Provides
     fun providePresenter(
         cardSetListNavigation: CardSetListNavigation,
-        getAllCardSetsInteractor: GetAllCardSetsInteractor
+        getAllCardSetsInteractor: GetAllCardSetsInteractor,
+        deleteCardSetsInteractor: DeleteCardSetsInteractor
     ): CardSetListContract.Presenter {
         return CardSetListPresenter(
             cardSetListNavigation,
-            getAllCardSetsInteractor
+            getAllCardSetsInteractor,
+            deleteCardSetsInteractor
         )
     }
 }

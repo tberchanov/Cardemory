@@ -1,6 +1,7 @@
 package com.cardemory.cardsetlist.mvp.cardsetlist
 
 import com.cardemory.carddata.entity.CardSet
+import com.cardemory.carddata.interactor.DeleteCardSetsInteractor
 import com.cardemory.carddata.interactor.GetAllCardSetsInteractor
 import com.cardemory.cardsetlist.navigation.CardSetListNavigation
 import com.cardemory.common.mvp.BasePresenter
@@ -9,12 +10,17 @@ import timber.log.Timber
 
 class CardSetListPresenter(
     private val cardSetListNavigation: CardSetListNavigation,
-    private val getAllCardSetsInteractor: GetAllCardSetsInteractor
+    private val getAllCardSetsInteractor: GetAllCardSetsInteractor,
+    private val deleteCardSetsInteractor: DeleteCardSetsInteractor
 ) : BasePresenter<CardSetListContract.View>(),
     CardSetListContract.Presenter {
 
     override fun attachView(view: CardSetListContract.View) {
         super.attachView(view)
+        loadCardSets()
+    }
+
+    private fun loadCardSets() {
         getAllCardSetsInteractor(Unit) {
             it.either(::onGetAllCardSetsFailure, ::onGetAllCardSetsSuccess)
         }
@@ -46,6 +52,31 @@ class CardSetListPresenter(
     }
 
     override fun onDeleteCardSetClicked(cardSet: CardSet) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        view?.setSelectionModeEnabled(true)
+        view?.selectCardSetForDeletion(cardSet)
+    }
+
+    override fun onDeleteCardSetsClicked(cardSets: List<CardSet>) {
+        deleteCardSetsInteractor(cardSets) {
+            it.either(::onCardSetsDeleteFailue, ::onCardSetsDeleteSuccess)
+        }
+    }
+
+    private fun onCardSetsDeleteFailue(failure: Failure) {
+        Timber.e("onCardSetsDeleteFailue: $failure")
+    }
+
+    private fun onCardSetsDeleteSuccess(cardSets: List<CardSet>) {
+        view?.setSelectionModeEnabled(false)
+        view?.clearCardSets(cardSets)
+    }
+
+    override fun onCardSetSelected(cardSet: CardSet, selected: Boolean) {
+        Timber.d("onCardSetSelected $selected: $cardSet")
+        if (view?.getSelectedItemsCount() == 0) {
+            view?.setSelectionModeEnabled(false)
+        } else {
+            view?.showSelectionTitle()
+        }
     }
 }

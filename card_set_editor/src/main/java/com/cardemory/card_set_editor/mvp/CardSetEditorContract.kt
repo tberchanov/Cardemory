@@ -15,6 +15,10 @@ interface CardSetEditorContract {
         fun showCardSet(cardSet: CardSet)
 
         fun showEmptyNameError()
+
+        fun showTutorialImport()
+
+        fun isEditMode(): Boolean
     }
 
     interface Presenter : BaseContract.Presenter<View> {

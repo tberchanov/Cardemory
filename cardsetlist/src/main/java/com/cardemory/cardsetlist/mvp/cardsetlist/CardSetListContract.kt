@@ -18,6 +18,10 @@ interface CardSetListContract {
         fun showSelectionTitle()
 
         fun clearCardSets(cardSets: List<CardSet>)
+
+        fun showWelcomeMessage()
+
+        fun showTutorialActionButton()
     }
 
     interface Presenter : BaseContract.Presenter<View> {
@@ -35,5 +39,9 @@ interface CardSetListContract {
         fun onDeleteCardSetsClicked(cardSets: List<CardSet>)
 
         fun onCardSetSelected(cardSet: CardSet, selected: Boolean)
+
+        fun onSkipTutorialClicked()
+
+        fun onStartTutorialClicked()
     }
 }

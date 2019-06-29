@@ -1,16 +1,17 @@
 package com.cardemory.cardsetlist.di
 
-import com.cardemory.carddata.di.CardDataModule
 import com.cardemory.carddata.interactor.DeleteCardSetsInteractor
 import com.cardemory.carddata.interactor.GetAllCardSetsInteractor
 import com.cardemory.cardsetlist.mvp.cardsetlist.CardSetListContract
 import com.cardemory.cardsetlist.mvp.cardsetlist.CardSetListPresenter
 import com.cardemory.cardsetlist.navigation.CardSetListNavigation
 import com.cardemory.common.di.scope.FragmentScope
+import com.cardemory.common.interactor.ReadBooleanInteractor
+import com.cardemory.common.interactor.WriteBooleanInteractor
 import dagger.Module
 import dagger.Provides
 
-@Module(includes = [CardDataModule::class])
+@Module
 class CardSetListFragmentModule {
 
     @FragmentScope
@@ -18,12 +19,16 @@ class CardSetListFragmentModule {
     fun providePresenter(
         cardSetListNavigation: CardSetListNavigation,
         getAllCardSetsInteractor: GetAllCardSetsInteractor,
-        deleteCardSetsInteractor: DeleteCardSetsInteractor
+        deleteCardSetsInteractor: DeleteCardSetsInteractor,
+        writeBooleanInteractor: WriteBooleanInteractor,
+        readBooleanInteractor: ReadBooleanInteractor
     ): CardSetListContract.Presenter {
         return CardSetListPresenter(
             cardSetListNavigation,
             getAllCardSetsInteractor,
-            deleteCardSetsInteractor
+            deleteCardSetsInteractor,
+            writeBooleanInteractor,
+            readBooleanInteractor
         )
     }
 }

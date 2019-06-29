@@ -7,16 +7,51 @@ import com.cardemory.carddata.entity.CardSet
 import com.cardemory.carddata.interactor.GetCardSetFromFileInteractor
 import com.cardemory.carddata.interactor.SaveCardSetInteractor
 import com.cardemory.carddata.interactor.failure.JsonSyntaxFailure
+import com.cardemory.common.interactor.ReadBooleanInteractor
+import com.cardemory.common.interactor.WriteBooleanInteractor
 import com.cardemory.common.mvp.BasePresenter
 import com.cardemory.infrastructure.entity.Failure
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class CardSetEditorPresenter(
     private val cardSetEditorNavigation: CardSetEditorNavigation,
     private val saveCardSetInteractor: SaveCardSetInteractor,
-    private val getCardSetFromFileInteractor: GetCardSetFromFileInteractor
+    private val getCardSetFromFileInteractor: GetCardSetFromFileInteractor,
+    private val readBooleanInteractor: ReadBooleanInteractor,
+    private val writeBooleanInteractor: WriteBooleanInteractor
 ) : BasePresenter<CardSetEditorContract.View>(),
     CardSetEditorContract.Presenter {
+
+    override fun attachView(view: CardSetEditorContract.View) {
+        super.attachView(view)
+        if (!view.isEditMode()) {
+            checkPreviousVisit()
+        }
+    }
+
+    override fun detachView(finishing: Boolean) {
+        view?.hideKeyboard()
+        super.detachView(finishing)
+    }
+
+    private fun checkPreviousVisit() = launch(Dispatchers.IO) {
+        val showTutorial = readBooleanInteractor.run(SHOW_TUTORIAL_KEY).valueRight
+        if (showTutorial) {
+            val previouslyVisited =
+                readBooleanInteractor.run(PREVIOUS_VISIT_CREATE_CARD_KEY).valueRight
+            if (!previouslyVisited) {
+                withContext(Dispatchers.Main) {
+                    view?.showTutorialImport()
+                }
+                writeBooleanInteractor.run(
+                    WriteBooleanInteractor.Params(PREVIOUS_VISIT_CREATE_CARD_KEY, true)
+                )
+            }
+        }
+    }
 
     override fun onSaveCardSetClicked(cardSet: CardSet) {
         if (isCardSetValid(cardSet)) {
@@ -26,14 +61,13 @@ class CardSetEditorPresenter(
         }
     }
 
-    private fun isCardSetValid(cardSet: CardSet): Boolean {
+    private fun isCardSetValid(cardSet: CardSet) =
         if (cardSet.name.isEmpty()) {
             view?.showEmptyNameError()
-            return false
+            false
         } else {
-            return true
+            true
         }
-    }
 
     private fun onSaveCardSetFailure(f: Failure) {
         Timber.e("onSaveCardSetFailure: $f")
@@ -71,6 +105,8 @@ class CardSetEditorPresenter(
     }
 
     companion object {
+        private const val PREVIOUS_VISIT_CREATE_CARD_KEY = "PREVIOUS_VISIT_CREATE_CARD"
+        private const val SHOW_TUTORIAL_KEY = "SHOW_TUTORIAL"
         private const val SELECTOR_FILE_FILTER = "text/plain"
     }
 }

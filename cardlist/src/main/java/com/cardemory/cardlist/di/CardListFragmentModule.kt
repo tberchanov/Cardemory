@@ -1,6 +1,5 @@
 package com.cardemory.cardlist.di
 
-import com.cardemory.carddata.di.CardDataModule
 import com.cardemory.carddata.interactor.DeleteCardsInteractor
 import com.cardemory.carddata.interactor.GetCardSetInteractor
 import com.cardemory.carddata.interactor.SaveCardSetToFileInteractor
@@ -14,7 +13,7 @@ import dagger.Provides
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 @ObsoleteCoroutinesApi
-@Module(includes = [CardDataModule::class])
+@Module
 class CardListFragmentModule {
 
     @FragmentScope

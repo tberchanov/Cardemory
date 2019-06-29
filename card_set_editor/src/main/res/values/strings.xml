@@ -6,4 +6,6 @@
     <string name="import_from_file">Import from file</string>
     <string name="invalid_file_format">Invalid file contents format!</string>
     <string name="empty_name_error">Let\'s enter the name</string>
+    <string name="import_card_set">Import card set</string>
+    <string name="import_card_set_description">You can import card sets from the files</string>
 </resources>

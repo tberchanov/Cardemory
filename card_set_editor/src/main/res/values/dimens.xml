@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="import_cardset_hint_overlay_left">130dp</dimen>
+    <dimen name="import_cardset_hint_width_paddings">16dp</dimen>
+    <dimen name="import_cardset_hint_shape_radius">8dp</dimen>
+</resources>

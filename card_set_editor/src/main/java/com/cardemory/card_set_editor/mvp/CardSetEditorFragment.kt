@@ -2,17 +2,23 @@ package com.cardemory.card_set_editor.mvp
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.PointF
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import com.cardemory.card_set_editor.R
 import com.cardemory.card_set_editor.mvp.CardSetEditorContract.Companion.SELECT_FILE_REQUEST_CODE
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.common.mvp.BaseFragment
+import com.cardemory.common.util.getDimen
 import com.cardemory.common.util.hideKeyboard
 import com.cardemory.common.util.setVisible
 import com.cardemory.common.util.showKeyboard
 import com.google.android.material.snackbar.Snackbar
+import com.takusemba.spotlight.Spotlight
+import com.takusemba.spotlight.shape.RoundedRectangle
+import com.takusemba.spotlight.target.SimpleTarget
 import kotlinx.android.synthetic.main.fragment_card_set_editor.*
 import timber.log.Timber
 
@@ -25,10 +31,10 @@ class CardSetEditorFragment :
     override val layoutResId = R.layout.fragment_card_set_editor
 
     override val titleRes by lazy {
-        if (getCardSetArg() == null)
-            R.string.title_create_card_set
-        else
+        if (isEditMode())
             R.string.title_edit_edit_card_set
+        else
+            R.string.title_create_card_set
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,7 +43,7 @@ class CardSetEditorFragment :
         saveCardSetButton.setOnClickListener {
             presenter.onSaveCardSetClicked(getCardSet())
         }
-        importButton.setVisible(getCardSetArg() == null)
+        importButton.setVisible(!isEditMode())
         importButton.setOnClickListener {
             presenter.selectFile()
         }
@@ -110,6 +116,33 @@ class CardSetEditorFragment :
     override fun showEmptyNameError() {
         cardSetNameTIL.error = getString(R.string.empty_name_error)
     }
+
+    override fun showTutorialImport() {
+        val createCardSetHintOverlay = PointF(
+            importButton.x - getDimen(R.dimen.import_cardset_hint_overlay_left),
+            importButton.y
+        )
+        val hintShape = RoundedRectangle(
+            importButton.height.toFloat(),
+            importButton.width + getDimen(R.dimen.import_cardset_hint_width_paddings),
+            getDimen(R.dimen.import_cardset_hint_shape_radius)
+        )
+        val importButtonTarget = SimpleTarget.Builder(requireActivity())
+            .setPoint(importButton)
+            .setShape(hintShape)
+            .setTitle(getString(R.string.import_card_set))
+            .setDescription(getString(R.string.import_card_set_description))
+            .setOverlayPoint(createCardSetHintOverlay)
+            .build()
+
+        Spotlight.with(requireActivity())
+            .setAnimation(DecelerateInterpolator())
+            .setTargets(importButtonTarget)
+            .setOverlayColor(R.color.black_a6)
+            .start()
+    }
+
+    override fun isEditMode() = getCardSetArg() != null
 
     companion object {
 

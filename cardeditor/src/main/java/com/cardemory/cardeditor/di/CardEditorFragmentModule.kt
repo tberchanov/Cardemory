@@ -1,6 +1,5 @@
 package com.cardemory.cardeditor.di
 
-import com.cardemory.carddata.di.CardDataModule
 import com.cardemory.carddata.interactor.SaveCardInteractor
 import com.cardemory.cardeditor.interactor.GetPhotoFileInteractor
 import com.cardemory.cardeditor.mvp.CardEditorContract
@@ -14,7 +13,7 @@ import com.cardemory.ocr.interactor.BaseRecognizeTextInteractor
 import dagger.Module
 import dagger.Provides
 
-@Module(includes = [CardDataModule::class, TextRecognitionModule::class])
+@Module(includes = [TextRecognitionModule::class])
 class CardEditorFragmentModule {
 
     @FragmentScope

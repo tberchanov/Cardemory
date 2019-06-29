@@ -1,10 +1,14 @@
 package com.cardemory.cardsetlist.mvp.cardsetlist
 
+import android.annotation.SuppressLint
+import android.graphics.PointF
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.DecelerateInterpolator
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.cardsetlist.R
@@ -12,6 +16,11 @@ import com.cardemory.cardsetlist.ui.CardSetListAdapter
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.mvp.OnBackPressedListener
 import com.cardemory.common.util.EmptyMessageObserver
+import com.cardemory.common.util.getDimen
+import com.takusemba.spotlight.Spotlight
+import com.takusemba.spotlight.shape.Circle
+import com.takusemba.spotlight.target.SimpleTarget
+import kotlinx.android.synthetic.main.dialog_welcome.view.*
 import kotlinx.android.synthetic.main.fragment_card_set_list.*
 
 class CardSetListFragment :
@@ -116,14 +125,52 @@ class CardSetListFragment :
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {
             R.id.action_privacy_policy -> {
-                onPrivacyPolicyClicked()
+                presenter.onPrivacyPolicyClicked()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
 
-    private fun onPrivacyPolicyClicked() {
-        presenter.onPrivacyPolicyClicked()
+    override fun showWelcomeMessage() {
+        @SuppressLint("InflateParams")
+        val view = layoutInflater.inflate(R.layout.dialog_welcome, null)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(view)
+            .setCancelable(false)
+            .create()
+        view.startTutorialButton.setOnClickListener {
+            presenter.onStartTutorialClicked()
+            dialog.dismiss()
+        }
+        view.skipTutorialButton.setOnClickListener {
+            presenter.onSkipTutorialClicked()
+            dialog.dismiss()
+        }
+
+        with(dialog) {
+            show()
+            window?.setBackgroundDrawableResource(R.color.transparent)
+        }
+    }
+
+    override fun showTutorialActionButton() {
+        val createCardSetHintOverlay = PointF(
+            getDimen(R.dimen.create_cardset_hint_overlay_left),
+            getDimen(R.dimen.create_cardset_hint_overlay_top)
+        )
+        val actionButtonTarget = SimpleTarget.Builder(requireActivity())
+            .setPoint(actionButton)
+            .setShape(Circle(getDimen(R.dimen.create_cardset_hint_circle)))
+            .setTitle(getString(R.string.create_card_set))
+            .setDescription(getString(R.string.create_card_set_description))
+            .setOverlayPoint(createCardSetHintOverlay)
+            .build()
+
+        Spotlight.with(requireActivity())
+            .setAnimation(DecelerateInterpolator())
+            .setTargets(actionButtonTarget)
+            .setOverlayColor(R.color.black_a6)
+            .start()
     }
 
     override fun onDestroyView() {

@@ -13,19 +13,24 @@ import com.cardemory.carddata.mapper.CardDbToDomainMapper
 import com.cardemory.carddata.mapper.CardSetDbToDomainMapper
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
 class CardDataModule {
 
+    @Singleton
     @Provides
     fun provideAppDatabase(context: Context) = AppDatabase.getInstance(context)
 
+    @Singleton
     @Provides
     fun provideCardDao(database: AppDatabase) = database.cardDao()
 
+    @Singleton
     @Provides
     fun provideCardSetDao(database: AppDatabase) = database.cardSetDao()
 
+    @Singleton
     @DbData
     @Provides
     fun provideCardDbRepository(
@@ -41,6 +46,7 @@ class CardDataModule {
             cardSetDbToDomainMapper
         )
 
+    @Singleton
     @CollectionData
     @Provides
     fun provideCollectionCardRepository(): CardRepository =

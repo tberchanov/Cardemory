@@ -4,6 +4,8 @@ import com.cardemory.carddata.entity.CardSet
 import com.cardemory.carddata.interactor.DeleteCardSetsInteractor
 import com.cardemory.carddata.interactor.GetAllCardSetsInteractor
 import com.cardemory.cardsetlist.navigation.CardSetListNavigation
+import com.cardemory.common.interactor.ReadBooleanInteractor
+import com.cardemory.common.interactor.WriteBooleanInteractor
 import com.cardemory.common.mvp.BasePresenter
 import com.cardemory.infrastructure.entity.Failure
 import timber.log.Timber
@@ -11,13 +13,32 @@ import timber.log.Timber
 class CardSetListPresenter(
     private val cardSetListNavigation: CardSetListNavigation,
     private val getAllCardSetsInteractor: GetAllCardSetsInteractor,
-    private val deleteCardSetsInteractor: DeleteCardSetsInteractor
+    private val deleteCardSetsInteractor: DeleteCardSetsInteractor,
+    private val writeBooleanInteractor: WriteBooleanInteractor,
+    private val readBooleanInteractor: ReadBooleanInteractor
 ) : BasePresenter<CardSetListContract.View>(),
     CardSetListContract.Presenter {
 
     override fun attachView(view: CardSetListContract.View) {
         super.attachView(view)
         loadCardSets()
+        checkPreviousVisit()
+    }
+
+    private fun checkPreviousVisit() {
+        readBooleanInteractor(PREVIOUS_VISIT_CARD_SET_LIST_KEY) { either ->
+            either.either(
+                { Timber.e("checkPreviousVisit failure: $it") },
+                ::onReadPreviousVisitSuccess
+            )
+        }
+    }
+
+    private fun onReadPreviousVisitSuccess(previousVisit: Boolean) {
+        Timber.d("onReadPreviousVisitSuccess: $previousVisit")
+        if (!previousVisit) {
+            view?.showWelcomeMessage()
+        }
     }
 
     private fun loadCardSets() {
@@ -78,5 +99,56 @@ class CardSetListPresenter(
         } else {
             view?.showSelectionTitle()
         }
+    }
+
+    override fun onStartTutorialClicked() {
+        savePreviousVisitCardSetList()
+        saveShowTutorial()
+        view?.showTutorialActionButton()
+    }
+
+    private fun saveShowTutorial() {
+        writeBooleanInteractor(SHOW_TUTORIAL_KEY, true) {
+            it.either(::onSaveShowTutorialFailure, ::onSaveShowTutorialSuccess)
+        }
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun onSaveShowTutorialSuccess(ignore: Unit) {
+        Timber.d("onSaveShowTutorialSuccess")
+    }
+
+    private fun onSaveShowTutorialFailure(failure: Failure) {
+        Timber.d("onSaveShowTutorialFailure: $failure")
+    }
+
+    override fun onSkipTutorialClicked() {
+        savePreviousVisitCardSetList()
+    }
+
+    private fun savePreviousVisitCardSetList() {
+        writeBooleanInteractor(
+            PREVIOUS_VISIT_CARD_SET_LIST_KEY,
+            true
+        ) {
+            it.either(
+                ::savePreviousVisitCardSetListFailure,
+                ::savePreviousVisitCardSetListSuccess
+            )
+        }
+    }
+
+    @Suppress("UNUSED_PARAMETER")
+    private fun savePreviousVisitCardSetListSuccess(ignore: Unit) {
+        Timber.d("savePreviousVisitCardSetListSuccess")
+    }
+
+    private fun savePreviousVisitCardSetListFailure(failure: Failure) {
+        Timber.d("savePreviousVisitCardSetListFailure: $failure")
+    }
+
+    companion object {
+        private const val PREVIOUS_VISIT_CARD_SET_LIST_KEY = "PREVIOUS_VISIT_CARD_SET_LIST"
+        private const val SHOW_TUTORIAL_KEY = "SHOW_TUTORIAL"
     }
 }

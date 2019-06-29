@@ -56,6 +56,6 @@ interface CardListContract {
     }
 
     companion object {
-        val REQUIRED_CARDS_FOR_TRAIN = if (BuildConfig.DEBUG) 1 else 10
+        val REQUIRED_CARDS_FOR_TRAIN = if (BuildConfig.DEBUG) 10 else 10
     }
 }

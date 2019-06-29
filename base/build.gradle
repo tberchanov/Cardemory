@@ -50,6 +50,9 @@ dependencies {
     /* navigation */
     api "ru.terrakok.cicerone:cicerone:$versions.navigation.cicerone"
 
+    /* tutorial */
+    api "com.github.takusemba:spotlight:$versions.utils.tutorial"
+
     /* modules */
     api project(":infrastructure")
     api project(":resources")

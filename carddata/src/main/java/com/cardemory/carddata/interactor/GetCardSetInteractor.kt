@@ -8,7 +8,8 @@ import com.cardemory.infrastructure.BaseSingleInteractor
 import com.cardemory.infrastructure.entity.Either
 import javax.inject.Inject
 
-class GetCardSetInteractor @Inject constructor(
+class GetCardSetInteractor
+@Inject constructor(
     @DbData private val cardRepository: CardRepository
 ) : BaseSingleInteractor<CardSet, Long>() {
 

@@ -1,7 +1,6 @@
 package com.cardemory.carddata.di
 
 import android.content.Context
-import androidx.room.Room
 import com.cardemory.carddata.data.db.AppDatabase
 import com.cardemory.carddata.data.db.card.CardDao
 import com.cardemory.carddata.data.db.cardset.CardSetDao
@@ -19,9 +18,7 @@ import dagger.Provides
 class CardDataModule {
 
     @Provides
-    fun provideAppDatabase(context: Context) =
-        Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-            .build()
+    fun provideAppDatabase(context: Context) = AppDatabase.getInstance(context)
 
     @Provides
     fun provideCardDao(database: AppDatabase) = database.cardDao()
@@ -48,8 +45,4 @@ class CardDataModule {
     @Provides
     fun provideCollectionCardRepository(): CardRepository =
         CollectionCardRepository()
-
-    companion object {
-        private const val DATABASE_NAME = "app_database"
-    }
 }

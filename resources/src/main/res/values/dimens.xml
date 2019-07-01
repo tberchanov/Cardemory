@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fab_hint_circle">60dp</dimen>
+    <dimen name="rectangle_hint_shape_radius">8dp</dimen>
+</resources>

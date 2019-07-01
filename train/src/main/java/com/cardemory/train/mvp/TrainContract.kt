@@ -21,6 +21,8 @@ interface TrainContract {
         fun showBackMessage()
 
         fun showCardContent(trainCard: TrainCard)
+
+        fun showTutorial()
     }
 
     interface Presenter : BaseContract.Presenter<View> {

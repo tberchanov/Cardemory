@@ -17,4 +17,12 @@
     <string name="insufficiently">Insufficiently</string>
     <string name="back_to_cards">Back to cards</string>
     <string name="bad_result_advice">You should train more often\nto have better results!</string>
+
+    <!--Tutorial hints-->
+    <string name="forgot_hint_title">Forgot</string>
+    <string name="forgot_hint_description">Click this button or swipe card to left\nif you do not remember card answer</string>
+    <string name="know_hint_title">Know</string>
+    <string name="know_hint_description">Click this button or swipe card to right\nif you remember card answer</string>
+    <string name="train_card_hint_title">Click on card</string>
+    <string name="train_card_hint_description">if you want to see card answer\nto check yourself</string>
 </resources>

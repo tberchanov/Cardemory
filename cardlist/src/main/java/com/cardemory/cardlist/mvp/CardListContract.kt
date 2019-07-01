@@ -28,6 +28,8 @@ interface CardListContract {
         fun showSelectionTitle()
 
         fun clearCards(cards: List<Card>)
+
+        fun showTutorial()
     }
 
     interface Presenter : BaseContract.Presenter<View> {

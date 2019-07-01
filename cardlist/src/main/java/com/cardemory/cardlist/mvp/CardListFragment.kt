@@ -3,12 +3,14 @@ package com.cardemory.cardlist.mvp
 import android.Manifest
 import android.app.AlertDialog
 import android.content.pm.PackageManager
+import android.graphics.PointF
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import com.cardemory.carddata.entity.Card
@@ -21,7 +23,13 @@ import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.mvp.OnBackPressedListener
 import com.cardemory.common.navigation.OnResultListener
 import com.cardemory.common.util.EmptyMessageObserver
+import com.cardemory.common.util.getDimen
 import com.google.android.material.snackbar.Snackbar
+import com.takusemba.spotlight.Spotlight
+import com.takusemba.spotlight.shape.Circle
+import com.takusemba.spotlight.shape.RoundedRectangle
+import com.takusemba.spotlight.target.SimpleTarget
+import com.takusemba.spotlight.target.Target
 import kotlinx.android.synthetic.main.fragment_cardlist.*
 import timber.log.Timber
 
@@ -268,6 +276,68 @@ class CardListFragment :
         cardAdapter.removeItems(cards)
     }
 
+    override fun showTutorial() {
+        Spotlight.with(requireActivity())
+            .setAnimation(DecelerateInterpolator())
+            .setTargets(
+                createActionButtonTarget(),
+                createExportButtonTarget(),
+                createTrainingButtonTarget()
+            )
+            .setOverlayColor(R.color.black_a6)
+            .start()
+    }
+
+    private fun createActionButtonTarget(): Target {
+        val overlayPoint = PointF(
+            getDimen(R.dimen.create_card_hint_overlay_left),
+            getDimen(R.dimen.create_card_hint_overlay_top)
+        )
+        return SimpleTarget.Builder(requireActivity())
+            .setPoint(actionButton)
+            .setShape(Circle(getDimen(R.dimen.fab_hint_circle)))
+            .setTitle(getString(R.string.create_card))
+            .setOverlayPoint(overlayPoint)
+            .build()
+    }
+
+    private fun createTrainingButtonTarget(): Target {
+        val trainButton = cardsRecyclerView.getChildAt(TRAINING_BUTTON_POSITION)
+        val overlayPoint = PointF(
+            getDimen(R.dimen.training_hint_overlay_left),
+            getDimen(R.dimen.training_hint_overlay_top)
+        )
+        val hintShape = RoundedRectangle(
+            trainButton.height.toFloat(),
+            trainButton.width - getDimen(R.dimen.training_hint_width_paddings),
+            getDimen(R.dimen.rectangle_hint_shape_radius)
+        )
+        return SimpleTarget.Builder(requireActivity())
+            .setPoint(trainButton)
+            .setShape(hintShape)
+            .setTitle(getString(R.string.start_training))
+            .setDescription(getString(R.string.start_training_description))
+            .setOverlayPoint(overlayPoint)
+            .build()
+    }
+
+    private fun createExportButtonTarget(): Target {
+        val exportView = requireActivity().findViewById<View>(R.id.action_export)
+        val overlayPoint = PointF(
+            getDimen(R.dimen.export_hint_overlay_left),
+            getDimen(R.dimen.export_hint_overlay_top)
+        )
+        val hintShape = Circle(
+            getDimen(R.dimen.fab_hint_circle)
+        )
+        return SimpleTarget.Builder(requireActivity())
+            .setPoint(exportView)
+            .setShape(hintShape)
+            .setTitle(getString(R.string.export_card_set))
+            .setOverlayPoint(overlayPoint)
+            .build()
+    }
+
     override fun onBackPressed(): Boolean {
         return if (cardAdapter.selectionMode) {
             setSelectionModeEnabled(false)
@@ -279,6 +349,7 @@ class CardListFragment :
 
     companion object {
         private const val REQUEST_WRITE_EXTERNAL_PERMISSION = 1
+        private const val TRAINING_BUTTON_POSITION = 0
 
         private const val CARD_SET_KEY = "CARD_SET_KEY"
 

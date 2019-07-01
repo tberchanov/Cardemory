@@ -18,6 +18,8 @@ interface CardEditorContract {
         fun showCropPhotoScreen(photoFile: File)
 
         fun showCardDescription(cardDescription: String)
+
+        fun showTutorial()
     }
 
     interface Presenter : BaseContract.Presenter<View> {

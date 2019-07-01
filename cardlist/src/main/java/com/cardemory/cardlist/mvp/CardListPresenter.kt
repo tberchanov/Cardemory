@@ -8,10 +8,15 @@ import com.cardemory.carddata.interactor.SaveCardSetToFileInteractor
 import com.cardemory.cardlist.R
 import com.cardemory.cardlist.mvp.CardListContract.Companion.REQUIRED_CARDS_FOR_TRAIN
 import com.cardemory.cardlist.navigation.CardListNavigation
+import com.cardemory.common.interactor.ReadBooleanInteractor
+import com.cardemory.common.interactor.WriteBooleanInteractor
 import com.cardemory.common.mvp.BasePresenter
 import com.cardemory.common.util.ProgressInteractorExecutor
 import com.cardemory.infrastructure.entity.Failure
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import kotlin.random.Random
@@ -22,9 +27,34 @@ class CardListPresenter constructor(
     private val getCardSetInteractor: GetCardSetInteractor,
     private val saveCardSetToFileInteractor: SaveCardSetToFileInteractor,
     private val deleteCardsInteractor: DeleteCardsInteractor,
-    private val progressInteractorExecutor: ProgressInteractorExecutor
+    private val progressInteractorExecutor: ProgressInteractorExecutor,
+    private val readBooleanInteractor: ReadBooleanInteractor,
+    private val writeBooleanInteractor: WriteBooleanInteractor
 ) : BasePresenter<CardListContract.View>(),
     CardListContract.Presenter {
+
+    override fun attachView(view: CardListContract.View) {
+        super.attachView(view)
+        launch(Dispatchers.Main) {
+            checkPreviousVisit()
+        }
+    }
+
+    private suspend fun checkPreviousVisit() = withContext(Dispatchers.IO) {
+        val showTutorial = readBooleanInteractor.run(SHOW_TUTORIAL_KEY).valueRight
+        if (showTutorial) {
+            val previouslyVisited =
+                readBooleanInteractor.run(PREVIOUS_VISIT_CARD_LIST_KEY).valueRight
+            if (!previouslyVisited) {
+                withContext(Dispatchers.Main) {
+                    view?.showTutorial()
+                }
+                writeBooleanInteractor.run(
+                    WriteBooleanInteractor.Params(PREVIOUS_VISIT_CARD_LIST_KEY, true)
+                )
+            }
+        }
+    }
 
     override fun onCreateCardClicked(cardSet: CardSet) {
         navigation.showCreateCardScreen(cardSet)
@@ -151,5 +181,10 @@ class CardListPresenter constructor(
     private fun onCardsDeleteSuccess(cardSets: List<Card>) {
         view?.setSelectionModeEnabled(false)
         view?.clearCards(cardSets)
+    }
+
+    companion object {
+        private const val PREVIOUS_VISIT_CARD_LIST_KEY = "PREVIOUS_VISIT_CARD_LIST"
+        private const val SHOW_TUTORIAL_KEY = "SHOW_TUTORIAL"
     }
 }

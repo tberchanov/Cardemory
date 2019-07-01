@@ -6,6 +6,8 @@ import com.cardemory.cardeditor.mvp.CardEditorContract
 import com.cardemory.cardeditor.mvp.CardEditorPresenter
 import com.cardemory.cardeditor.navigation.CardEditorNavigation
 import com.cardemory.common.di.scope.FragmentScope
+import com.cardemory.common.interactor.ReadBooleanInteractor
+import com.cardemory.common.interactor.WriteBooleanInteractor
 import com.cardemory.common.util.ProgressInteractorExecutor
 import com.cardemory.ocr.di.module.TextRecognitionModule
 import com.cardemory.ocr.di.qualifier.MlKitOcr
@@ -23,13 +25,17 @@ class CardEditorFragmentModule {
         saveCardInteractor: SaveCardInteractor,
         getPhotoFileInteractor: GetPhotoFileInteractor,
         @MlKitOcr recognizeTextInteractor: BaseRecognizeTextInteractor,
-        progressInteractorExecutor: ProgressInteractorExecutor
+        progressInteractorExecutor: ProgressInteractorExecutor,
+        readBooleanInteractor: ReadBooleanInteractor,
+        writeBooleanInteractor: WriteBooleanInteractor
     ): CardEditorContract.Presenter =
         CardEditorPresenter(
             cardEditorNavigation,
             saveCardInteractor,
             getPhotoFileInteractor,
             recognizeTextInteractor,
-            progressInteractorExecutor
+            progressInteractorExecutor,
+            readBooleanInteractor,
+            writeBooleanInteractor
         )
 }

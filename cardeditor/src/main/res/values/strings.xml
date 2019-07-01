@@ -8,4 +8,6 @@
     <string name="processing_image">Processing image</string>
     <string name="empty_title_error">Title should not be empty</string>
     <string name="empty_description_error">Come on, enter the description</string>
+    <string name="recognize_text">Recognize text</string>
+    <string name="recognize_text_description">You can recognize\nlatin text from photo</string>
 </resources>

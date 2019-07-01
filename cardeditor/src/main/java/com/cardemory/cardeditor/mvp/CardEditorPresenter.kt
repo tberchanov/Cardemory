@@ -6,10 +6,15 @@ import com.cardemory.carddata.interactor.SaveCardInteractor
 import com.cardemory.cardeditor.R
 import com.cardemory.cardeditor.interactor.GetPhotoFileInteractor
 import com.cardemory.cardeditor.navigation.CardEditorNavigation
+import com.cardemory.common.interactor.ReadBooleanInteractor
+import com.cardemory.common.interactor.WriteBooleanInteractor
 import com.cardemory.common.mvp.BasePresenter
 import com.cardemory.common.util.ProgressInteractorExecutor
 import com.cardemory.infrastructure.entity.Failure
 import com.cardemory.ocr.interactor.BaseRecognizeTextInteractor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 
@@ -18,11 +23,39 @@ class CardEditorPresenter(
     private val saveCardInteractor: SaveCardInteractor,
     private val getPhotoFileInteractor: GetPhotoFileInteractor,
     private val recognizeTextInteractor: BaseRecognizeTextInteractor,
-    private val progressInteractorExecutor: ProgressInteractorExecutor
+    private val progressInteractorExecutor: ProgressInteractorExecutor,
+    private val readBooleanInteractor: ReadBooleanInteractor,
+    private val writeBooleanInteractor: WriteBooleanInteractor
 ) : BasePresenter<CardEditorContract.View>(),
     CardEditorContract.Presenter {
 
     private var cachedPhotoFile: File? = null
+
+    override fun attachView(view: CardEditorContract.View) {
+        super.attachView(view)
+        checkPreviousVisit()
+    }
+
+    private fun checkPreviousVisit() = launch(Dispatchers.IO) {
+        val showTutorial = readBooleanInteractor.run(SHOW_TUTORIAL_KEY).valueRight
+        if (showTutorial) {
+            val previouslyVisited =
+                readBooleanInteractor.run(PREVIOUS_VISIT_CREATE_CARD_KEY).valueRight
+            if (!previouslyVisited) {
+                withContext(Dispatchers.Main) {
+                    view?.showTutorial()
+                }
+                writeBooleanInteractor.run(
+                    WriteBooleanInteractor.Params(PREVIOUS_VISIT_CREATE_CARD_KEY, true)
+                )
+            }
+        }
+    }
+
+    override fun detachView(finishing: Boolean) {
+        view?.hideKeyboard()
+        super.detachView(finishing)
+    }
 
     override fun onSaveCardClicked(card: Card) {
         if (isCardValid(card)) {
@@ -48,7 +81,6 @@ class CardEditorPresenter(
 
     private fun onSaveCardSuccess(card: Card) {
         Timber.d("onSaveCardSuccess: $card")
-        view?.hideKeyboard()
         cardEditorNavigation.closeScreen(card)
     }
 
@@ -91,5 +123,10 @@ class CardEditorPresenter(
 
     private fun onRecognizeTextSuccess(recognizedText: String) {
         view?.showCardDescription(recognizedText)
+    }
+
+    companion object {
+        private const val PREVIOUS_VISIT_CREATE_CARD_KEY = "PREVIOUS_VISIT_CREATE_CARD"
+        private const val SHOW_TUTORIAL_KEY = "SHOW_TUTORIAL"
     }
 }

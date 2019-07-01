@@ -4,6 +4,8 @@ import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.interactor.SaveCardsInteractor
+import com.cardemory.common.interactor.ReadBooleanInteractor
+import com.cardemory.common.interactor.WriteBooleanInteractor
 import com.cardemory.common.mvp.BasePresenter
 import com.cardemory.infrastructure.entity.Failure
 import com.cardemory.memorykit.MemoryManager
@@ -12,16 +14,42 @@ import com.cardemory.train.navigation.TrainNavigation
 import com.cardemory.train.ui.model.TrainCard
 import com.cardemory.train.ui.widget.StarState
 import com.cardemory.train.ui.widget.StarState.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class TrainPresenter(
     private val trainNavigation: TrainNavigation,
     private val memoryManager: MemoryManager,
-    private val saveCardsInteractor: SaveCardsInteractor
+    private val saveCardsInteractor: SaveCardsInteractor,
+    private val readBooleanInteractor: ReadBooleanInteractor,
+    private val writeBooleanInteractor: WriteBooleanInteractor
 ) : BasePresenter<TrainContract.View>(),
     TrainContract.Presenter {
 
     private val trainedCards = mutableListOf<Card>()
+
+    override fun attachView(view: TrainContract.View) {
+        super.attachView(view)
+        checkPreviousVisit()
+    }
+
+    private fun checkPreviousVisit() = launch(Dispatchers.IO) {
+        val showTutorial = readBooleanInteractor.run(SHOW_TUTORIAL_KEY).valueRight
+        if (showTutorial) {
+            val previouslyVisited =
+                readBooleanInteractor.run(PREVIOUS_VISIT_TRAIN_KEY).valueRight
+            if (!previouslyVisited) {
+                withContext(Dispatchers.Main) {
+                    view?.showTutorial()
+                }
+                writeBooleanInteractor.run(
+                    WriteBooleanInteractor.Params(PREVIOUS_VISIT_TRAIN_KEY, true)
+                )
+            }
+        }
+    }
 
     override fun onCardRemembered(card: Card) {
         val trainedCard = card.copy(
@@ -136,5 +164,10 @@ class TrainPresenter(
     override fun onTrainCardLongPressed(trainCard: TrainCard) {
         Timber.d("onTrainCardLongPressed: $trainCard")
         view?.showCardContent(trainCard)
+    }
+
+    companion object {
+        private const val PREVIOUS_VISIT_TRAIN_KEY = "PREVIOUS_VISIT_TRAIN"
+        private const val SHOW_TUTORIAL_KEY = "SHOW_TUTORIAL"
     }
 }

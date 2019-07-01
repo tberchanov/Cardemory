@@ -20,6 +20,7 @@ import com.cardemory.common.util.getDimen
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.shape.Circle
 import com.takusemba.spotlight.target.SimpleTarget
+import com.takusemba.spotlight.target.Target
 import kotlinx.android.synthetic.main.dialog_welcome.view.*
 import kotlinx.android.synthetic.main.fragment_card_set_list.*
 
@@ -154,23 +155,25 @@ class CardSetListFragment :
     }
 
     override fun showTutorialActionButton() {
+        Spotlight.with(requireActivity())
+            .setAnimation(DecelerateInterpolator())
+            .setTargets(createActionButtonTarget())
+            .setOverlayColor(R.color.black_a6)
+            .start()
+    }
+
+    private fun createActionButtonTarget(): Target {
         val createCardSetHintOverlay = PointF(
             getDimen(R.dimen.create_cardset_hint_overlay_left),
             getDimen(R.dimen.create_cardset_hint_overlay_top)
         )
-        val actionButtonTarget = SimpleTarget.Builder(requireActivity())
+        return SimpleTarget.Builder(requireActivity())
             .setPoint(actionButton)
-            .setShape(Circle(getDimen(R.dimen.create_cardset_hint_circle)))
+            .setShape(Circle(getDimen(R.dimen.fab_hint_circle)))
             .setTitle(getString(R.string.create_card_set))
             .setDescription(getString(R.string.create_card_set_description))
             .setOverlayPoint(createCardSetHintOverlay)
             .build()
-
-        Spotlight.with(requireActivity())
-            .setAnimation(DecelerateInterpolator())
-            .setTargets(actionButtonTarget)
-            .setOverlayColor(R.color.black_a6)
-            .start()
     }
 
     override fun onDestroyView() {

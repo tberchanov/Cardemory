@@ -19,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.shape.RoundedRectangle
 import com.takusemba.spotlight.target.SimpleTarget
+import com.takusemba.spotlight.target.Target
 import kotlinx.android.synthetic.main.fragment_card_set_editor.*
 import timber.log.Timber
 
@@ -118,6 +119,14 @@ class CardSetEditorFragment :
     }
 
     override fun showTutorialImport() {
+        Spotlight.with(requireActivity())
+            .setAnimation(DecelerateInterpolator())
+            .setTargets(createTargetImportButton())
+            .setOverlayColor(R.color.black_a6)
+            .start()
+    }
+
+    private fun createTargetImportButton(): Target {
         val createCardSetHintOverlay = PointF(
             importButton.x - getDimen(R.dimen.import_cardset_hint_overlay_left),
             importButton.y
@@ -125,21 +134,15 @@ class CardSetEditorFragment :
         val hintShape = RoundedRectangle(
             importButton.height.toFloat(),
             importButton.width + getDimen(R.dimen.import_cardset_hint_width_paddings),
-            getDimen(R.dimen.import_cardset_hint_shape_radius)
+            getDimen(R.dimen.rectangle_hint_shape_radius)
         )
-        val importButtonTarget = SimpleTarget.Builder(requireActivity())
+        return SimpleTarget.Builder(requireActivity())
             .setPoint(importButton)
             .setShape(hintShape)
             .setTitle(getString(R.string.import_card_set))
             .setDescription(getString(R.string.import_card_set_description))
             .setOverlayPoint(createCardSetHintOverlay)
             .build()
-
-        Spotlight.with(requireActivity())
-            .setAnimation(DecelerateInterpolator())
-            .setTargets(importButtonTarget)
-            .setOverlayColor(R.color.black_a6)
-            .start()
     }
 
     override fun isEditMode() = getCardSetArg() != null

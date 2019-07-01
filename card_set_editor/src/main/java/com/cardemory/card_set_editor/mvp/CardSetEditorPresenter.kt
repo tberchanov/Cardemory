@@ -41,13 +41,13 @@ class CardSetEditorPresenter(
         val showTutorial = readBooleanInteractor.run(SHOW_TUTORIAL_KEY).valueRight
         if (showTutorial) {
             val previouslyVisited =
-                readBooleanInteractor.run(PREVIOUS_VISIT_CREATE_CARD_KEY).valueRight
+                readBooleanInteractor.run(PREVIOUS_VISIT_CREATE_CARD_SET_KEY).valueRight
             if (!previouslyVisited) {
                 withContext(Dispatchers.Main) {
                     view?.showTutorialImport()
                 }
                 writeBooleanInteractor.run(
-                    WriteBooleanInteractor.Params(PREVIOUS_VISIT_CREATE_CARD_KEY, true)
+                    WriteBooleanInteractor.Params(PREVIOUS_VISIT_CREATE_CARD_SET_KEY, true)
                 )
             }
         }
@@ -75,7 +75,6 @@ class CardSetEditorPresenter(
 
     private fun onSaveCardSetSuccess(cardSet: CardSet) {
         Timber.d("onSaveCardSetSuccess: $cardSet")
-        view?.hideKeyboard()
         cardSetEditorNavigation.closeScreen()
     }
 
@@ -105,7 +104,7 @@ class CardSetEditorPresenter(
     }
 
     companion object {
-        private const val PREVIOUS_VISIT_CREATE_CARD_KEY = "PREVIOUS_VISIT_CREATE_CARD"
+        private const val PREVIOUS_VISIT_CREATE_CARD_SET_KEY = "PREVIOUS_VISIT_CREATE_CARD_SET"
         private const val SHOW_TUTORIAL_KEY = "SHOW_TUTORIAL"
         private const val SELECTOR_FILE_FILTER = "text/plain"
     }

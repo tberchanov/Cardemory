@@ -5,7 +5,7 @@
     <dimen name="cardset_cards_corner_radius">4dp</dimen>
     <dimen name="cardset_text_start_margin">8dp</dimen>
     <dimen name="cardset_text_size">19sp</dimen>
-    <dimen name="create_cardset_hint_circle">60dp</dimen>
+    <dimen name="fab_hint_circle">60dp</dimen>
     <dimen name="create_cardset_hint_overlay_top">620dp</dimen>
     <dimen name="create_cardset_hint_overlay_left">50dp</dimen>
 </resources>

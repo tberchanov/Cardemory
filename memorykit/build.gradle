@@ -26,6 +26,11 @@ android {
     testOptions {
         unitTests.includeAndroidResources = true
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 androidExtensions {
@@ -34,13 +39,13 @@ androidExtensions {
 
 dependencies {
 
-    /* log */
+    // log
     api "com.jakewharton.timber:timber:$versions.utils.timber"
 
-    /* kotlin */
+    // kotlin
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    /* testing */
+    // testing
     testImplementation "junit:junit:$versions.tests.junit"
     testImplementation "org.mockito:mockito-core:2.4.0"
     testImplementation "org.powermock:powermock-core:1.7.0RC2"

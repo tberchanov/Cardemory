@@ -25,6 +25,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 androidExtensions {
@@ -32,15 +36,15 @@ androidExtensions {
 }
 
 dependencies {
-    // Android
+    // android
     implementation "androidx.constraintlayout:constraintlayout:$versions.androidx.constraint"
-    // Firebase
+    // firebase
     implementation "com.google.firebase:firebase-core:$versions.firebase.core"
     implementation "com.crashlytics.sdk.android:crashlytics:$versions.firebase.crashlytics"
-    // Dagger
+    // dagger
     kapt "com.google.dagger:dagger-android-processor:$versions.frameworks.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
-    // Modules
+    // modules
     implementation project(":base")
     implementation project(":cardlist")
     implementation project(":cardeditor")

@@ -23,6 +23,10 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 androidExtensions {
@@ -31,15 +35,15 @@ androidExtensions {
 
 dependencies {
 
-    /* log */
+    // log
     api "com.jakewharton.timber:timber:$versions.utils.timber"
 
-    /* dagger */
+    // dagger
     api "com.google.dagger:dagger:$versions.frameworks.dagger"
     api "com.google.dagger:dagger-android:$versions.frameworks.dagger"
     api "com.google.dagger:dagger-android-support:$versions.frameworks.dagger"
 
-    /* kotlin */
+    // kotlin
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.frameworks.coroutines"
 }

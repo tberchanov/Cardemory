@@ -34,11 +34,11 @@ androidExtensions {
 }
 
 dependencies {
-    // Dagger
+    // dagger
     kapt "com.google.dagger:dagger-android-processor:$versions.frameworks.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
-    // Firebase
+    // firebase
     implementation "com.google.firebase:firebase-ml-vision:$versions.firebase.ml_vision"
-    // Modules
+    // modules
     implementation project(':infrastructure')
 }

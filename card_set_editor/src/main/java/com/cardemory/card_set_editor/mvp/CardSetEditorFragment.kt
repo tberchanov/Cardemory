@@ -11,9 +11,9 @@ import com.cardemory.card_set_editor.R
 import com.cardemory.card_set_editor.mvp.CardSetEditorContract.Companion.SELECT_FILE_REQUEST_CODE
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.common.mvp.BaseFragment
-import com.cardemory.common.util.getDimen
+import com.cardemory.common.util.ext.getDimen
+import com.cardemory.common.util.ext.setVisible
 import com.cardemory.common.util.hideKeyboard
-import com.cardemory.common.util.setVisible
 import com.cardemory.common.util.showKeyboard
 import com.google.android.material.snackbar.Snackbar
 import com.takusemba.spotlight.Spotlight

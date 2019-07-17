@@ -6,7 +6,7 @@ import com.cardemory.carddata.entity.Card
 import com.cardemory.cardlist.R
 import com.cardemory.common.ui.BaseHolder
 import com.cardemory.common.ui.BaseSelectableAdapter
-import com.cardemory.common.util.setVisible
+import com.cardemory.common.util.ext.setVisible
 import kotlinx.android.synthetic.main.item_card.view.*
 import kotlinx.android.synthetic.main.item_train.view.*
 

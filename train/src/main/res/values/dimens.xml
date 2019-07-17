@@ -8,4 +8,5 @@
     <dimen name="train_card_hint_overlay_left">50dp</dimen>
     <dimen name="train_card_hint_overlay_top">600dp</dimen>
     <dimen name="train_card_hint_padding">20dp</dimen>
+    <dimen name="train_button_description_top_margin">55dp</dimen>
 </resources>

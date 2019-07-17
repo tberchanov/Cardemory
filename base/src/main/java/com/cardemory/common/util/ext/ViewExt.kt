@@ -1,4 +1,4 @@
-package com.cardemory.common.util
+package com.cardemory.common.util.ext
 
 import android.view.View
 

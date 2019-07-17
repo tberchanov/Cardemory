@@ -2,13 +2,11 @@ package com.cardemory.train.mvp
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.PointF
 import android.os.Bundle
 import android.os.Handler
 import android.text.method.ScrollingMovementMethod
 import android.view.View
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
@@ -17,17 +15,13 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.mvp.OnBackPressedListener
-import com.cardemory.common.util.getDimen
 import com.cardemory.train.R
 import com.cardemory.train.ui.FinishTrainDialog
 import com.cardemory.train.ui.SwipeCardStackItemListener
 import com.cardemory.train.ui.TrainCardStackAdapter
 import com.cardemory.train.ui.model.TrainCard
+import com.cardemory.train.ui.tutorial.TrainTutorialSpotlight
 import com.cardemory.train.ui.widget.StarState
-import com.takusemba.spotlight.Spotlight
-import com.takusemba.spotlight.shape.RoundedRectangle
-import com.takusemba.spotlight.target.SimpleTarget
-import com.takusemba.spotlight.target.Target
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.Direction
 import com.yuyakaido.android.cardstackview.Duration
@@ -35,6 +29,7 @@ import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
 import kotlinx.android.synthetic.main.dialog_card_content.view.*
 import kotlinx.android.synthetic.main.fragment_train.*
 import timber.log.Timber
+import javax.inject.Inject
 
 
 class TrainFragment :
@@ -44,6 +39,9 @@ class TrainFragment :
     private lateinit var cardStackAdapter: TrainCardStackAdapter
 
     private lateinit var cardStackManager: CardStackLayoutManager
+
+    @Inject
+    lateinit var trainTutorialSpotlight: TrainTutorialSpotlight
 
     override val layoutResId = R.layout.fragment_train
 
@@ -89,6 +87,7 @@ class TrainFragment :
     }
 
     override fun onDestroyView() {
+        trainTutorialSpotlight.closeSpotlight()
         cardStackAdapter.removeAnimationListeners()
         super.onDestroyView()
     }
@@ -207,73 +206,11 @@ class TrainFragment :
     }
 
     override fun showTutorial() {
-        Spotlight.with(requireActivity())
-            .setAnimation(DecelerateInterpolator())
-            .setTargets(
-                createTargetForgotButton(),
-                createTargetRememberedButton(),
-                createTargetTrainCard()
-            )
-            .setOverlayColor(R.color.black_a6)
-            .start()
-    }
-
-    private fun createTargetForgotButton(): Target {
-        val hintOverlay = PointF(
-            getDimen(R.dimen.forget_reminded_hint_overlay_left),
-            getDimen(R.dimen.forget_reminded_hint_overlay_top)
-        )
-        val hintShape = RoundedRectangle(
-            forgotButton.height.toFloat(),
-            forgotButton.width + getDimen(R.dimen.forget_reminded_hint_horizontal_padding),
-            getDimen(R.dimen.rectangle_hint_shape_radius)
-        )
-        return SimpleTarget.Builder(requireActivity())
-            .setPoint(forgotButton)
-            .setShape(hintShape)
-            .setTitle(getString(R.string.forgot_hint_title))
-            .setDescription(getString(R.string.forgot_hint_description))
-            .setOverlayPoint(hintOverlay)
-            .build()
-    }
-
-    private fun createTargetRememberedButton(): Target {
-        val hintOverlay = PointF(
-            getDimen(R.dimen.forget_reminded_hint_overlay_left),
-            getDimen(R.dimen.forget_reminded_hint_overlay_top)
-        )
-        val hintShape = RoundedRectangle(
-            rememberedButton.height.toFloat(),
-            rememberedButton.width + getDimen(R.dimen.forget_reminded_hint_horizontal_padding),
-            getDimen(R.dimen.rectangle_hint_shape_radius)
-        )
-        return SimpleTarget.Builder(requireActivity())
-            .setPoint(rememberedButton)
-            .setShape(hintShape)
-            .setTitle(getString(R.string.know_hint_title))
-            .setDescription(getString(R.string.know_hint_description))
-            .setOverlayPoint(hintOverlay)
-            .build()
-    }
-
-    private fun createTargetTrainCard(): Target {
-        val hintOverlay = PointF(
-            getDimen(R.dimen.train_card_hint_overlay_left),
-            getDimen(R.dimen.train_card_hint_overlay_top)
-        )
-        val trainCardHintPadding = getDimen(R.dimen.train_card_hint_padding)
-        val hintShape = RoundedRectangle(
-            cardStackView.height + trainCardHintPadding,
-            cardStackView.width + trainCardHintPadding,
-            getDimen(R.dimen.rectangle_hint_shape_radius)
-        )
-        return SimpleTarget.Builder(requireActivity())
-            .setPoint(cardStackView)
-            .setShape(hintShape)
-            .setTitle(getString(R.string.train_card_hint_title))
-            .setDescription(getString(R.string.train_card_hint_description))
-            .setOverlayPoint(hintOverlay)
-            .build()
+        trainTutorialSpotlight.createSpotlight(
+            forgotButton,
+            rememberedButton,
+            cardStackView
+        ).start()
     }
 
     companion object {

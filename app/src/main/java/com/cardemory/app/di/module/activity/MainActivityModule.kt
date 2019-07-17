@@ -1,5 +1,6 @@
 package com.cardemory.app.di.module.activity
 
+import android.app.Activity
 import com.cardemory.app.mvp.main.MainActivity
 import com.cardemory.app.mvp.main.MainContract
 import com.cardemory.app.mvp.main.MainPresenter
@@ -28,4 +29,8 @@ class MainActivityModule {
     @ActivityScope
     fun provideProgressInteractorExecutor(activity: MainActivity) =
         ProgressInteractorExecutor(activity)
+
+    @Provides
+    @ActivityScope
+    fun provideActivity(activity: MainActivity): Activity = activity
 }

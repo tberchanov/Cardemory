@@ -7,7 +7,7 @@ import android.content.Context
 import android.view.View
 import com.cardemory.common.ui.BaseAdapter
 import com.cardemory.common.ui.BaseHolder
-import com.cardemory.common.util.setVisible
+import com.cardemory.common.util.ext.setVisible
 import com.cardemory.train.R
 import com.cardemory.train.ui.TrainCardStackAdapter.TrainCardStackHolder
 import com.cardemory.train.ui.model.TrainCard

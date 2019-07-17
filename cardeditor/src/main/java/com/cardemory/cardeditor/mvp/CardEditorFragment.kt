@@ -15,7 +15,7 @@ import com.cardemory.carddata.entity.CardSet
 import com.cardemory.cardeditor.R
 import com.cardemory.cardeditor.mvp.CardEditorContract.Companion.REQUEST_TAKE_PHOTO
 import com.cardemory.common.mvp.BaseFragment
-import com.cardemory.common.util.getDimen
+import com.cardemory.common.util.ext.getDimen
 import com.cardemory.common.util.hideKeyboard
 import com.cardemory.common.util.showKeyboard
 import com.takusemba.spotlight.Spotlight

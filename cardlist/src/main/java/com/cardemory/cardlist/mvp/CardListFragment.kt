@@ -23,7 +23,7 @@ import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.mvp.OnBackPressedListener
 import com.cardemory.common.navigation.OnResultListener
 import com.cardemory.common.util.EmptyMessageObserver
-import com.cardemory.common.util.getDimen
+import com.cardemory.common.util.ext.getDimen
 import com.google.android.material.snackbar.Snackbar
 import com.takusemba.spotlight.Spotlight
 import com.takusemba.spotlight.shape.Circle

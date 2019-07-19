@@ -87,7 +87,6 @@ class TrainFragment :
     }
 
     override fun onDestroyView() {
-        trainTutorialSpotlight.closeSpotlight()
         cardStackAdapter.removeAnimationListeners()
         super.onDestroyView()
     }
@@ -170,7 +169,11 @@ class TrainFragment :
     }
 
     override fun onBackPressed(): Boolean {
-        presenter.onBackClicked()
+        if (trainTutorialSpotlight.spotlightVisible) {
+            trainTutorialSpotlight.closeSpotlight()
+        } else {
+            presenter.onBackClicked()
+        }
         return true
     }
 

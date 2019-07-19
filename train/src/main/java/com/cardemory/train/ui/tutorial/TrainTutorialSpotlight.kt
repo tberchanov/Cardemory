@@ -3,6 +3,7 @@ package com.cardemory.train.ui.tutorial
 import android.app.Activity
 import android.view.View
 import com.cardemory.common.ui.tutorial.BaseTutorialSpotlight
+import com.takusemba.spotlight.Spotlight
 import javax.inject.Inject
 
 class TrainTutorialSpotlight
@@ -17,7 +18,7 @@ class TrainTutorialSpotlight
         forgotButton: View,
         rememberedButton: View,
         trainCard: View
-    ) = createBaseSpotlight().setTargets(
+    ): Spotlight = createBaseSpotlight().setTargets(
         forgotButtonTarget.create(forgotButton),
         rememberedButtonTarget.create(rememberedButton),
         trainCardTarget.create(trainCard)

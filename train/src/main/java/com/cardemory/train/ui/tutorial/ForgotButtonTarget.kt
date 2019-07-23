@@ -21,8 +21,8 @@ class ForgotButtonTarget
         tutorialView.getLocationOnScreen(locationOnScreenArr)
 
         val hintOverlay = PointF(
-            activity.getDimen(R.dimen.forget_reminded_hint_overlay_left),
-            locationOnScreenArr[VERTICAL_LOCATION_INDEX].toFloat()
+            activity.getDimen(R.dimen.forget_hint_overlay_left),
+            locationOnScreenArr[VERTICAL_LOCATION_INDEX]
                 - tutorialView.height
                 - activity.getDimen(R.dimen.train_button_description_top_margin)
         )

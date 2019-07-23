@@ -2,36 +2,36 @@ package com.cardemory.cardeditor.mvp
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.PointF
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.text.method.ScrollingMovementMethod
 import android.view.View
-import android.view.animation.DecelerateInterpolator
 import androidx.core.content.FileProvider
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.cardeditor.R
 import com.cardemory.cardeditor.mvp.CardEditorContract.Companion.REQUEST_TAKE_PHOTO
+import com.cardemory.cardeditor.ui.tutorial.CardEditorTutorialSpotlight
 import com.cardemory.common.mvp.BaseFragment
-import com.cardemory.common.util.ext.getDimen
+import com.cardemory.common.mvp.OnBackPressedListener
 import com.cardemory.common.util.hideKeyboard
 import com.cardemory.common.util.showKeyboard
-import com.takusemba.spotlight.Spotlight
-import com.takusemba.spotlight.shape.RoundedRectangle
-import com.takusemba.spotlight.target.SimpleTarget
-import com.takusemba.spotlight.target.Target
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_cardeditor.*
 import timber.log.Timber
 import java.io.File
+import javax.inject.Inject
 
 
 class CardEditorFragment :
     BaseFragment<CardEditorContract.View, CardEditorContract.Presenter>(),
-    CardEditorContract.View {
+    CardEditorContract.View,
+    OnBackPressedListener {
+
+    @Inject
+    lateinit var cardEditorTutorialSpotlight: CardEditorTutorialSpotlight
 
     override val layoutResId = R.layout.fragment_cardeditor
 
@@ -152,30 +152,18 @@ class CardEditorFragment :
     }
 
     override fun showTutorial() {
-        Spotlight.with(requireActivity())
-            .setAnimation(DecelerateInterpolator())
-            .setTargets(createTargetOcrButton())
-            .setOverlayColor(R.color.black_a6)
+        cardEditorTutorialSpotlight
+            .createSpotlight(scanTextCardView)
             .start()
     }
 
-    private fun createTargetOcrButton(): Target {
-        val hintOverlay = PointF(
-            scanTextCardView.x - getDimen(R.dimen.ocr_hint_overlay_left),
-            scanTextCardView.y
-        )
-        val hintShape = RoundedRectangle(
-            scanTextCardView.height.toFloat(),
-            scanTextCardView.width.toFloat(),
-            getDimen(R.dimen.rectangle_hint_shape_radius)
-        )
-        return SimpleTarget.Builder(requireActivity())
-            .setPoint(scanTextCardView)
-            .setShape(hintShape)
-            .setTitle(getString(R.string.recognize_text))
-            .setDescription(getString(R.string.recognize_text_description))
-            .setOverlayPoint(hintOverlay)
-            .build()
+    override fun onBackPressed(): Boolean {
+        return if (cardEditorTutorialSpotlight.spotlightVisible) {
+            cardEditorTutorialSpotlight.closeSpotlight()
+            true
+        } else {
+            false
+        }
     }
 
     companion object {

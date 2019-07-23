@@ -7,6 +7,6 @@
     <dimen name="cardset_text_size">19sp</dimen>
     <dimen name="fab_hint_circle">60dp</dimen>
     <dimen name="create_cardset_hint_overlay_top">620dp</dimen>
-    <dimen name="create_cardset_hint_overlay_left">50dp</dimen>
+    <dimen name="create_cardset_hint_overlay_left">210dp</dimen>
     <dimen name="train_button_description_top_margin">60dp</dimen>
 </resources>

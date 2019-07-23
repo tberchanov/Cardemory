@@ -10,5 +10,5 @@
     <string name="start_tutorial">Start short tutorial</string>
     <string name="skip_tutorial">Skip</string>
     <string name="create_card_set">Create card set</string>
-    <string name="create_card_set_description">You can create card sets by this button</string>
+    <string name="create_card_set_description">You can create card sets\nby this button</string>
 </resources>

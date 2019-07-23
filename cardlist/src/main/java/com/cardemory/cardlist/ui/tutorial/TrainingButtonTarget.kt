@@ -1,17 +1,17 @@
-package com.cardemory.cardsetlist.ui.tutorial
+package com.cardemory.cardlist.ui.tutorial
 
 import android.app.Activity
 import android.graphics.PointF
 import android.view.View
-import com.cardemory.cardsetlist.R
+import com.cardemory.cardlist.R
 import com.cardemory.common.ui.tutorial.BaseTutorialTarget
 import com.cardemory.common.util.ext.getDimen
-import com.takusemba.spotlight.shape.Circle
+import com.takusemba.spotlight.shape.RoundedRectangle
 import com.takusemba.spotlight.target.SimpleTarget
 import com.takusemba.spotlight.target.Target
 import javax.inject.Inject
 
-class CreateCardSetButtonTarget
+class TrainingButtonTarget
 @Inject constructor(
     private val activity: Activity
 ) : BaseTutorialTarget() {
@@ -20,19 +20,23 @@ class CreateCardSetButtonTarget
         val locationOnScreenArr = IntArray(LOCATION_DIMENSIONS_COUNT)
         tutorialView.getLocationOnScreen(locationOnScreenArr)
 
-        val hintOverlay = PointF(
+        val overlayPoint = PointF(
             locationOnScreenArr[HORIZONTAL_LOCATION_INDEX]
-                - activity.getDimen(R.dimen.create_cardset_hint_overlay_left),
+                + activity.getDimen(R.dimen.training_hint_overlay_left),
             locationOnScreenArr[VERTICAL_LOCATION_INDEX]
-                - tutorialView.height
-                - activity.getDimen(R.dimen.train_button_description_top_margin)
+                + activity.getDimen(R.dimen.training_hint_overlay_top)
+        )
+        val hintShape = RoundedRectangle(
+            tutorialView.height.toFloat(),
+            tutorialView.width - activity.getDimen(R.dimen.training_hint_width_paddings),
+            activity.getDimen(R.dimen.rectangle_hint_shape_radius)
         )
         return SimpleTarget.Builder(activity)
             .setPoint(tutorialView)
-            .setShape(Circle(activity.getDimen(R.dimen.fab_hint_circle)))
-            .setTitle(activity.getString(R.string.create_card_set))
-            .setDescription(activity.getString(R.string.create_card_set_description))
-            .setOverlayPoint(hintOverlay)
+            .setShape(hintShape)
+            .setTitle(activity.getString(R.string.start_training))
+            .setDescription(activity.getString(R.string.start_training_description))
+            .setOverlayPoint(overlayPoint)
             .build()
     }
 

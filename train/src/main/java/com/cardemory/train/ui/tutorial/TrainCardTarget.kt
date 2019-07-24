@@ -16,9 +16,14 @@ class TrainCardTarget @Inject constructor(
 ) : BaseTutorialTarget() {
 
     override fun create(tutorialView: View): Target {
+        val locationOnScreenArr = IntArray(LOCATION_DIMENSIONS_COUNT)
+        tutorialView.getLocationOnScreen(locationOnScreenArr)
+
         val hintOverlay = PointF(
-            activity.getDimen(R.dimen.train_card_hint_overlay_left),
-            activity.getDimen(R.dimen.train_card_hint_overlay_top)
+            locationOnScreenArr[HORIZONTAL_LOCATION_INDEX].toFloat(),
+            locationOnScreenArr[VERTICAL_LOCATION_INDEX]
+                + tutorialView.height
+                + activity.getDimen(R.dimen.train_card_hint_overlay_top)
         )
         val trainCardHintPadding = activity.getDimen(R.dimen.train_card_hint_padding)
         val hintShape = RoundedRectangle(
@@ -33,5 +38,13 @@ class TrainCardTarget @Inject constructor(
             .setDescription(activity.getString(R.string.train_card_hint_description))
             .setOverlayPoint(hintOverlay)
             .build()
+    }
+
+    companion object {
+        private const val LOCATION_DIMENSIONS_COUNT = 2
+
+        private const val VERTICAL_LOCATION_INDEX = 1
+
+        private const val HORIZONTAL_LOCATION_INDEX = 0
     }
 }

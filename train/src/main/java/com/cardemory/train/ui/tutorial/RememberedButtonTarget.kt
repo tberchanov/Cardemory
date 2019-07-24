@@ -20,8 +20,9 @@ class RememberedButtonTarget @Inject constructor(
         tutorialView.getLocationOnScreen(locationOnScreenArr)
 
         val hintOverlay = PointF(
-            activity.getDimen(R.dimen.forget_reminded_hint_overlay_left),
-            locationOnScreenArr[VERTICAL_LOCATION_INDEX].toFloat()
+            locationOnScreenArr[HORIZONTAL_LOCATION_INDEX]
+                - activity.getDimen(R.dimen.reminded_hint_overlay_left),
+            locationOnScreenArr[VERTICAL_LOCATION_INDEX]
                 - tutorialView.height
                 - activity.getDimen(R.dimen.train_button_description_top_margin)
         )
@@ -42,5 +43,7 @@ class RememberedButtonTarget @Inject constructor(
         private const val LOCATION_DIMENSIONS_COUNT = 2
 
         private const val VERTICAL_LOCATION_INDEX = 1
+
+        private const val HORIZONTAL_LOCATION_INDEX = 0
     }
 }

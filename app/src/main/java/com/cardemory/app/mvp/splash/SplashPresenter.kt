@@ -1,25 +1,44 @@
 package com.cardemory.app.mvp.splash
 
 import com.cardemory.app.navigation.SplashNavigation
+import com.cardemory.carddata.data.db.AppDatabase
+import com.cardemory.carddata.interactor.GetAllCardsInteractor
+import com.cardemory.carddata.interactor.PrepopulateDbInteractor
 import com.cardemory.common.mvp.BasePresenter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class SplashPresenter(
-    private val splashNavigation: SplashNavigation
+    private val splashNavigation: SplashNavigation,
+    private val prepopulateDbInteractor: PrepopulateDbInteractor,
+    private val getAllCardsInteractor: GetAllCardsInteractor
 ) : BasePresenter<SplashContract.View>(),
     SplashContract.Presenter {
 
     override fun attachView(view: SplashContract.View) {
         super.attachView(view)
-        launch(Dispatchers.Main) {
-            delay(SPLASH_DELAY)
+        AppDatabase.setOnDatabaseOpenListener(::onDbOpened)
+        interactWithDatabase()
+    }
+
+    private fun onDbOpened(dbFirstTimeCreated: Boolean) {
+        launch {
+            if (dbFirstTimeCreated) {
+                prepopulateDbInteractor.run(Unit).either(
+                    { Timber.e("prepopulateDbInteractor failure: $it") },
+                    { Timber.d("prepopulateDbInteractor success") }
+                )
+            }
+            invalidateOnDpOpenListener()
             splashNavigation.showMainScreen()
         }
     }
 
-    companion object {
-        private const val SPLASH_DELAY = 500L
+    private fun invalidateOnDpOpenListener() {
+        AppDatabase.setOnDatabaseOpenListener { /*none*/ }
+    }
+
+    private fun interactWithDatabase() {
+        getAllCardsInteractor(Unit)
     }
 }

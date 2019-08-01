@@ -8,6 +8,8 @@ import com.cardemory.common.interactor.ReadBooleanInteractor
 import com.cardemory.common.interactor.WriteBooleanInteractor
 import com.cardemory.common.mvp.BasePresenter
 import com.cardemory.infrastructure.entity.Failure
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class CardSetListPresenter(
@@ -42,8 +44,12 @@ class CardSetListPresenter(
     }
 
     private fun loadCardSets() {
-        getAllCardSetsInteractor(Unit) {
-            it.either(::onGetAllCardSetsFailure, ::onGetAllCardSetsSuccess)
+        launch {
+            // delay to show prepopulated data
+            delay(LOAD_CARD_SETS_DELAY_MILLIS)
+            getAllCardSetsInteractor(Unit) {
+                it.either(::onGetAllCardSetsFailure, ::onGetAllCardSetsSuccess)
+            }
         }
     }
 
@@ -148,7 +154,10 @@ class CardSetListPresenter(
     }
 
     companion object {
+        private const val LOAD_CARD_SETS_DELAY_MILLIS = 800L
+
         private const val PREVIOUS_VISIT_CARD_SET_LIST_KEY = "PREVIOUS_VISIT_CARD_SET_LIST"
+
         private const val SHOW_TUTORIAL_KEY = "SHOW_TUTORIAL"
     }
 }

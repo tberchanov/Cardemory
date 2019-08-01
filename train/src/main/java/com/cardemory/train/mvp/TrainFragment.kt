@@ -210,8 +210,7 @@ class TrainFragment :
 
     override fun showTutorial() {
         trainTutorialSpotlight.createSpotlight(
-            forgotButton,
-            rememberedButton,
+            buttonContainer,
             cardStackView
         ).start()
     }

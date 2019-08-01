@@ -5,6 +5,8 @@ import com.cardemory.app.mvp.splash.SplashContract
 import com.cardemory.app.mvp.splash.SplashPresenter
 import com.cardemory.app.navigation.SplashNavigation
 import com.cardemory.app.navigation.SplashNavigator
+import com.cardemory.carddata.interactor.GetAllCardsInteractor
+import com.cardemory.carddata.interactor.PrepopulateDbInteractor
 import com.cardemory.common.di.scope.ActivityScope
 import com.cardemory.common.navigation.BaseNavigator
 import dagger.Module
@@ -20,6 +22,10 @@ class SplashActivityModule {
 
     @Provides
     @ActivityScope
-    fun providePresenter(navigation: SplashNavigation): SplashContract.Presenter =
-        SplashPresenter(navigation)
+    fun providePresenter(
+        navigation: SplashNavigation,
+        prepopulateDbInteractor: PrepopulateDbInteractor,
+        getAllCardsInteractor: GetAllCardsInteractor
+    ): SplashContract.Presenter =
+        SplashPresenter(navigation, prepopulateDbInteractor, getAllCardsInteractor)
 }

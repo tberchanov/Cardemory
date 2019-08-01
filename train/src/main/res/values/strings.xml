@@ -23,4 +23,5 @@
     <string name="know_hint_description">Click this button or swipe card to right\nif you remember card answer</string>
     <string name="train_card_hint_title">Click on card</string>
     <string name="train_card_hint_description">if you want to see card answer\nto check yourself</string>
+    <string name="answer_hint_description">Push buttons or swipe card \n to give the answer</string>
 </resources>

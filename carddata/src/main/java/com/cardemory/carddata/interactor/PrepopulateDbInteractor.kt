@@ -8,9 +8,10 @@ import com.cardemory.carddata.data.db.cardset.CardSetDbEntity
 import com.cardemory.infrastructure.BaseSingleInteractor
 import com.cardemory.infrastructure.entity.Either
 import com.cardemory.infrastructure.entity.Failure
+import javax.inject.Inject
 
 class PrepopulateDbInteractor
-constructor(
+@Inject constructor(
     private val context: Context,
     private val appDatabase: AppDatabase
 ) : BaseSingleInteractor<Unit, Unit>() {

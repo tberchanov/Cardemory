@@ -9,8 +9,6 @@ import com.cardemory.carddata.data.db.card.CardDao
 import com.cardemory.carddata.data.db.card.CardDbEntity
 import com.cardemory.carddata.data.db.cardset.CardSetDao
 import com.cardemory.carddata.data.db.cardset.CardSetDbEntity
-import com.cardemory.carddata.interactor.PrepopulateDbInteractor
-import timber.log.Timber
 
 @Database(
     entities = [CardDbEntity::class, CardSetDbEntity::class],
@@ -25,37 +23,37 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
 
+        private var firstTimeDatabaseCreated = false
+
+        private var onDbOpened: (Boolean) -> Unit = {}
+
         private const val DATABASE_NAME = "app_database"
 
-        private lateinit var appDatabase: AppDatabase
-
-        @Synchronized
-        fun getInstance(context: Context): AppDatabase {
-            if (!::appDatabase.isInitialized) {
-                appDatabase = buildDatabase(context)
-            }
-            return appDatabase
-        }
-
-        private fun buildDatabase(context: Context): AppDatabase {
+        fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(
                 context,
                 AppDatabase::class.java,
                 DATABASE_NAME
-            ).addCallback(getOnDatabaseCreateListener(context)).build()
+            ).addCallback(getOnDatabaseCreateListener()).build()
         }
 
-        private fun getOnDatabaseCreateListener(context: Context) =
+        private fun getOnDatabaseCreateListener() =
             object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
+                    firstTimeDatabaseCreated = true
                     super.onCreate(db)
-                    PrepopulateDbInteractor(context, getInstance(context))(Unit) { either ->
-                        either.either(
-                            { Timber.e("prepopulateDbInteractor failure: $it") },
-                            { Timber.d("prepopulateDbInteractor success: $it") }
-                        )
-                    }
+                }
+
+                override fun onOpen(db: SupportSQLiteDatabase) {
+                    super.onOpen(db)
+                    onDbOpened(firstTimeDatabaseCreated)
                 }
             }
+
+        fun setOnDatabaseOpenListener(
+            onDbOpened: (firstTimeDatabaseCreated: Boolean) -> Unit
+        ) {
+            this.onDbOpened = onDbOpened
+        }
     }
 }

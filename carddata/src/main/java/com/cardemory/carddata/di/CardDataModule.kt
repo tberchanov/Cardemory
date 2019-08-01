@@ -20,7 +20,7 @@ class CardDataModule {
 
     @Singleton
     @Provides
-    fun provideAppDatabase(context: Context) = AppDatabase.getInstance(context)
+    fun provideAppDatabase(context: Context) = AppDatabase.buildDatabase(context)
 
     @Singleton
     @Provides

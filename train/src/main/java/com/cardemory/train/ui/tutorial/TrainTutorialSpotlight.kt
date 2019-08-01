@@ -15,12 +15,10 @@ class TrainTutorialSpotlight
 ) : BaseTutorialSpotlight(activity) {
 
     fun createSpotlight(
-        forgotButton: View,
-        rememberedButton: View,
+        answerButtonsContainer: View,
         trainCard: View
     ): Spotlight = createBaseSpotlight().setTargets(
-        forgotButtonTarget.create(forgotButton),
-        rememberedButtonTarget.create(rememberedButton),
+        forgotButtonTarget.create(answerButtonsContainer),
         trainCardTarget.create(trainCard)
     )
 }

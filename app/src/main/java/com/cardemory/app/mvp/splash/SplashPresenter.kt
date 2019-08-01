@@ -11,14 +11,19 @@ import timber.log.Timber
 class SplashPresenter(
     private val splashNavigation: SplashNavigation,
     private val prepopulateDbInteractor: PrepopulateDbInteractor,
-    private val getAllCardsInteractor: GetAllCardsInteractor
+    private val getAllCardsInteractor: GetAllCardsInteractor,
+    private val appDatabase: AppDatabase
 ) : BasePresenter<SplashContract.View>(),
     SplashContract.Presenter {
 
     override fun attachView(view: SplashContract.View) {
         super.attachView(view)
-        AppDatabase.setOnDatabaseOpenListener(::onDbOpened)
-        interactWithDatabase()
+        if (appDatabase.isOpen) {
+            splashNavigation.showMainScreen()
+        } else {
+            AppDatabase.setOnDatabaseOpenListener(::onDbOpened)
+            interactWithDatabase()
+        }
     }
 
     private fun onDbOpened(dbFirstTimeCreated: Boolean) {

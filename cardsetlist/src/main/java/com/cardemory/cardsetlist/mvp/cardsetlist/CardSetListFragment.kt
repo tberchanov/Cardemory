@@ -15,6 +15,7 @@ import com.cardemory.cardsetlist.ui.tutorial.CardSetListTutorialSpotlight
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.mvp.OnBackPressedListener
 import com.cardemory.common.util.EmptyMessageObserver
+import com.cardemory.memory_label.CardSetMemoryLabelTransformer
 import kotlinx.android.synthetic.main.dialog_welcome.view.*
 import kotlinx.android.synthetic.main.fragment_card_set_list.*
 import javax.inject.Inject
@@ -30,6 +31,10 @@ class CardSetListFragment :
 
     @Inject
     lateinit var cardSetListTutorialSpotlight: CardSetListTutorialSpotlight
+
+    @Inject
+    lateinit var cardSetMemoryLabelTransformer: CardSetMemoryLabelTransformer
+
 
     override val layoutResId = R.layout.fragment_card_set_list
 
@@ -49,7 +54,8 @@ class CardSetListFragment :
             presenter::onCardSetClicked,
             presenter::onEditCardSetClicked,
             presenter::onDeleteCardSetClicked,
-            presenter::onCardSetSelected
+            presenter::onCardSetSelected,
+            cardSetMemoryLabelTransformer
         )
         cardSetsRecyclerView.adapter = cardSetAdapter
         emptyMessageObserver =

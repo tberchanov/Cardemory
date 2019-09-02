@@ -29,7 +29,7 @@
             app:layout_constraintBottom_toTopOf="@+id/descriptionTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Title"/>
+            tools:text="Title" />
 
         <TextView
             android:id="@+id/descriptionTextView"
@@ -42,19 +42,30 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleTextView"
-            tools:text="This is description"/>
+            tools:text="This is description" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/cardCheckBox"
-            android:layout_gravity="end|top"
-            android:layout_margin="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:clickable="false"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/memoryLabelImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            app:layout_constraintBottom_toBottomOf="@+id/cardCheckBox"
+            app:layout_constraintEnd_toEndOf="@+id/cardCheckBox"
+            app:layout_constraintStart_toStartOf="@+id/cardCheckBox"
+            app:layout_constraintTop_toTopOf="@+id/cardCheckBox"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_low_memory_label" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

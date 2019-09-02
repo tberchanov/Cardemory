@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="high_memory_label_color">#9BC276</color>
+    <color name="middle_memory_label_color">#BDCC65</color>
+    <color name="low_memory_label_color">#F07F76</color>
+</resources>

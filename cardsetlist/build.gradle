@@ -43,4 +43,5 @@ dependencies {
     // modules
     implementation project(":base")
     api project(":carddata")
+    api project(":memory_label")
 }

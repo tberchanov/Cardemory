@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/cardlist" />
             <option value="$PROJECT_DIR$/cardsetlist" />
             <option value="$PROJECT_DIR$/infrastructure" />
+            <option value="$PROJECT_DIR$/memory_label" />
             <option value="$PROJECT_DIR$/memorykit" />
             <option value="$PROJECT_DIR$/ocr" />
             <option value="$PROJECT_DIR$/resources" />
@@ -23,6 +24,7 @@
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
+        <option name="testRunner" value="PLATFORM" />
       </GradleProjectSettings>
     </option>
   </component>

@@ -2,17 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="10dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
         android:animateLayoutChanges="true"
         android:clickable="true"
         android:focusable="true"
@@ -27,21 +27,31 @@
         <TextView
             android:id="@+id/cardSetNameTextView"
             android:layout_width="wrap_content"
-            android:layout_margin="10dp"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:textColor="@color/black"
             android:textSize="20sp"
-            tools:text="bla bla"/>
+            tools:text="bla bla" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/cardSetCheckBox"
-            android:layout_gravity="end|top"
-            android:layout_margin="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_margin="8dp"
             android:clickable="false"
             android:visibility="invisible"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/memoryLabelImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_margin="10dp"
+            android:clickable="false"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_low_memory_label" />
 
     </androidx.cardview.widget.CardView>
 
@@ -55,6 +65,6 @@
         app:layout_constraintEnd_toEndOf="@id/container"
         app:layout_constraintStart_toStartOf="@id/container"
         app:layout_constraintTop_toTopOf="@id/container"
-        tools:cardBackgroundColor="@color/black"/>
+        tools:cardBackgroundColor="@color/black" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

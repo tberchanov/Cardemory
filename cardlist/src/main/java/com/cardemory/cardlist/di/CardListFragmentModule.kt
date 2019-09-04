@@ -10,12 +10,13 @@ import com.cardemory.common.di.scope.FragmentScope
 import com.cardemory.common.interactor.ReadBooleanInteractor
 import com.cardemory.common.interactor.WriteBooleanInteractor
 import com.cardemory.common.util.ProgressInteractorExecutor
+import com.cardemory.memory_label.di.MemoryLabelModule
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 @ObsoleteCoroutinesApi
-@Module
+@Module(includes = [MemoryLabelModule::class])
 class CardListFragmentModule {
 
     @FragmentScope

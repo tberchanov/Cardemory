@@ -6,13 +6,15 @@ import com.cardemory.cardsetlist.R
 import com.cardemory.common.ui.BaseHolder
 import com.cardemory.common.ui.BaseSelectableAdapter
 import com.cardemory.common.util.ext.setVisible
+import com.cardemory.memory_label.CardSetMemoryLabelTransformer
 import kotlinx.android.synthetic.main.item_card_set.view.*
 
 class CardSetListAdapter(
     private val onCardSetClickListener: (CardSet) -> Unit,
     private val onEditClicked: (CardSet) -> Unit,
     private val onDeleteClicked: (CardSet) -> Unit,
-    private val onCardSetSelected: (CardSet, selected: Boolean) -> Unit
+    private val onCardSetSelected: (CardSet, selected: Boolean) -> Unit,
+    private val cardSetMemoryLabelTransformer: CardSetMemoryLabelTransformer
 ) : BaseSelectableAdapter<CardSet, CardSetListAdapter.CardSetHolder>(onCardSetSelected) {
 
     override fun layoutId(viewType: Int) = R.layout.item_card_set
@@ -41,6 +43,11 @@ class CardSetListAdapter(
 
             itemView.cardSetCheckBox.setVisible(selectionMode)
             itemView.cardSetCheckBox.isChecked = isItemPositionSelected(adapterPosition)
+
+            itemView.memoryLabelImageView.setVisible(!selectionMode)
+            cardSetMemoryLabelTransformer.transform(uiEntity).let {
+                itemView.memoryLabelImageView.setBackgroundResource(it!!)
+            }
         }
 
         private fun onCardSetClicked(cardSet: CardSet) {

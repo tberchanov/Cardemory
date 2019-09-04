@@ -23,7 +23,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -35,17 +34,11 @@ androidExtensions {
 }
 
 dependencies {
-
-    // android
-    implementation "androidx.constraintlayout:constraintlayout:$versions.androidx.constraint"
-    implementation "com.google.android.material:material:$versions.androidx.material"
-
     // dagger
     kapt "com.google.dagger:dagger-android-processor:$versions.frameworks.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
 
     // modules
-    implementation project(":base")
     api project(":carddata")
-    api project(":memory_label")
+    api project(":base")
 }

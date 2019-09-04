@@ -22,6 +22,7 @@ import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.mvp.OnBackPressedListener
 import com.cardemory.common.navigation.OnResultListener
 import com.cardemory.common.util.EmptyMessageObserver
+import com.cardemory.memory_label.CardMemoryLabelTransformer
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_cardlist.*
 import timber.log.Timber
@@ -36,6 +37,9 @@ class CardListFragment :
 
     @Inject
     lateinit var cardListTutorialSpotlight: CardListTutorialSpotlight
+
+    @Inject
+    lateinit var cardMemoryLabelTransformer: CardMemoryLabelTransformer
 
     private lateinit var cardAdapter: CardListAdapter
 
@@ -84,7 +88,8 @@ class CardListFragment :
             ::onTrainClicked,
             REQUIRED_CARDS_FOR_TRAIN,
             presenter::onDeleteCardClicked,
-            presenter::onCardSelected
+            presenter::onCardSelected,
+            cardMemoryLabelTransformer
         )
         cardsRecyclerView.adapter = cardAdapter
         emptyMessageObserver = EmptyMessageObserver(

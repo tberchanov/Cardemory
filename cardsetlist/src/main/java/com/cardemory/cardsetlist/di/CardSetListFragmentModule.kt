@@ -5,6 +5,7 @@ import com.cardemory.carddata.interactor.GetAllCardSetsInteractor
 import com.cardemory.cardsetlist.mvp.cardsetlist.CardSetListContract
 import com.cardemory.cardsetlist.mvp.cardsetlist.CardSetListPresenter
 import com.cardemory.cardsetlist.navigation.CardSetListNavigation
+import com.cardemory.cardsetlist.ui.tutorial.CardSetListTutorialSpotlight
 import com.cardemory.common.di.scope.FragmentScope
 import com.cardemory.common.interactor.ReadBooleanInteractor
 import com.cardemory.common.interactor.WriteBooleanInteractor
@@ -23,14 +24,18 @@ class CardSetListFragmentModule {
         getAllCardSetsInteractor: GetAllCardSetsInteractor,
         deleteCardSetsInteractor: DeleteCardSetsInteractor,
         writeBooleanInteractor: WriteBooleanInteractor,
-        readBooleanInteractor: ReadBooleanInteractor
+        readBooleanInteractor: ReadBooleanInteractor,
+        cardSetListTutorialSpotlight: CardSetListTutorialSpotlight,
+        cardSetMemoryLabelTransformer: CardSetMemoryLabelTransformer
     ): CardSetListContract.Presenter {
         return CardSetListPresenter(
             cardSetListNavigation,
             getAllCardSetsInteractor,
             deleteCardSetsInteractor,
             writeBooleanInteractor,
-            readBooleanInteractor
+            readBooleanInteractor,
+            cardSetListTutorialSpotlight,
+            cardSetMemoryLabelTransformer
         )
     }
 }

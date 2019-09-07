@@ -92,8 +92,8 @@ class CardSetListFragment :
 
     override fun onBackPressed(): Boolean {
         return when {
-            cardSetListTutorialSpotlight.spotlightVisible -> {
-                cardSetListTutorialSpotlight.closeSpotlight()
+            presenter.cardSetListTutorialSpotlight.spotlightVisible -> {
+                presenter.cardSetListTutorialSpotlight.closeSpotlight()
                 true
             }
             cardSetAdapter!!.selectionMode -> {
@@ -155,7 +155,7 @@ class CardSetListFragment :
     }
 
     override fun showTutorialActionButton() {
-        cardSetListTutorialSpotlight
+        presenter.cardSetListTutorialSpotlight
             .createSpotlight(actionButton)
             .start()
     }

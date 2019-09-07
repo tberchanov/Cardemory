@@ -12,6 +12,7 @@ import com.cardemory.memorykit.MemoryManager
 import com.cardemory.train.R
 import com.cardemory.train.navigation.TrainNavigation
 import com.cardemory.train.ui.model.TrainCard
+import com.cardemory.train.ui.tutorial.TrainTutorialSpotlight
 import com.cardemory.train.ui.widget.StarState
 import com.cardemory.train.ui.widget.StarState.*
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +25,8 @@ class TrainPresenter(
     private val memoryManager: MemoryManager,
     private val saveCardsInteractor: SaveCardsInteractor,
     private val readBooleanInteractor: ReadBooleanInteractor,
-    private val writeBooleanInteractor: WriteBooleanInteractor
+    private val writeBooleanInteractor: WriteBooleanInteractor,
+    override val trainTutorialSpotlight: TrainTutorialSpotlight
 ) : BasePresenter<TrainContract.View>(),
     TrainContract.Presenter {
 

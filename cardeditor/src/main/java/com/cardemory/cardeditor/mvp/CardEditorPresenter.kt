@@ -6,6 +6,7 @@ import com.cardemory.carddata.interactor.SaveCardInteractor
 import com.cardemory.cardeditor.R
 import com.cardemory.cardeditor.interactor.GetPhotoFileInteractor
 import com.cardemory.cardeditor.navigation.CardEditorNavigation
+import com.cardemory.cardeditor.ui.tutorial.CardEditorTutorialSpotlight
 import com.cardemory.common.interactor.ReadBooleanInteractor
 import com.cardemory.common.interactor.WriteBooleanInteractor
 import com.cardemory.common.mvp.BasePresenter
@@ -25,7 +26,8 @@ class CardEditorPresenter(
     private val recognizeTextInteractor: BaseRecognizeTextInteractor,
     private val progressInteractorExecutor: ProgressInteractorExecutor,
     private val readBooleanInteractor: ReadBooleanInteractor,
-    private val writeBooleanInteractor: WriteBooleanInteractor
+    private val writeBooleanInteractor: WriteBooleanInteractor,
+    override val cardEditorTutorialSpotlight: CardEditorTutorialSpotlight
 ) : BasePresenter<CardEditorContract.View>(),
     CardEditorContract.Presenter {
 

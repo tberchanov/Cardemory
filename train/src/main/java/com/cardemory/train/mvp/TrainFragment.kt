@@ -20,7 +20,6 @@ import com.cardemory.train.ui.FinishTrainDialog
 import com.cardemory.train.ui.SwipeCardStackItemListener
 import com.cardemory.train.ui.TrainCardStackAdapter
 import com.cardemory.train.ui.model.TrainCard
-import com.cardemory.train.ui.tutorial.TrainTutorialSpotlight
 import com.cardemory.train.ui.widget.StarState
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager
 import com.yuyakaido.android.cardstackview.Direction
@@ -29,7 +28,6 @@ import com.yuyakaido.android.cardstackview.SwipeAnimationSetting
 import kotlinx.android.synthetic.main.dialog_card_content.view.*
 import kotlinx.android.synthetic.main.fragment_train.*
 import timber.log.Timber
-import javax.inject.Inject
 
 
 class TrainFragment :
@@ -39,9 +37,6 @@ class TrainFragment :
     private lateinit var cardStackAdapter: TrainCardStackAdapter
 
     private lateinit var cardStackManager: CardStackLayoutManager
-
-    @Inject
-    lateinit var trainTutorialSpotlight: TrainTutorialSpotlight
 
     override val layoutResId = R.layout.fragment_train
 
@@ -169,8 +164,8 @@ class TrainFragment :
     }
 
     override fun onBackPressed(): Boolean {
-        if (trainTutorialSpotlight.spotlightVisible) {
-            trainTutorialSpotlight.closeSpotlight()
+        if (presenter.trainTutorialSpotlight.spotlightVisible) {
+            presenter.trainTutorialSpotlight.closeSpotlight()
         } else {
             presenter.onBackClicked()
         }
@@ -209,7 +204,7 @@ class TrainFragment :
     }
 
     override fun showTutorial() {
-        trainTutorialSpotlight.createSpotlight(
+        presenter.trainTutorialSpotlight.createSpotlight(
             buttonContainer,
             cardStackView
         ).start()

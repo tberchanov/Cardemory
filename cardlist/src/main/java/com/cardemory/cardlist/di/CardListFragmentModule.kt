@@ -6,10 +6,12 @@ import com.cardemory.carddata.interactor.SaveCardSetToFileInteractor
 import com.cardemory.cardlist.mvp.CardListContract
 import com.cardemory.cardlist.mvp.CardListPresenter
 import com.cardemory.cardlist.navigation.CardListNavigation
+import com.cardemory.cardlist.ui.tutorial.CardListTutorialSpotlight
 import com.cardemory.common.di.scope.FragmentScope
 import com.cardemory.common.interactor.ReadBooleanInteractor
 import com.cardemory.common.interactor.WriteBooleanInteractor
 import com.cardemory.common.util.ProgressInteractorExecutor
+import com.cardemory.memory_label.CardMemoryLabelTransformer
 import com.cardemory.memory_label.di.MemoryLabelModule
 import dagger.Module
 import dagger.Provides
@@ -28,7 +30,9 @@ class CardListFragmentModule {
         deleteCardsInteractor: DeleteCardsInteractor,
         progressInteractorExecutor: ProgressInteractorExecutor,
         readBooleanInteractor: ReadBooleanInteractor,
-        writeBooleanInteractor: WriteBooleanInteractor
+        writeBooleanInteractor: WriteBooleanInteractor,
+        cardListTutorialSpotlight: CardListTutorialSpotlight,
+        cardMemoryLabelTransformer: CardMemoryLabelTransformer
     ): CardListContract.Presenter {
         return CardListPresenter(
             cardListNavigation,
@@ -37,7 +41,9 @@ class CardListFragmentModule {
             deleteCardsInteractor,
             progressInteractorExecutor,
             readBooleanInteractor,
-            writeBooleanInteractor
+            writeBooleanInteractor,
+            cardListTutorialSpotlight,
+            cardMemoryLabelTransformer
         )
     }
 }

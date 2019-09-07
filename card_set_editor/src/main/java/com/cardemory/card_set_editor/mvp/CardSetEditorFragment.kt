@@ -7,7 +7,6 @@ import android.os.Handler
 import android.view.View
 import com.cardemory.card_set_editor.R
 import com.cardemory.card_set_editor.mvp.CardSetEditorContract.Companion.SELECT_FILE_REQUEST_CODE
-import com.cardemory.card_set_editor.ui.tutorial.CardSetEditorTutorialSpotlight
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.mvp.OnBackPressedListener
@@ -17,15 +16,11 @@ import com.cardemory.common.util.showKeyboard
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_card_set_editor.*
 import timber.log.Timber
-import javax.inject.Inject
 
 class CardSetEditorFragment :
     BaseFragment<CardSetEditorContract.View, CardSetEditorContract.Presenter>(),
     CardSetEditorContract.View,
     OnBackPressedListener {
-
-    @Inject
-    lateinit var cardSetEditorTutorialSpotlight: CardSetEditorTutorialSpotlight
 
     private var loadedCardSet: CardSet? = null
 
@@ -119,7 +114,7 @@ class CardSetEditorFragment :
     }
 
     override fun showTutorialImport() {
-        cardSetEditorTutorialSpotlight
+        presenter.cardSetEditorTutorialSpotlight
             .createSpotlight(importButton)
             .start()
     }
@@ -127,8 +122,8 @@ class CardSetEditorFragment :
     override fun isEditMode() = getCardSetArg() != null
 
     override fun onBackPressed(): Boolean {
-        return if (cardSetEditorTutorialSpotlight.spotlightVisible) {
-            cardSetEditorTutorialSpotlight.closeSpotlight()
+        return if (presenter.cardSetEditorTutorialSpotlight.spotlightVisible) {
+            presenter.cardSetEditorTutorialSpotlight.closeSpotlight()
             true
         } else {
             false

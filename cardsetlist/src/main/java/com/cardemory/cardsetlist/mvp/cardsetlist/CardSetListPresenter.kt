@@ -4,6 +4,7 @@ import com.cardemory.carddata.entity.CardSet
 import com.cardemory.carddata.interactor.DeleteCardSetsInteractor
 import com.cardemory.carddata.interactor.GetAllCardSetsInteractor
 import com.cardemory.cardsetlist.navigation.CardSetListNavigation
+import com.cardemory.cardsetlist.ui.tutorial.CardSetListTutorialSpotlight
 import com.cardemory.common.interactor.ReadBooleanInteractor
 import com.cardemory.common.interactor.WriteBooleanInteractor
 import com.cardemory.common.mvp.BasePresenter
@@ -18,7 +19,9 @@ class CardSetListPresenter(
     private val getAllCardSetsInteractor: GetAllCardSetsInteractor,
     private val deleteCardSetsInteractor: DeleteCardSetsInteractor,
     private val writeBooleanInteractor: WriteBooleanInteractor,
-    private val readBooleanInteractor: ReadBooleanInteractor
+    private val readBooleanInteractor: ReadBooleanInteractor,
+    override val cardSetListTutorialSpotlight: CardSetListTutorialSpotlight,
+    override val cardSetMemoryLabelTransformer: CardSetMemoryLabelTransformer
 ) : BasePresenter<CardSetListContract.View>(),
     CardSetListContract.Presenter {
 

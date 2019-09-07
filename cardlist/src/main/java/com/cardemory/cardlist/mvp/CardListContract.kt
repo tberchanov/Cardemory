@@ -3,7 +3,9 @@ package com.cardemory.cardlist.mvp
 import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.cardlist.BuildConfig
+import com.cardemory.cardlist.ui.tutorial.CardListTutorialSpotlight
 import com.cardemory.common.mvp.BaseContract
+import com.cardemory.memory_label.CardMemoryLabelTransformer
 
 interface CardListContract {
 
@@ -33,6 +35,10 @@ interface CardListContract {
     }
 
     interface Presenter : BaseContract.Presenter<View> {
+
+        val cardListTutorialSpotlight: CardListTutorialSpotlight
+
+        val cardMemoryLabelTransformer: CardMemoryLabelTransformer
 
         fun onCreateCardClicked(cardSet: CardSet)
 

@@ -8,6 +8,7 @@ import com.cardemory.common.interactor.ReadBooleanInteractor
 import com.cardemory.common.interactor.WriteBooleanInteractor
 import com.cardemory.common.mvp.BasePresenter
 import com.cardemory.infrastructure.entity.Failure
+import com.cardemory.memory_label.CardSetMemoryLabelTransformer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber

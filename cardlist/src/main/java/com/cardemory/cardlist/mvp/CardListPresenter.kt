@@ -8,11 +8,13 @@ import com.cardemory.carddata.interactor.SaveCardSetToFileInteractor
 import com.cardemory.cardlist.R
 import com.cardemory.cardlist.mvp.CardListContract.Companion.REQUIRED_CARDS_FOR_TRAIN
 import com.cardemory.cardlist.navigation.CardListNavigation
+import com.cardemory.cardlist.ui.tutorial.CardListTutorialSpotlight
 import com.cardemory.common.interactor.ReadBooleanInteractor
 import com.cardemory.common.interactor.WriteBooleanInteractor
 import com.cardemory.common.mvp.BasePresenter
 import com.cardemory.common.util.ProgressInteractorExecutor
 import com.cardemory.infrastructure.entity.Failure
+import com.cardemory.memory_label.CardMemoryLabelTransformer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -29,7 +31,9 @@ class CardListPresenter constructor(
     private val deleteCardsInteractor: DeleteCardsInteractor,
     private val progressInteractorExecutor: ProgressInteractorExecutor,
     private val readBooleanInteractor: ReadBooleanInteractor,
-    private val writeBooleanInteractor: WriteBooleanInteractor
+    private val writeBooleanInteractor: WriteBooleanInteractor,
+    override val cardListTutorialSpotlight: CardListTutorialSpotlight,
+    override val cardMemoryLabelTransformer: CardMemoryLabelTransformer
 ) : BasePresenter<CardListContract.View>(),
     CardListContract.Presenter {
 

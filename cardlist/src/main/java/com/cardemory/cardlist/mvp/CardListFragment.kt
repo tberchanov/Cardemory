@@ -17,16 +17,13 @@ import com.cardemory.cardlist.R
 import com.cardemory.cardlist.mvp.CardListContract.Companion.REQUIRED_CARDS_FOR_TRAIN
 import com.cardemory.cardlist.ui.CardDiffUtilCallback
 import com.cardemory.cardlist.ui.CardListAdapter
-import com.cardemory.cardlist.ui.tutorial.CardListTutorialSpotlight
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.mvp.OnBackPressedListener
 import com.cardemory.common.navigation.OnResultListener
 import com.cardemory.common.util.EmptyMessageObserver
-import com.cardemory.memory_label.CardMemoryLabelTransformer
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_cardlist.*
 import timber.log.Timber
-import javax.inject.Inject
 
 
 class CardListFragment :
@@ -34,12 +31,6 @@ class CardListFragment :
     CardListContract.View,
     OnResultListener,
     OnBackPressedListener {
-
-    @Inject
-    lateinit var cardListTutorialSpotlight: CardListTutorialSpotlight
-
-    @Inject
-    lateinit var cardMemoryLabelTransformer: CardMemoryLabelTransformer
 
     private lateinit var cardAdapter: CardListAdapter
 
@@ -89,7 +80,7 @@ class CardListFragment :
             REQUIRED_CARDS_FOR_TRAIN,
             presenter::onDeleteCardClicked,
             presenter::onCardSelected,
-            cardMemoryLabelTransformer
+            presenter.cardMemoryLabelTransformer
         )
         cardsRecyclerView.adapter = cardAdapter
         emptyMessageObserver = EmptyMessageObserver(
@@ -281,15 +272,15 @@ class CardListFragment :
     override fun showTutorial() {
         val exportView = requireActivity().findViewById<View>(R.id.action_export)
         val trainButton = cardsRecyclerView.getChildAt(TRAINING_BUTTON_POSITION)
-        cardListTutorialSpotlight
+        presenter.cardListTutorialSpotlight
             .createSpotlight(actionButton, exportView, trainButton)
             .start()
     }
 
     override fun onBackPressed(): Boolean {
         return when {
-            cardListTutorialSpotlight.spotlightVisible -> {
-                cardListTutorialSpotlight.closeSpotlight()
+            presenter.cardListTutorialSpotlight.spotlightVisible -> {
+                presenter.cardListTutorialSpotlight.closeSpotlight()
                 true
             }
             cardAdapter.selectionMode -> {

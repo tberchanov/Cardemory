@@ -3,6 +3,7 @@ package com.cardemory.card_set_editor.mvp
 import android.net.Uri
 import com.cardemory.card_set_editor.mvp.CardSetEditorContract.Companion.SELECT_FILE_REQUEST_CODE
 import com.cardemory.card_set_editor.navigation.CardSetEditorNavigation
+import com.cardemory.card_set_editor.ui.tutorial.CardSetEditorTutorialSpotlight
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.carddata.interactor.GetCardSetFromFileInteractor
 import com.cardemory.carddata.interactor.SaveCardSetInteractor
@@ -21,7 +22,8 @@ class CardSetEditorPresenter(
     private val saveCardSetInteractor: SaveCardSetInteractor,
     private val getCardSetFromFileInteractor: GetCardSetFromFileInteractor,
     private val readBooleanInteractor: ReadBooleanInteractor,
-    private val writeBooleanInteractor: WriteBooleanInteractor
+    private val writeBooleanInteractor: WriteBooleanInteractor,
+    override val cardSetEditorTutorialSpotlight: CardSetEditorTutorialSpotlight
 ) : BasePresenter<CardSetEditorContract.View>(),
     CardSetEditorContract.Presenter {
 

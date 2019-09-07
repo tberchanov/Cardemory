@@ -8,6 +8,7 @@ import com.cardemory.memorykit.MemoryManager
 import com.cardemory.train.mvp.TrainContract
 import com.cardemory.train.mvp.TrainPresenter
 import com.cardemory.train.navigation.TrainNavigation
+import com.cardemory.train.ui.tutorial.TrainTutorialSpotlight
 import dagger.Module
 import dagger.Provides
 
@@ -21,14 +22,16 @@ class TrainFragmentModule {
         memoryManager: MemoryManager,
         saveCardsInteractor: SaveCardsInteractor,
         readBooleanInteractor: ReadBooleanInteractor,
-        writeBooleanInteractor: WriteBooleanInteractor
+        writeBooleanInteractor: WriteBooleanInteractor,
+        trainTutorialSpotlight: TrainTutorialSpotlight
     ): TrainContract.Presenter {
         return TrainPresenter(
             trainNavigation,
             memoryManager,
             saveCardsInteractor,
             readBooleanInteractor,
-            writeBooleanInteractor
+            writeBooleanInteractor,
+            trainTutorialSpotlight
         )
     }
 

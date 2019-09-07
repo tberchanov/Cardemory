@@ -5,6 +5,7 @@ import com.cardemory.cardeditor.interactor.GetPhotoFileInteractor
 import com.cardemory.cardeditor.mvp.CardEditorContract
 import com.cardemory.cardeditor.mvp.CardEditorPresenter
 import com.cardemory.cardeditor.navigation.CardEditorNavigation
+import com.cardemory.cardeditor.ui.tutorial.CardEditorTutorialSpotlight
 import com.cardemory.common.di.scope.FragmentScope
 import com.cardemory.common.interactor.ReadBooleanInteractor
 import com.cardemory.common.interactor.WriteBooleanInteractor
@@ -27,7 +28,8 @@ class CardEditorFragmentModule {
         @MlKitOcr recognizeTextInteractor: BaseRecognizeTextInteractor,
         progressInteractorExecutor: ProgressInteractorExecutor,
         readBooleanInteractor: ReadBooleanInteractor,
-        writeBooleanInteractor: WriteBooleanInteractor
+        writeBooleanInteractor: WriteBooleanInteractor,
+        cardEditorTutorialSpotlight: CardEditorTutorialSpotlight
     ): CardEditorContract.Presenter =
         CardEditorPresenter(
             cardEditorNavigation,
@@ -36,6 +38,7 @@ class CardEditorFragmentModule {
             recognizeTextInteractor,
             progressInteractorExecutor,
             readBooleanInteractor,
-            writeBooleanInteractor
+            writeBooleanInteractor,
+            cardEditorTutorialSpotlight
         )
 }

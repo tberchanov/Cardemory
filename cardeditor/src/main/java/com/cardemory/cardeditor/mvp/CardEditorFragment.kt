@@ -12,7 +12,6 @@ import com.cardemory.carddata.entity.Card
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.cardeditor.R
 import com.cardemory.cardeditor.mvp.CardEditorContract.Companion.REQUEST_TAKE_PHOTO
-import com.cardemory.cardeditor.ui.tutorial.CardEditorTutorialSpotlight
 import com.cardemory.common.mvp.BaseFragment
 import com.cardemory.common.mvp.OnBackPressedListener
 import com.cardemory.common.util.hideKeyboard
@@ -22,16 +21,12 @@ import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fragment_cardeditor.*
 import timber.log.Timber
 import java.io.File
-import javax.inject.Inject
 
 
 class CardEditorFragment :
     BaseFragment<CardEditorContract.View, CardEditorContract.Presenter>(),
     CardEditorContract.View,
     OnBackPressedListener {
-
-    @Inject
-    lateinit var cardEditorTutorialSpotlight: CardEditorTutorialSpotlight
 
     override val layoutResId = R.layout.fragment_cardeditor
 
@@ -152,14 +147,14 @@ class CardEditorFragment :
     }
 
     override fun showTutorial() {
-        cardEditorTutorialSpotlight
+        presenter.cardEditorTutorialSpotlight
             .createSpotlight(scanTextCardView)
             .start()
     }
 
     override fun onBackPressed(): Boolean {
-        return if (cardEditorTutorialSpotlight.spotlightVisible) {
-            cardEditorTutorialSpotlight.closeSpotlight()
+        return if (presenter.cardEditorTutorialSpotlight.spotlightVisible) {
+            presenter.cardEditorTutorialSpotlight.closeSpotlight()
             true
         } else {
             false

@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import com.cardemory.carddata.entity.Card
 import com.cardemory.common.mvp.BaseContract
 import com.cardemory.train.ui.model.TrainCard
+import com.cardemory.train.ui.tutorial.TrainTutorialSpotlight
 import com.cardemory.train.ui.widget.StarState
 
 interface TrainContract {
@@ -26,6 +27,8 @@ interface TrainContract {
     }
 
     interface Presenter : BaseContract.Presenter<View> {
+
+        val trainTutorialSpotlight: TrainTutorialSpotlight
 
         fun onCardRemembered(card: Card)
 

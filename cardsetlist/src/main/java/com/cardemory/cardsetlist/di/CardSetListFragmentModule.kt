@@ -8,6 +8,7 @@ import com.cardemory.cardsetlist.navigation.CardSetListNavigation
 import com.cardemory.common.di.scope.FragmentScope
 import com.cardemory.common.interactor.ReadBooleanInteractor
 import com.cardemory.common.interactor.WriteBooleanInteractor
+import com.cardemory.memory_label.CardSetMemoryLabelTransformer
 import com.cardemory.memory_label.di.MemoryLabelModule
 import dagger.Module
 import dagger.Provides

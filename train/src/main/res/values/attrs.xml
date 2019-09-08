@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="GradientTextView">
+        <attr name="gtvStartColor" format="color"/>
+        <attr name="gtvEndColor" format="color"/>
+        <attr name="gtvEnableGradient" format="boolean"/>
+        <attr name="gtvGradientHeight" format="dimension"/>
+    </declare-styleable>
+
+</resources>

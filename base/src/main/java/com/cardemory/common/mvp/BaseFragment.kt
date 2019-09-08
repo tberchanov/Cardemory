@@ -2,12 +2,14 @@ package com.cardemory.common.mvp
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import dagger.android.support.AndroidSupportInjection
 import timber.log.Timber
@@ -22,6 +24,20 @@ abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>
     protected abstract val layoutResId: Int
         @LayoutRes
         get
+
+    protected open val titleRes: Int = NO_TITLE
+        @StringRes
+        get
+
+    protected open val title: String
+        get() = titleRes.takeIf { it != NO_TITLE }?.let {
+            getString(it)
+        } ?: ""
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,9 +54,23 @@ abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>
         presenter.attachView(this as V)
     }
 
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
+    override fun onStart() {
+        super.onStart()
+        getToolbar()?.let { toolbar ->
+            toolbar.post {
+                toolbar.title = title
+            }
+        }
+    }
+
+    fun showTitle(title: String) {
+        getToolbar()?.also {
+            it.title = title
+        }
+    }
+
+    fun showTitle(@StringRes titleRes: Int) {
+        showTitle(getString(titleRes))
     }
 
     override fun onDestroyView() {
@@ -56,14 +86,33 @@ abstract class BaseFragment<V : BaseContract.View, P : BaseContract.Presenter<V>
         //TODO not implemented
     }
 
-    fun setTitle(@StringRes titleRes: Int) {
-        (activity as? AppCompatActivity)?.supportActionBar?.setTitle(titleRes)
-            ?: Timber.e("SupportActionBar not found!")
-    }
-
     protected fun isPresenterInitialized() = ::presenter.isInitialized
 
-    fun requireArguments(): Bundle {
-        return arguments ?: throw IllegalStateException("Arguments not found")
+    protected fun getToolbar(): Toolbar? {
+        return getBaseActivity().getToolbar()
+    }
+
+    protected fun setBackButtonVisibility(visible: Boolean) {
+        (activity as? AppCompatActivity)?.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(visible)
+            setDisplayShowHomeEnabled(visible)
+        }
+    }
+
+    protected fun writeToActivityStorage(key: String, value: Parcelable) {
+        getBaseActivity().writeToStorage(key, value)
+    }
+
+    protected fun <T : Parcelable> readFromActivityStorage(key: String) =
+        getBaseActivity().readFromStorage<T>(key)
+
+    protected fun removeFromActivityStorage(key: String) =
+        getBaseActivity().removeFromStorage(key)
+
+    private fun getBaseActivity() = activity as BaseActivity<*, *>
+
+    companion object {
+
+        private const val NO_TITLE = 0
     }
 }

@@ -1,8 +1,8 @@
 apply from: '../versions.gradle'
+
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion versions.android.compileSdk
@@ -23,6 +23,10 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 androidExtensions {
@@ -31,7 +35,9 @@ androidExtensions {
 
 dependencies {
     /* android */
+    implementation "androidx.constraintlayout:constraintlayout:$versions.androidx.constraint"
     api "com.android.support:appcompat-v7:$versions.androidx.appcompat"
+    api "com.google.android.material:material:$versions.androidx.material"
 
     /* kotlin */
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -47,6 +53,13 @@ dependencies {
 
     /* navigation */
     api "ru.terrakok.cicerone:cicerone:$versions.navigation.cicerone"
+
+    /* tutorial */
+    api "com.github.takusemba:spotlight:$versions.utils.tutorial"
+
+    /* modules */
+    api project(":infrastructure")
+    api project(":resources")
 }
 repositories {
     mavenCentral()

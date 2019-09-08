@@ -1,0 +1,53 @@
+apply from: '../versions.gradle'
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion versions.android.compileSdk
+    defaultConfig {
+        minSdkVersion versions.android.minSdk
+        targetSdkVersion versions.android.targetSdk
+        versionCode versions.application.versionCode
+        versionName versions.application.versionName
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+    // dagger
+    kapt "com.google.dagger:dagger-android-processor:$versions.frameworks.dagger"
+    kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
+    // room
+    api "androidx.room:room-runtime:$versions.frameworks.room"
+    kapt "androidx.room:room-compiler:$versions.frameworks.room"
+    implementation "androidx.room:room-coroutines:$versions.frameworks.room"
+    // json
+    implementation "com.google.code.gson:gson:$versions.frameworks.gson"
+    // modules
+    implementation project(':infrastructure')
+}

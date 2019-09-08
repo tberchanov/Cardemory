@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Common</string>
+    <string name="app_name">Base</string>
+    <string name="cancel">Cancel</string>
+    <string name="long_press">Long press…</string>
 </resources>

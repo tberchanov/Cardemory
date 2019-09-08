@@ -1,5 +1,5 @@
 static String getVersionName() {
-    return "1.0.0"
+    return "1.0.4"
 }
 
 static int getVersionCode() {
@@ -12,32 +12,46 @@ static int getVersionCode() {
 
 ext {
     versions = [
-            mvp_pattern_version: "0.1.0",
-            application        : [
+            application: [
                     versionName: getVersionName(),
                     versionCode: getVersionCode()
             ],
-            android            : [
+            android    : [
                     compileSdk: 28,
                     minSdk    : 22,
                     targetSdk : 28,
             ],
-            androidx           : [
+            androidx   : [
                     appcompat : "1.1.0-alpha02",
                     ktx       : "1.1.0-alpha04",
                     constraint: "1.1.3",
-                    material  : "1.0.0"
+                    material  : "1.1.0-alpha09"
             ],
-            navigation         : [
+            navigation : [
                     cicerone: "5.0.0",
             ],
-            frameworks         : [
-                    dagger    : "2.21",
-                    coroutines: "1.1.1"
+            frameworks : [
+                    dagger        : "2.23.1",
+                    coroutines    : "1.1.1",
+                    room          : "2.1.0-alpha04",
+                    gson          : "2.8.5"
             ],
-            utils              : [
+            utils      : [
                     leakcanary: "1.6.3",
-                    timber    : "4.7.1"
+                    timber    : "4.7.1",
+                    tutorial  : "1.8.0"
+            ],
+            firebase   : [
+                    core       : "17.1.0",
+                    ml_vision  : "23.0.0",
+                    crashlytics: "2.10.1"
+            ],
+            tests      : [
+                    junit    : "4.12",
+                    powermock: "2.0.2",
+                    androidx : [
+                            "test": "1.0.0"
+                    ]
             ],
     ]
 }

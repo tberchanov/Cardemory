@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="train_card_corner_radius">10dp</dimen>
+    <dimen name="star_size">60dp</dimen>
+    <dimen name="forget_hint_overlay_left">50dp</dimen>
+    <dimen name="reminded_hint_overlay_left">95dp</dimen>
+    <dimen name="forget_reminded_hint_overlay_top">550dp</dimen>
+    <dimen name="forget_reminded_hint_horizontal_padding">20dp</dimen>
+    <dimen name="train_card_hint_overlay_left">50dp</dimen>
+    <dimen name="train_card_hint_overlay_top">10dp</dimen>
+    <dimen name="train_card_hint_padding">20dp</dimen>
+    <dimen name="train_button_description_top_margin">60dp</dimen>
+</resources>

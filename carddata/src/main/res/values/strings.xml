@@ -1,0 +1,68 @@
+<resources>
+    <string name="app_name">CardData</string>
+    <string name="capitals">Capitals</string>
+    <string-array name="capitals_titles">
+        <item>Ukraine</item>
+        <item>Australia</item>
+        <item>United Arab Emirates</item>
+        <item>United Kingdom</item>
+        <item>Uruguay</item>
+        <item>Vietnam</item>
+        <item>Spain</item>
+        <item>Slovakia</item>
+        <item>Slovenia</item>
+        <item>Singapore</item>
+        <item>Romania</item>
+        <item>Qatar</item>
+        <item>Portugal</item>
+        <item>Poland</item>
+        <item>Peru</item>
+        <item>Paraguay</item>
+        <item>Panama</item>
+        <item>Norway</item>
+        <item>Nepal</item>
+        <item>Monaco</item>
+        <item>Mexico</item>
+        <item>Malta</item>
+        <item>Maldives</item>
+        <item>Kazakhstan</item>
+        <item>Italy</item>
+        <item>Greece</item>
+        <item>Finland</item>
+        <item>Estonia</item>
+        <item>Egypt</item>
+        <item>Cyprus</item>
+    </string-array>
+    <string-array name="capitals_descriptions">
+        <item>Kyiv</item>
+        <item>Canberra</item>
+        <item>Abu Dhabi</item>
+        <item>London</item>
+        <item>Montevideo</item>
+        <item>Hanoi</item>
+        <item>Madrid</item>
+        <item>Bratislava</item>
+        <item>Ljubljana</item>
+        <item>Singapore</item>
+        <item>Bucharest</item>
+        <item>Doha</item>
+        <item>Lisbon</item>
+        <item>Warsaw</item>
+        <item>Lima</item>
+        <item>Asuncion</item>
+        <item>Panama City</item>
+        <item>Oslo</item>
+        <item>Kathmandu</item>
+        <item>Monaco</item>
+        <item>Mexico City</item>
+        <item>Valletta</item>
+        <item>Male</item>
+        <item>Astana</item>
+        <item>Rome</item>
+        <item>Athens</item>
+        <item>Helsinki</item>
+        <item>Tallinn</item>
+        <item>Cairo</item>
+        <item>Nicosia</item>
+    </string-array>
+</resources>

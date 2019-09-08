@@ -1,0 +1,55 @@
+apply from: '../versions.gradle'
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion versions.android.compileSdk
+    defaultConfig {
+        minSdkVersion versions.android.minSdk
+        targetSdkVersion versions.android.targetSdk
+        versionCode versions.application.versionCode
+        versionName versions.application.versionName
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+
+    // log
+    api "com.jakewharton.timber:timber:$versions.utils.timber"
+
+    // kotlin
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // testing
+    testImplementation "junit:junit:$versions.tests.junit"
+    testImplementation "org.mockito:mockito-core:2.4.0"
+    testImplementation "org.powermock:powermock-core:1.7.0RC2"
+    testImplementation "org.powermock:powermock-module-junit4:1.7.0RC2"
+    testImplementation "org.powermock:powermock-api-mockito2:1.7.0RC2"
+    testImplementation "androidx.test:core:$versions.tests.androidx.test"
+}

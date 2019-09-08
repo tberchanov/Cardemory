@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="create_card_hint_overlay_top">60dp</dimen>
+    <dimen name="create_card_hint_overlay_left">180dp</dimen>
+    <dimen name="training_hint_width_paddings">45dp</dimen>
+    <dimen name="training_hint_overlay_left">45dp</dimen>
+    <dimen name="training_hint_overlay_top">100dp</dimen>
+    <dimen name="export_hint_overlay_left">250dp</dimen>
+    <dimen name="export_hint_overlay_top">40dp</dimen>
+</resources>

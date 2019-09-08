@@ -1,1 +1,13 @@
-include ':app', ':base', ':exampleapp'
+include ':app',
+        ':ocr',
+        ':memorykit',
+        ':resources',
+        ':memory_label',
+        ':base',
+        ':cardlist',
+        ':carddata',
+        ':infrastructure',
+        ':cardeditor',
+        ':cardsetlist',
+        ':card_set_editor',
+        ':train'

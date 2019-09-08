@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="pomegranate">#F44336</color>
+    <color name="fruit_salad_80">#804CAF50</color>
+    <color name="pomegranate_80">#80F44336</color>
+    <color name="black">#000</color>
+    <color name="white">#FFF</color>
+    <color name="gorse">#FFEB3B</color>
+</resources>

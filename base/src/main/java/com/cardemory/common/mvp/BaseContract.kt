@@ -2,8 +2,7 @@ package com.cardemory.common.mvp
 
 import android.os.Bundle
 import androidx.annotation.StringRes
-
-import com.cardemory.common.domain.Failure
+import com.cardemory.infrastructure.entity.Failure
 
 interface BaseContract {
 

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">card_set_editor</string>
+    <string name="name_hint">Name</string>
+    <string name="title_create_card_set">Create card set</string>
+    <string name="title_edit_edit_card_set">Edit card set</string>
+    <string name="import_from_file">Import from file</string>
+    <string name="invalid_file_format">Invalid file contents format!</string>
+    <string name="empty_name_error">Let\'s enter the name</string>
+    <string name="import_card_set">Import card set</string>
+    <string name="import_card_set_description">You can import card sets\nfrom the files</string>
+</resources>

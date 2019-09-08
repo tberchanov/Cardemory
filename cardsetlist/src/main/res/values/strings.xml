@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">CardSetList</string>
+    <string name="title">Cardemory</string>
+    <string name="create_your_first_card_set">Create your first card set</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="selected_format">Selected: %d</string>
+    <string name="welcome">Welcome</string>
+    <string name="start_tutorial">Start short tutorial</string>
+    <string name="skip_tutorial">Skip</string>
+    <string name="create_card_set">Create card set</string>
+    <string name="create_card_set_description">You can create card sets\nby this button</string>
+</resources>

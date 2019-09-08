@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CardList</string>
+    <string name="title">Cardemory</string>
+    <string name="not_enough_cards_format">Not enough cards for training. %d cards more.</string>
+    <string name="create_first_card_format">Create your fist card\nin \'%s\' cardset</string>
+    <string name="export_to_file">Export to file</string>
+    <string name="exporting">Exporting</string>
+    <string name="success_export_format">Exported: %s</string>
+    <string name="missing_permission">Missing permission</string>
+    <string name="missing_permission_message">"Permission is required for exporting into file. You can provide it in the settings."</string>
+    <string name="go_to_settings">Go to settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="selected_format">Selected: %d</string>
+    <string name="create_card">Create card</string>
+    <string name="start_training">Start training</string>
+    <string name="start_training_description">You should have at least 10 cards\nfor start training</string>
+    <string name="export_card_set">Export card set\nto the file</string>
+</resources>

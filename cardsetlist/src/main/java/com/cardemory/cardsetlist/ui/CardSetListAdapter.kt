@@ -1,5 +1,6 @@
 package com.cardemory.cardsetlist.ui
 
+import android.view.ContextMenu
 import android.view.View
 import com.cardemory.carddata.entity.CardSet
 import com.cardemory.cardsetlist.R
@@ -23,30 +24,41 @@ class CardSetListAdapter(
 
     inner class CardSetHolder(itemView: View) : BaseHolder<CardSet>(itemView) {
 
-        override fun bind(uiEntity: CardSet, position: Int) {
-            super.bind(uiEntity, position)
+        @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+        override fun bind(cardSet: CardSet, position: Int) {
+            super.bind(cardSet, position)
             itemView.container.setOnClickListener {
-                onCardSetClicked(uiEntity)
+                onCardSetClicked(cardSet)
             }
             itemView.container.setOnCreateContextMenuListener { menu, _, _ ->
-                menu.add(R.string.edit).setOnMenuItemClickListener {
-                    onEditClicked(uiEntity)
-                    true
-                }
-                menu.add(R.string.delete).setOnMenuItemClickListener {
-                    onDeleteClicked(uiEntity)
-                    true
-                }
+                onCreateCardSetMenu(menu, cardSet)
             }
             itemView.container.isLongClickable = !selectionMode
-            itemView.cardSetNameTextView.text = uiEntity.name
+            itemView.cardSetNameTextView.text = cardSet.name
 
             itemView.cardSetCheckBox.setVisible(selectionMode)
             itemView.cardSetCheckBox.isChecked = isItemPositionSelected(adapterPosition)
 
             itemView.memoryLabelImageView.setVisible(!selectionMode)
-            cardSetMemoryLabelTransformer.transform(uiEntity).let {
-                itemView.memoryLabelImageView.setBackgroundResource(it!!)
+            showMemoryLabelIfNeeded(cardSet)
+        }
+
+        private fun showMemoryLabelIfNeeded(cardSet: CardSet) {
+            if (cardSet.cards.isNotEmpty()) {
+                cardSetMemoryLabelTransformer.transform(cardSet).let {
+                    itemView.memoryLabelImageView.setBackgroundResource(it!!)
+                }
+            }
+        }
+
+        private fun onCreateCardSetMenu(menu: ContextMenu, cardSet: CardSet) {
+            menu.add(R.string.edit).setOnMenuItemClickListener {
+                onEditClicked(cardSet)
+                true
+            }
+            menu.add(R.string.delete).setOnMenuItemClickListener {
+                onDeleteClicked(cardSet)
+                true
             }
         }
 

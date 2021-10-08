@@ -37,13 +37,6 @@ class CardListPresenter constructor(
 ) : BasePresenter<CardListContract.View>(),
     CardListContract.Presenter {
 
-    override fun attachView(view: CardListContract.View) {
-        super.attachView(view)
-        launch(Dispatchers.Main) {
-            checkPreviousVisit()
-        }
-    }
-
     private suspend fun checkPreviousVisit() = withContext(Dispatchers.IO) {
         val showTutorial = readBooleanInteractor.run(SHOW_TUTORIAL_KEY).valueRight
         if (showTutorial) {
@@ -126,6 +119,9 @@ class CardListPresenter constructor(
 
     private fun onLoadCardSetSuccess(cardSet: CardSet) {
         view?.showCardSetData(cardSet)
+        launch(Dispatchers.Main) {
+            checkPreviousVisit()
+        }
     }
 
     private fun onLoadCardSetFailure(failure: Failure) {

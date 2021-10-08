@@ -270,11 +270,13 @@ class CardListFragment :
     }
 
     override fun showTutorial() {
-        val exportView = requireActivity().findViewById<View>(R.id.action_export)
-        val trainButton = cardsRecyclerView.getChildAt(TRAINING_BUTTON_POSITION)
-        presenter.cardListTutorialSpotlight
-            .createSpotlight(actionButton, exportView, trainButton)
-            .start()
+        val exportView: View? = requireActivity().findViewById<View>(R.id.action_export)
+        val trainButton: View? = cardsRecyclerView.getChildAt(TRAINING_BUTTON_POSITION)
+        if (exportView != null && trainButton != null) {
+            presenter.cardListTutorialSpotlight
+                .createSpotlight(actionButton, exportView, trainButton)
+                .start()
+        }
     }
 
     override fun onBackPressed(): Boolean {

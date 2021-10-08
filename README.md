@@ -31,4 +31,5 @@ This probability calculated based on card **memory rank** and the last time when
 
 ## Future Plans
 1. Fix multimodule architecture. In current approach there are a lot of **api** transitive dependencies, that is incorrect.
-2. Migrate architecture from MVP to MVVM.
+2. Migrate architecture from MVP to MVVM or UDF.
+3. Bind coroutines to screen scopes, instead of GlobalScope.

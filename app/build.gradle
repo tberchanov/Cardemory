@@ -4,7 +4,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion versions.android.compileSdk
@@ -39,8 +38,11 @@ dependencies {
     // android
     implementation "androidx.constraintlayout:constraintlayout:$versions.androidx.constraint"
     // firebase
+    implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation "com.google.firebase:firebase-core:$versions.firebase.core"
-    implementation "com.crashlytics.sdk.android:crashlytics:$versions.firebase.crashlytics"
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
     // dagger
     kapt "com.google.dagger:dagger-android-processor:$versions.frameworks.dagger"
     kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
@@ -60,3 +62,4 @@ assembleAndroidTest.dependsOn('assembleDebug')
 runInstrumentationTestsOnTestLab.dependsOn('assembleAndroidTest')
 
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'

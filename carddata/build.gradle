@@ -44,8 +44,9 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$versions.frameworks.dagger"
     // room
     api "androidx.room:room-runtime:$versions.frameworks.room"
+    api "androidx.room:room-ktx:$versions.frameworks.room"
     kapt "androidx.room:room-compiler:$versions.frameworks.room"
-    implementation "androidx.room:room-coroutines:$versions.frameworks.room"
+
     // json
     implementation "com.google.code.gson:gson:$versions.frameworks.gson"
     // modules

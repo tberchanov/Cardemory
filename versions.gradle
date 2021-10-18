@@ -1,5 +1,5 @@
 static String getVersionName() {
-    return "1.0.5"
+    return "1.0.6"
 }
 
 static int getVersionCode() {
@@ -17,9 +17,9 @@ ext {
                     versionCode: getVersionCode()
             ],
             android    : [
-                    compileSdk: 28,
+                    compileSdk: 29,
                     minSdk    : 22,
-                    targetSdk : 28,
+                    targetSdk : 29,
             ],
             androidx   : [
                     appcompat : "1.1.0-alpha02",

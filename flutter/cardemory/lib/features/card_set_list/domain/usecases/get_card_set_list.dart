@@ -9,6 +9,7 @@ class GetCardSetList extends UseCase<List<CardSet>, NoParams> {
 
   GetCardSetList(this._cardSetRepository);
 
+  @override
   Future<Either<Failure, List<CardSet>>> call(_) async {
     return await _cardSetRepository.getCardSets();
   }

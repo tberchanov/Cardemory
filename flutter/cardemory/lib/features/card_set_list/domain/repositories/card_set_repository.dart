@@ -4,4 +4,5 @@ import 'package:dartz/dartz.dart';
 
 abstract class CardSetRepository {
   Future<Either<Failure, List<CardSet>>> getCardSets();
+  Future<Either<Failure, CardSet>> saveCardSet(CardSet cardSet);
 }

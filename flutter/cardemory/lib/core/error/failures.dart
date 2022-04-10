@@ -9,3 +9,9 @@ abstract class Failure extends Equatable {
   @override
   List<Object> get props => [properties];
 }
+
+class FailureWithMessage extends Failure {
+  final String message;
+
+  FailureWithMessage(this.message);
+}

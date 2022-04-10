@@ -18,8 +18,8 @@ void main() {
     usecase = SaveCardSet(mockCardSetRepository);
   });
 
-  final CardSet cardSetParam = CardSet(1, "Param Stub", List.empty());
-  final CardSet cardSetResult = CardSet(-1, "Result Stub", List.empty());
+  final CardSet cardSetParam = CardSet(id: 1, name: "Param Stub");
+  final CardSet cardSetResult = CardSet(id: -1, name: "Result Stub");
 
   test('should save card set to repository', () async {
     when(mockCardSetRepository.saveCardSet(cardSetParam))

@@ -16,8 +16,9 @@ void main() {
   late Database db;
   late CardSetRepository repository;
 
-  setUpAll(() {
+  setUpAll(() async {
     IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+    await DB.delete();
   });
 
   setUp(() async {

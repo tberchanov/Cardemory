@@ -14,29 +14,30 @@ class CardSetListBloc extends Bloc<CardSetListEvent, CardSetListState> {
 
   CardSetListBloc(this._getCardSetList) : super(CardSetListInitial()) {
     on<CardSetListEvent>((event, emit) async {
-      if (event is CardSetListLoad || state is CardSetListInitial) {
-        await _onCardSetListLoad(emit);
+      await for (final state in _mapEventToState(event)) {
+        emit.call(state);
       }
     });
   }
 
-  Future<void> _onCardSetListLoad(Emitter<CardSetListState> emit) async {
-    emit.call(CardSetListLoading());
+  Stream<CardSetListState> _mapEventToState(CardSetListEvent event) async* {
+    if (event is CardSetListLoad || state is CardSetListInitial) {
+      yield* _onCardSetListLoad();
+    }
+  }
+
+  Stream<CardSetListState> _onCardSetListLoad() async* {
+    yield CardSetListLoading();
     final cardSetsEither = await _getCardSetList(NoParams());
-    cardSetsEither.fold(
-      (failure) => _emitError(emit),
+    yield cardSetsEither.fold(
+      (failure) => CardSetListError(),
       (cardSets) {
         if (cardSets.isEmpty) {
-          emit.call(CardSetListEmpty());
+          return CardSetListEmpty();
         } else {
-          emit.call(CardSetList(cardSets));
+          return CardSetList(cardSets);
         }
       },
     );
-  }
-
-  void _emitError(Emitter<CardSetListState> emit) {
-    // TODO log error
-    emit.call(CardSetListError());
   }
 }

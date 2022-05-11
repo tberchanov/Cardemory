@@ -1,10 +1,11 @@
-import 'package:cardemory/features/card_set_list/data/card_set_table.dart';
+import 'package:cardemory/features/card_set_list/presentation/bloc/card_set_list_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'injection_container.dart' as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
   runApp(MyApp());
 }
 
@@ -16,54 +17,40 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: CardSetListPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class CardSetListPage extends StatelessWidget {
+  const CardSetListPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+      body: FutureBuilder<CardSetListBloc>(
+        future: di.getIt.getAsync<CardSetListBloc>(),
+        builder: (_, asyncSnapshot) {
+          if (asyncSnapshot.hasData) {
+            return BlocProvider(
+              create: (_) => asyncSnapshot.data!,
+              child: BlocBuilder<CardSetListBloc, CardSetListState>(
+                builder: (context, state) => _buildCardSetListPage(state),
+              ),
+            );
+          } else {
+            return Text("error");
+          }
+        },
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+
+Widget _buildCardSetListPage(CardSetListState state) {
+  if (state is CardSetListEmpty) {
+    return Text("Empty");
+  } else {
+    return Text("stub $state");
   }
 }

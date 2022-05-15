@@ -18,10 +18,11 @@ class CardSetListBloc extends Bloc<CardSetListEvent, CardSetListState> {
         emit.call(state);
       }
     });
+    add(CardSetListLoad());
   }
 
   Stream<CardSetListState> _mapEventToState(CardSetListEvent event) async* {
-    if (event is CardSetListLoad || state is CardSetListInitial) {
+    if (event is CardSetListLoad) {
       yield* _onCardSetListLoad();
     }
   }

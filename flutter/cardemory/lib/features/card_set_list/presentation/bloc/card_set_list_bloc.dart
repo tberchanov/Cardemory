@@ -4,16 +4,19 @@ import 'package:cardemory/features/card_set_list/domain/entities/card_set.dart';
 import 'package:cardemory/features/card_set_list/domain/usecases/get_card_set_list.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:developer' as developer;
 
 part 'card_set_list_event.dart';
 
 part 'card_set_list_state.dart';
 
 class CardSetListBloc extends Bloc<CardSetListEvent, CardSetListState> {
+  static const LOG_NAME = "CardSetListBloc";
   final GetCardSetList _getCardSetList;
 
   CardSetListBloc(this._getCardSetList) : super(CardSetListInitial()) {
     on<CardSetListEvent>((event, emit) async {
+      developer.log("Event: $event", name: LOG_NAME);
       await for (final state in _mapEventToState(event)) {
         emit.call(state);
       }

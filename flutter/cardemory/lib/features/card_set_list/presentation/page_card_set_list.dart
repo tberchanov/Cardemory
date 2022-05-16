@@ -2,10 +2,12 @@ import 'package:cardemory/features/card_set_list/presentation/widget/card_set_li
     as widget;
 import 'package:cardemory/features/card_set_list/presentation/widget/card_set_list_bloc_builder.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:developer' as developer;
 import 'bloc/card_set_list_bloc.dart';
 
 class PageCardSetList extends StatelessWidget {
+  static const LOG_NAME = "PageCardSetList";
+
   const PageCardSetList({Key? key}) : super(key: key);
 
   @override
@@ -14,6 +16,7 @@ class PageCardSetList extends StatelessWidget {
   }
 
   Widget _buildCardSetListPage(CardSetListState state) {
+    developer.log("State: $state", name: LOG_NAME);
     if (state is CardSetListEmpty) {
       return Text("Empty");
     } else if (state is CardSetList) {

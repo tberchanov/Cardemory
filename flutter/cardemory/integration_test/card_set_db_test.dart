@@ -23,7 +23,7 @@ void main() {
 
   setUp(() async {
     db = await DB.create();
-    repository = CardSetRepositoryImpl(db);
+    repository = CardSetRepositoryDb(db);
   });
 
   tearDown(() async {

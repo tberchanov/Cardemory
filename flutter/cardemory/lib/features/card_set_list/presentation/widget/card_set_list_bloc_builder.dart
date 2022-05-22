@@ -1,5 +1,5 @@
-import 'dart:io';
-import 'package:cardemory/core/error/failures.dart';
+import 'dart:developer' as developer;
+
 import 'package:cardemory/injection_container.dart' as di;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,8 +24,12 @@ class CardSetListBlocBuilder extends StatelessWidget {
             ),
           );
         } else {
-          stderr.writeln("CardSetListBloc is not available!");
-          throw FailureWithMessage("CardSetListBloc is not available!");
+          // TODO figure out why CardSetListBloc is not available
+          developer.log("CardSetListBloc is not available", name: "CardSetListBlocBuilder");
+          // throw FailureWithMessage("CardSetListBloc is not available!");
+          return Center(
+            child: Text("CardSetListBloc is not available"),
+          );
         }
       },
     );

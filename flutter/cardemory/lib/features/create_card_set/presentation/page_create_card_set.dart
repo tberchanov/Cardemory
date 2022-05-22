@@ -1,12 +1,29 @@
+import 'package:cardemory/core/navigation/app_page.dart';
+import 'package:cardemory/core/navigation/app_page_factory.dart';
 import 'package:flutter/material.dart';
 
-class PageCreateCardSet extends StatelessWidget {
-  const PageCreateCardSet({Key? key}) : super(key: key);
+class PageCreateCardSetFactory extends AppPageFactory {
+  @override
+  AppPage? build(String route) {
+    if (route == "card-set-create") {
+      return PageCreateCardSet();
+    } else {
+      return null;
+    }
+  }
+}
+
+class PageCreateCardSet extends AppPage {
+  PageCreateCardSet()
+      : super(
+          Scaffold(
+            appBar: AppBar(),
+            body: Center(
+              child: Text("Create Card Set"),
+            ),
+          ),
+        );
 
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text("Create Card Set"),
-    );
-  }
+  String get routeName => "/card-set-create";
 }

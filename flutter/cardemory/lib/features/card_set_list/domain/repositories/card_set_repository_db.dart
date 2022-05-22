@@ -6,10 +6,10 @@ import 'package:cardemory/features/card_set_list/domain/repositories/card_set_re
 import 'package:dartz/dartz.dart';
 import 'package:sqflite/sqflite.dart';
 
-class CardSetRepositoryImpl extends CardSetRepository {
+class CardSetRepositoryDb extends CardSetRepository {
   final Database _db;
 
-  CardSetRepositoryImpl(this._db);
+  CardSetRepositoryDb(this._db);
 
   @override
   Future<Either<Failure, List<CardSet>>> getCardSets() async {

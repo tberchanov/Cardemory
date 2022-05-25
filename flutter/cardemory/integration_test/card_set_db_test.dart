@@ -1,11 +1,10 @@
 import 'package:cardemory/core/db.dart';
 import 'package:cardemory/core/error/failures.dart';
+import 'package:cardemory/features/card_set_list/data/repositories/card_set_repository_db.dart';
 import 'package:cardemory/features/card_set_list/domain/entities/card_set.dart';
 import 'package:cardemory/features/card_set_list/domain/repositories/card_set_repository.dart';
-import 'package:cardemory/features/card_set_list/domain/repositories/card_set_repository_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:sqflite/sqflite.dart';
 
 void onUnexpectedFailure(Failure failure) {
   print('Unexpected failure: $failure');
@@ -13,22 +12,21 @@ void onUnexpectedFailure(Failure failure) {
 }
 
 void main() {
-  late Database db;
+  late DB db = DB();
   late CardSetRepository repository;
 
   setUpAll(() async {
     IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-    await DB.delete();
+    await db.delete();
   });
 
   setUp(() async {
-    db = await DB.create();
-    repository = CardSetRepositoryDb(db);
+    db = DB();
+    repository = CardSetRepositoryDb.fromDB(db);
   });
 
   tearDown(() async {
-    await db.close();
-    await DB.delete();
+    await db.delete();
   });
 
   testWidgets('test CardSet db saveCardSet', (WidgetTester tester) async {

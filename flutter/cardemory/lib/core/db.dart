@@ -4,7 +4,6 @@ import 'package:sqflite/sqflite.dart';
 import '../features/card_set_list/data/card_set_table.dart';
 
 class DB {
-
   static var _dbPath = "";
 
   static Future<String> _getCardemoryDbPath() async {
@@ -14,17 +13,23 @@ class DB {
     return _dbPath;
   }
 
-  static Future<Database> create() async {
-    return openDatabase(
-      await _getCardemoryDbPath(),
-      version: 1,
-      onCreate: (db, version) {
-        return CardSetTable.create(db);
-      },
-    );
+  Database? _db;
+
+  Future<Database> create() async {
+    if (_db == null) {
+      _db = await openDatabase(
+        await _getCardemoryDbPath(),
+        version: 1,
+        onCreate: (db, version) => CardSetTable.create(db),
+      );
+    }
+
+    return _db!;
   }
 
-  static Future<void> delete() async {
-    deleteDatabase(await _getCardemoryDbPath());
+  Future<void> delete() async {
+    _db?.close();
+    await deleteDatabase(await _getCardemoryDbPath());
+    _db = null;
   }
 }

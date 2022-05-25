@@ -17,7 +17,7 @@ class PageCreateCardSet extends AppPage {
   PageCreateCardSet()
       : super(
           Scaffold(
-            appBar: AppBar(),
+            // appBar: AppBar(),
             body: Center(
               child: Text("Create Card Set"),
             ),

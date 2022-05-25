@@ -2,9 +2,9 @@ import 'dart:developer' as developer;
 
 import 'package:cardemory/core/navigation/app_page.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
+import 'package:cardemory/core/widgets/bloc_renderer.dart';
 import 'package:cardemory/features/card_set_list/presentation/widget/card_set_list.dart'
     as widget;
-import 'package:cardemory/features/card_set_list/presentation/widget/card_set_list_bloc_builder.dart';
 import 'package:cardemory/features/create_card_set/presentation/page_create_card_set.dart';
 import 'package:flutter/material.dart';
 
@@ -18,10 +18,9 @@ class PageCardSetList extends AppPage {
       : super(
           Scaffold(
             appBar: AppBar(),
-            body: Center(
-              child: Text("Card Set List"),
+            body: BlocRenderer<CardSetListBloc, CardSetListState>(
+              (state) => CardSetListContent(state),
             ),
-            /*CardSetListBlocBuilder((state) => CardSetListContent(state)),*/
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 developer.log("FAB onPressed", name: "PageCardSetList");

@@ -34,7 +34,10 @@ class CardSetListBloc extends Bloc<CardSetListEvent, CardSetListState> {
     yield CardSetListLoading();
     final cardSetsEither = await _getCardSetList(NoParams());
     yield cardSetsEither.fold(
-      (failure) => CardSetListError(),
+      (failure) {
+        developer.log("getCardSetList failure: $failure", name: "CardSetListBloc");
+        return CardSetListError();
+      },
       (cardSets) {
         if (cardSets.isEmpty) {
           return CardSetListEmpty();

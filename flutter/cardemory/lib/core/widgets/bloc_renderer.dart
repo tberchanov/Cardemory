@@ -6,7 +6,7 @@ class BlocRenderer<B extends StateStreamableSource<S>, S>
     extends StatelessWidget {
   final Widget Function(S state) _renderPage;
 
-  const BlocRenderer(this._renderPage);
+  const BlocRenderer(this._renderPage, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

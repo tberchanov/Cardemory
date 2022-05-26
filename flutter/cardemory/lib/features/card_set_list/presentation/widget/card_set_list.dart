@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CardSetList extends StatelessWidget {
   final List<CardSet> _cardSets;
 
-  const CardSetList(this._cardSets);
+  const CardSetList(this._cardSets, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class PageNotFound extends AppPage {
   PageNotFound()
-      : super(Scaffold(
+
+      : super(const Scaffold(
           body: Center(
             child: Text("Page Not Found"),
           ),

@@ -8,7 +8,7 @@ import 'package:dartz/dartz.dart';
 import 'package:sqflite/sqflite.dart';
 
 class CardSetRepositoryDb extends CardSetRepository {
-  Future<Database> _dbFuture;
+  final Future<Database> _dbFuture;
 
   CardSetRepositoryDb(this._dbFuture);
 

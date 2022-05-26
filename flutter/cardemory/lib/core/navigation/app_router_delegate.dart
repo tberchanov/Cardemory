@@ -39,12 +39,18 @@ class AppRouterDelegate extends RouterDelegate<RoutePath>
   }
 
   @override
-  RoutePath get currentConfiguration => RoutePath(_navRegistry
-      .getPages()
-      .map((page) => page.routeName)
-      .join()
-      .replaceAll("//", "/"));
+  RoutePath get currentConfiguration => RoutePath(
+        _navRegistry
+            .getPages()
+            .map((page) => page.routeName)
+            .join()
+            .replaceAll("//", "/"),
+      );
 
   @override
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+  void refresh() {
+    notifyListeners();
+  }
 }

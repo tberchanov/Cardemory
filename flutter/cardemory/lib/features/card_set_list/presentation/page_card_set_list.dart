@@ -6,12 +6,12 @@ import 'package:cardemory/core/widgets/bloc_renderer.dart';
 import 'package:cardemory/features/card_set_list/presentation/widget/card_set_list.dart'
     as widget;
 import 'package:cardemory/features/create_card_set/presentation/page_create_card_set.dart';
+import 'package:cardemory/injection_container.dart' as di;
 import 'package:flutter/material.dart';
 
 import 'bloc/card_set_list_bloc.dart';
-import 'package:cardemory/injection_container.dart' as di;
 
-const _LOG_NAME = "PageCardSetList";
+const _logName = "PageCardSetList";
 
 class PageCardSetList extends AppPage {
   PageCardSetList()
@@ -37,17 +37,17 @@ class PageCardSetList extends AppPage {
 class CardSetListContent extends StatelessWidget {
   final CardSetListState _state;
 
-  const CardSetListContent(this._state);
+  const CardSetListContent(this._state, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    developer.log("State: $_state", name: _LOG_NAME);
+    developer.log("State: $_state", name: _logName);
     return _buildCardSetListContent(_state);
   }
 
   Widget _buildCardSetListContent(CardSetListState state) {
     if (state is CardSetListEmpty) {
-      return Text("Empty");
+      return const Text("Empty");
     } else if (state is CardSetList) {
       return widget.CardSetList(state.cardSets);
     } else {

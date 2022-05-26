@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
 class CardSet extends Equatable {
-  static const UNKNOWN_ID = -1;
+  static const unknownId = -1;
 
   final int id;
   final String name;
 
-  CardSet({this.id = UNKNOWN_ID, required this.name});
+  const CardSet({this.id = unknownId, required this.name});
 
   CardSet copyWith({
     int? id,

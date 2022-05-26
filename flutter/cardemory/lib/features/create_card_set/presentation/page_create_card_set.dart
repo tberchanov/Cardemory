@@ -16,7 +16,7 @@ class PageCreateCardSetFactory extends AppPageFactory {
 class PageCreateCardSet extends AppPage {
   PageCreateCardSet()
       : super(
-          Scaffold(
+          const Scaffold(
             // appBar: AppBar(),
             body: Center(
               child: Text("Create Card Set"),

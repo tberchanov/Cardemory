@@ -6,25 +6,25 @@ class CardSetDbModel extends Equatable {
   final int? id;
   final String name;
 
-  CardSetDbModel(this.id, this.name);
+  const CardSetDbModel(this.id, this.name);
 
   CardSetDbModel.fromEntity(CardSet cardSet)
-      : this.id = cardSet.id == CardSet.UNKNOWN_ID ? null : cardSet.id,
-        this.name = cardSet.name;
+      : id = cardSet.id == CardSet.unknownId ? null : cardSet.id,
+        name = cardSet.name;
 
   CardSetDbModel.fromMap(Map<String, dynamic> map)
-      : this.id = map[CardSetTable.property_id],
-        this.name = map[CardSetTable.property_name];
+      : id = map[CardSetTable.propertyId],
+        name = map[CardSetTable.propertyName];
 
   Map<String, dynamic> toMap() {
     return {
-      if (id != null) CardSetTable.property_id: id,
-      CardSetTable.property_name: name,
+      if (id != null) CardSetTable.propertyId: id,
+      CardSetTable.propertyName: name,
     };
   }
 
   CardSet toEntity() {
-    return CardSet(id: id == null ? CardSet.UNKNOWN_ID : id!, name: name);
+    return CardSet(id: id == null ? CardSet.unknownId : id!, name: name);
   }
 
   @override

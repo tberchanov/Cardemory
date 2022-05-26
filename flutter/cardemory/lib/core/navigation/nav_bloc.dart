@@ -1,9 +1,9 @@
+import 'dart:developer' as developer;
+
 import 'package:cardemory/core/navigation/app_page.dart';
 import 'package:cardemory/core/navigation/navigation_registry.dart';
-import 'package:cardemory/features/card_set_list/presentation/page_card_set_list.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:developer' as developer;
 
 abstract class NavEvent extends Equatable {}
 

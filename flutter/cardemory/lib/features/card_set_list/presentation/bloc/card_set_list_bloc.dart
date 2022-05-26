@@ -11,12 +11,12 @@ part 'card_set_list_event.dart';
 part 'card_set_list_state.dart';
 
 class CardSetListBloc extends Bloc<CardSetListEvent, CardSetListState> {
-  static const LOG_NAME = "CardSetListBloc";
+  static const logName = "CardSetListBloc";
   final GetCardSetList _getCardSetList;
 
   CardSetListBloc(this._getCardSetList) : super(CardSetListInitial()) {
     on<CardSetListEvent>((event, emit) async {
-      developer.log("Event: $event", name: LOG_NAME);
+      developer.log("Event: $event", name: logName);
       await for (final state in _mapEventToState(event)) {
         emit.call(state);
       }

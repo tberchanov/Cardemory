@@ -6,6 +6,8 @@ import 'package:cardemory/features/card_set_list/domain/repositories/card_set_re
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
+// ignore_for_file: avoid_print
+
 void onUnexpectedFailure(Failure failure) {
   print('Unexpected failure: $failure');
   assert(false);
@@ -30,20 +32,20 @@ void main() {
   });
 
   testWidgets('test CardSet db saveCardSet', (WidgetTester tester) async {
-    final cardSet1Name = "Stub Card Set1";
-    final cardSet2Name = "Stub Card Set2";
-    final cardSet1 = CardSet(name: cardSet1Name);
-    final cardSet2 = CardSet(name: cardSet2Name);
+    const cardSet1Name = "Stub Card Set1";
+    const cardSet2Name = "Stub Card Set2";
+    const cardSet1 = CardSet(name: cardSet1Name);
+    const cardSet2 = CardSet(name: cardSet2Name);
 
     final createdCardSet1 = await repository.saveCardSet(cardSet1);
     final createdCardSet2 = await repository.saveCardSet(cardSet2);
     final cardSetsEither = await repository.getCardSets();
 
     createdCardSet1.fold(onUnexpectedFailure, (cardSet) {
-      assert(cardSet.id != CardSet.UNKNOWN_ID);
+      assert(cardSet.id != CardSet.unknownId);
     });
     createdCardSet2.fold(onUnexpectedFailure, (cardSet) {
-      assert(cardSet.id != CardSet.UNKNOWN_ID);
+      assert(cardSet.id != CardSet.unknownId);
     });
     cardSetsEither.fold(onUnexpectedFailure, (cardSets) {
       expect(cardSets.length, 2);

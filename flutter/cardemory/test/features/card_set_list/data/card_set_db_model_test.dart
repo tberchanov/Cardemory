@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('should create card set db model', () {
-    late CardSet cardSet = CardSet(id: 42, name: "Stub Card Set");
+    late CardSet cardSet = const CardSet(id: 42, name: "Stub Card Set");
     final CardSetDbModel dbModel = CardSetDbModel.fromEntity(cardSet);
     final expectedMap = {
       'id': 42,
@@ -17,7 +17,7 @@ void main() {
   });
 
   test('should create card set db model without id', () {
-    late CardSet cardSet = CardSet(name: "Stub Card Set");
+    late CardSet cardSet = const CardSet(name: "Stub Card Set");
     final CardSetDbModel dbModel = CardSetDbModel.fromEntity(cardSet);
     final expectedMap = {'name': "Stub Card Set"};
 
@@ -31,9 +31,9 @@ void main() {
       'id': 42,
       'name': "Stub Card Set",
     };
-    late CardSetDbModel expectedCardSet = CardSetDbModel(42, "Stub Card Set");
+    const expectedCardSet = CardSetDbModel(42, "Stub Card Set");
 
-    final CardSetDbModel dbModel = CardSetDbModel.fromMap(expectedMap);
+    final dbModel = CardSetDbModel.fromMap(expectedMap);
 
     expect(dbModel, expectedCardSet);
   });

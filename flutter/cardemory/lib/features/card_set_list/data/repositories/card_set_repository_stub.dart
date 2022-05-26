@@ -7,7 +7,7 @@ class CardSetRepositoryStub extends CardSetRepository {
 
   @override
   Future<Either<Failure, List<CardSet>>> getCardSets() async {
-    return Right([]);
+    return const Right([]);
   }
 
   @override

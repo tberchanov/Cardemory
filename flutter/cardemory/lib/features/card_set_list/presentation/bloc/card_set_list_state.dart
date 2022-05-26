@@ -18,7 +18,7 @@ class CardSetListError extends CardSetListState {}
 class CardSetList extends CardSetListState {
   final List<CardSet> cardSets;
 
-  CardSetList(this.cardSets);
+  const CardSetList(this.cardSets);
 
   @override
   List<Object> get props => [cardSets];

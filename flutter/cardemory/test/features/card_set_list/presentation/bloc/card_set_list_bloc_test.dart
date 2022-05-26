@@ -37,12 +37,12 @@ void main() {
   });
 
   test('CardSetListBloc loaded state', () async {
-    final expectedCardSets = [CardSet(id: 1, name: "CardSet")];
+    const expectedCardSets = [CardSet(id: 1, name: "CardSet")];
     when(mockGetCardSetList.call(any))
-        .thenAnswer((_) async => Right(expectedCardSets));
+        .thenAnswer((_) async => const Right(expectedCardSets));
     final expectedEmits = [
       CardSetListLoading(),
-      CardSetList(expectedCardSets),
+      const CardSetList(expectedCardSets),
     ];
 
     expectLater(bloc.stream, emitsInOrder(expectedEmits));
@@ -51,9 +51,9 @@ void main() {
   });
 
   test('CardSetListBloc load error', () async {
-    final expectedFailure = FailureWithMessage("Stub Failure");
+    const expectedFailure = FailureWithMessage("Stub Failure");
     when(mockGetCardSetList.call(any))
-        .thenAnswer((_) async => Left(expectedFailure));
+        .thenAnswer((_) async => const Left(expectedFailure));
     final expectedEmits = [
       CardSetListLoading(),
       CardSetListError(),

@@ -16,13 +16,11 @@ class DB {
   Database? _db;
 
   Future<Database> create() async {
-    if (_db == null) {
-      _db = await openDatabase(
+    _db ??= await openDatabase(
         await _getCardemoryDbPath(),
         version: 1,
         onCreate: (db, version) => CardSetTable.create(db),
       );
-    }
 
     return _db!;
   }

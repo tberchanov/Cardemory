@@ -18,16 +18,16 @@ void main() {
     usecase = SaveCardSet(mockCardSetRepository);
   });
 
-  final CardSet cardSetParam = CardSet(id: 1, name: "Param Stub");
-  final CardSet cardSetResult = CardSet(id: -1, name: "Result Stub");
+  const CardSet cardSetParam = CardSet(id: 1, name: "Param Stub");
+  const CardSet cardSetResult = CardSet(id: -1, name: "Result Stub");
 
   test('should save card set to repository', () async {
     when(mockCardSetRepository.saveCardSet(cardSetParam))
-        .thenAnswer((realInvocation) async => Right(cardSetResult));
+        .thenAnswer((realInvocation) async => const Right(cardSetResult));
 
     final result = await usecase(cardSetParam);
 
-    expect(result, Right(cardSetResult));
+    expect(result, const Right(cardSetResult));
     verify(mockCardSetRepository.saveCardSet(cardSetParam));
     verifyNoMoreInteractions(mockCardSetRepository);
   });

@@ -16,6 +16,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  MyApp({Key? key}) : super(key: key);
+
   final routerDelegate = AppRouterDelegate(di.getIt.get(), di.getIt.get());
 
   @override
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
       child: BlocListener<NavBloc, List<AppPage>>(
         listener: (context, state) {
           developer.log("NavBloc builder", name: "MyApp");
-          routerDelegate.notifyListeners();
+          routerDelegate.refresh();
         },
         child: MaterialApp.router(
           routeInformationParser: AppRouteInformationParser(),

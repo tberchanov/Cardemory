@@ -2,15 +2,19 @@
 // in cardemory/test/features/card_set_list/presentation/bloc/card_set_list_bloc_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
-import 'package:cardemory/core/error/failures.dart' as _i5;
-import 'package:cardemory/core/usecases/usecase.dart' as _i7;
+import 'package:cardemory/core/error/failures.dart' as _i6;
+import 'package:cardemory/core/navigation/app_page.dart' as _i10;
+import 'package:cardemory/core/navigation/nav_bloc.dart' as _i9;
+import 'package:cardemory/core/navigation/navigation_registry.dart' as _i3;
+import 'package:cardemory/core/usecases/usecase.dart' as _i8;
 import 'package:cardemory/features/card_set_list/domain/entities/card_set.dart'
-    as _i6;
+    as _i7;
 import 'package:cardemory/features/card_set_list/domain/usecases/get_card_set_list.dart'
-    as _i3;
+    as _i4;
 import 'package:dartz/dartz.dart' as _i2;
+import 'package:flutter_bloc/flutter_bloc.dart' as _i11;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -25,19 +29,88 @@ import 'package:mockito/mockito.dart' as _i1;
 
 class _FakeEither_0<L, R> extends _i1.Fake implements _i2.Either<L, R> {}
 
+class _FakeNavigationRegistry_1 extends _i1.Fake
+    implements _i3.NavigationRegistry {}
+
 /// A class which mocks [GetCardSetList].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetCardSetList extends _i1.Mock implements _i3.GetCardSetList {
+class MockGetCardSetList extends _i1.Mock implements _i4.GetCardSetList {
   MockGetCardSetList() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.CardSet>>> call(
-          _i7.NoParams? _) =>
-      (super.noSuchMethod(Invocation.method(#call, [_]),
-          returnValue: Future<_i2.Either<_i5.Failure, List<_i6.CardSet>>>.value(
-              _FakeEither_0<_i5.Failure, List<_i6.CardSet>>())) as _i4
-          .Future<_i2.Either<_i5.Failure, List<_i6.CardSet>>>);
+  _i5.Future<_i2.Either<_i6.Failure, List<_i7.CardSet>>> call(
+          _i8.NoParams? param) =>
+      (super.noSuchMethod(Invocation.method(#call, [param]),
+          returnValue: Future<_i2.Either<_i6.Failure, List<_i7.CardSet>>>.value(
+              _FakeEither_0<_i6.Failure, List<_i7.CardSet>>())) as _i5
+          .Future<_i2.Either<_i6.Failure, List<_i7.CardSet>>>);
+}
+
+/// A class which mocks [NavBloc].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockNavBloc extends _i1.Mock implements _i9.NavBloc {
+  MockNavBloc() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.NavigationRegistry get navRegistry =>
+      (super.noSuchMethod(Invocation.getter(#navRegistry),
+          returnValue: _FakeNavigationRegistry_1()) as _i3.NavigationRegistry);
+  @override
+  List<_i10.AppPage> get state => (super.noSuchMethod(Invocation.getter(#state),
+      returnValue: <_i10.AppPage>[]) as List<_i10.AppPage>);
+  @override
+  _i5.Stream<List<_i10.AppPage>> get stream =>
+      (super.noSuchMethod(Invocation.getter(#stream),
+              returnValue: Stream<List<_i10.AppPage>>.empty())
+          as _i5.Stream<List<_i10.AppPage>>);
+  @override
+  bool get isClosed =>
+      (super.noSuchMethod(Invocation.getter(#isClosed), returnValue: false)
+          as bool);
+  @override
+  void add(_i9.NavEvent? event) =>
+      super.noSuchMethod(Invocation.method(#add, [event]),
+          returnValueForMissingStub: null);
+  @override
+  void onEvent(_i9.NavEvent? event) =>
+      super.noSuchMethod(Invocation.method(#onEvent, [event]),
+          returnValueForMissingStub: null);
+  @override
+  void emit(List<_i10.AppPage>? state) =>
+      super.noSuchMethod(Invocation.method(#emit, [state]),
+          returnValueForMissingStub: null);
+  @override
+  void on<E extends _i9.NavEvent>(
+          _i11.EventHandler<E, List<_i10.AppPage>>? handler,
+          {_i11.EventTransformer<E>? transformer}) =>
+      super.noSuchMethod(
+          Invocation.method(#on, [handler], {#transformer: transformer}),
+          returnValueForMissingStub: null);
+  @override
+  void onTransition(
+          _i11.Transition<_i9.NavEvent, List<_i10.AppPage>>? transition) =>
+      super.noSuchMethod(Invocation.method(#onTransition, [transition]),
+          returnValueForMissingStub: null);
+  @override
+  _i5.Future<void> close() => (super.noSuchMethod(Invocation.method(#close, []),
+      returnValue: Future<void>.value(),
+      returnValueForMissingStub: Future<void>.value()) as _i5.Future<void>);
+  @override
+  void onChange(_i11.Change<List<_i10.AppPage>>? change) =>
+      super.noSuchMethod(Invocation.method(#onChange, [change]),
+          returnValueForMissingStub: null);
+  @override
+  void addError(Object? error, [StackTrace? stackTrace]) =>
+      super.noSuchMethod(Invocation.method(#addError, [error, stackTrace]),
+          returnValueForMissingStub: null);
+  @override
+  void onError(Object? error, StackTrace? stackTrace) =>
+      super.noSuchMethod(Invocation.method(#onError, [error, stackTrace]),
+          returnValueForMissingStub: null);
 }

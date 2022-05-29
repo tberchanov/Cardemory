@@ -8,6 +8,8 @@ class CardSet extends Equatable {
 
   const CardSet({this.id = unknownId, required this.name});
 
+  const CardSet.name(this.name) : id = unknownId;
+
   CardSet copyWith({
     int? id,
     String? name,

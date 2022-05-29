@@ -13,25 +13,25 @@ import 'bloc/card_set_list_bloc.dart';
 final _log = Logger('PageCardSetList');
 
 class PageCardSetList extends AppPage {
-
-  PageCardSetList()
-      : super(
-          Scaffold(
-            appBar: AppBar(),
-            body: BlocRenderer<CardSetListBloc, CardSetListState>(
-              (state) => CardSetListContent(state),
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                _log.info("FAB onPressed");
-                di.getIt.get<NavBloc>().add(AddPage(PageCreateCardSet()));
-              },
-            ),
-          ),
-        );
-
   @override
   String get routeName => "/";
+
+  @override
+  Widget buildChild() {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Cardemory")),
+      body: BlocRenderer<CardSetListBloc, CardSetListState>(
+        (state, _) => CardSetListContent(state),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          _log.info("onPressed add");
+          di.getIt.get<NavBloc>().add(AddPage(PageCreateCardSet()));
+        },
+      ),
+    );
+  }
 }
 
 class CardSetListContent extends StatelessWidget {

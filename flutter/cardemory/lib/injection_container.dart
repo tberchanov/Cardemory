@@ -5,6 +5,8 @@ import 'package:cardemory/core/navigation/pages_extractor.dart';
 import 'package:cardemory/features/card_set_list/data/repositories/card_set_repository_stub.dart';
 import 'package:cardemory/features/card_set_list/presentation/bloc/card_set_list_bloc.dart';
 import 'package:cardemory/features/card_set_list/presentation/page_card_set_list.dart';
+import 'package:cardemory/features/create_card_set/domain/usecases/save_card_set.dart';
+import 'package:cardemory/features/create_card_set/presentation/bloc/create_card_set_bloc.dart';
 import 'package:cardemory/features/create_card_set/presentation/page_create_card_set.dart';
 import 'package:cardemory/features/not_found/page_not_found.dart';
 import 'package:get_it/get_it.dart';
@@ -27,7 +29,7 @@ void init() {
         ],
       ));
 
-  getIt.registerFactory(() => CardSetListBloc(getIt.get()));
+  getIt.registerFactory(() => CardSetListBloc(getIt.get(), getIt.get()));
 
   getIt.registerFactory(() => GetCardSetList(getIt.get()));
 
@@ -40,6 +42,9 @@ void init() {
       return CardSetRepositoryDb.fromDB(getIt.get());
     }
   });
+
+  getIt.registerFactory(() => SaveCardSet(getIt.get()));
+  getIt.registerFactory(() => CreateCardSetBloc(getIt.get(), getIt.get()));
 
   getIt.allReadySync();
 }

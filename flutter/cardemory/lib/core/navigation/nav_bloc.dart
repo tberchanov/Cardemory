@@ -20,7 +20,7 @@ class AddPage extends NavEvent {
 
 class PopPage extends NavEvent {
   @override
-  List<Object?> get props => [this];
+  List<Object?> get props => [];
 }
 
 class NavBloc extends Bloc<NavEvent, List<AppPage>> {

@@ -1,12 +1,12 @@
-import 'dart:developer' as developer;
-
 import 'package:cardemory/core/navigation/navigation_registry.dart';
 import 'package:cardemory/core/navigation/pages_extractor.dart';
 import 'package:cardemory/core/navigation/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 
 class AppRouterDelegate extends RouterDelegate<RoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<RoutePath> {
+  final _log = Logger('AppRouterDelegate');
   final NavigationRegistry _navRegistry;
   final PagesExtractor _pagesExtractor;
 
@@ -18,8 +18,7 @@ class AppRouterDelegate extends RouterDelegate<RoutePath>
       key: navigatorKey,
       pages: _navRegistry.getPages().map((e) => e.page).toList(),
       onPopPage: (route, result) {
-        developer.log("onPopPage: ${route.settings.name}",
-            name: "AppRouterDelegate");
+        _log.info("onPopPage: ${route.settings.name}");
 
         if (!route.didPop(result)) {
           return false;

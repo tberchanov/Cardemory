@@ -1,5 +1,3 @@
-import 'dart:developer' as developer;
-
 import 'package:cardemory/core/navigation/app_page.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
 import 'package:cardemory/core/widgets/bloc_renderer.dart';
@@ -8,12 +6,14 @@ import 'package:cardemory/features/card_set_list/presentation/widget/card_set_li
 import 'package:cardemory/features/create_card_set/presentation/page_create_card_set.dart';
 import 'package:cardemory/injection_container.dart' as di;
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 
 import 'bloc/card_set_list_bloc.dart';
 
-const _logName = "PageCardSetList";
+final _log = Logger('PageCardSetList');
 
 class PageCardSetList extends AppPage {
+
   PageCardSetList()
       : super(
           Scaffold(
@@ -23,7 +23,7 @@ class PageCardSetList extends AppPage {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                developer.log("FAB onPressed", name: "PageCardSetList");
+                _log.info("FAB onPressed");
                 di.getIt.get<NavBloc>().add(AddPage(PageCreateCardSet()));
               },
             ),
@@ -41,7 +41,7 @@ class CardSetListContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    developer.log("State: $_state", name: _logName);
+    _log.info("State: $_state");
     return _buildCardSetListContent(_state);
   }
 

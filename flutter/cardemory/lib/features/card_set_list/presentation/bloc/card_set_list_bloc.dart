@@ -4,19 +4,19 @@ import 'package:cardemory/features/card_set_list/domain/entities/card_set.dart';
 import 'package:cardemory/features/card_set_list/domain/usecases/get_card_set_list.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'dart:developer' as developer;
+import 'package:logging/logging.dart';
 
 part 'card_set_list_event.dart';
 
 part 'card_set_list_state.dart';
 
 class CardSetListBloc extends Bloc<CardSetListEvent, CardSetListState> {
-  static const logName = "CardSetListBloc";
+  final _log = Logger('CardSetListBloc');
   final GetCardSetList _getCardSetList;
 
   CardSetListBloc(this._getCardSetList) : super(CardSetListInitial()) {
     on<CardSetListEvent>((event, emit) async {
-      developer.log("Event: $event", name: logName);
+      _log.info("Event: $event");
       await for (final state in _mapEventToState(event)) {
         emit.call(state);
       }
@@ -35,7 +35,7 @@ class CardSetListBloc extends Bloc<CardSetListEvent, CardSetListState> {
     final cardSetsEither = await _getCardSetList(NoParams());
     yield cardSetsEither.fold(
       (failure) {
-        developer.log("getCardSetList failure: $failure", name: "CardSetListBloc");
+        _log.warning("getCardSetList failure: $failure");
         return CardSetListError();
       },
       (cardSets) {

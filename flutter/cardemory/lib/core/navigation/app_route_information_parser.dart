@@ -1,12 +1,14 @@
 import 'package:cardemory/core/navigation/route_path.dart';
-import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 
 class AppRouteInformationParser extends RouteInformationParser<RoutePath> {
+  final _log = Logger('AppRouteInformationParser');
+
   @override
   Future<RoutePath> parseRouteInformation(
       RouteInformation routeInformation) async {
-    developer.log("parseRouteInformation", name: "AppRouteInformationParser");
+    _log.info("parseRouteInformation");
     final uri = Uri.tryParse(routeInformation.location ?? "");
     if (uri == null) {
       return RoutePath(routeInformation.location);
@@ -29,7 +31,7 @@ class AppRouteInformationParser extends RouteInformationParser<RoutePath> {
 
   @override
   RouteInformation restoreRouteInformation(RoutePath configuration) {
-    developer.log("restoreRouteInformation", name: "AppRouteInformationParser");
+    _log.info("restoreRouteInformation");
     return RouteInformation(location: configuration.path);
   }
 }

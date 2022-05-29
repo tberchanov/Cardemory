@@ -6,28 +6,38 @@ import 'package:cardemory/core/navigation/app_router_delegate.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:logging/logging.dart';
 import 'injection_container.dart' as di;
 
 void main() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    developer.log(
+      record.message,
+      name: record.loggerName,
+      time: record.time,
+      level: record.level.value,
+    );
+  });
   WidgetsFlutterBinding.ensureInitialized();
   di.init();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  final _log = Logger('MyApp');
   MyApp({Key? key}) : super(key: key);
 
   final routerDelegate = AppRouterDelegate(di.getIt.get(), di.getIt.get());
 
   @override
   Widget build(BuildContext context) {
-    developer.log("build", name: "MyApp");
+    _log.info("build");
     return BlocProvider<NavBloc>.value(
       value: di.getIt.get(),
       child: BlocListener<NavBloc, List<AppPage>>(
         listener: (context, state) {
-          developer.log("NavBloc builder", name: "MyApp");
+          _log.info("NavBloc listener");
           routerDelegate.refresh();
         },
         child: MaterialApp.router(

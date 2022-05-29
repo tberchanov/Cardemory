@@ -1,9 +1,8 @@
-import 'dart:developer' as developer;
-
 import 'package:cardemory/core/navigation/app_page.dart';
 import 'package:cardemory/core/navigation/navigation_registry.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logging/logging.dart';
 
 abstract class NavEvent extends Equatable {}
 
@@ -25,11 +24,12 @@ class PopPage extends NavEvent {
 }
 
 class NavBloc extends Bloc<NavEvent, List<AppPage>> {
+  final _log = Logger('NavBloc');
   final NavigationRegistry navRegistry;
 
   NavBloc(this.navRegistry) : super(navRegistry.getPages()) {
     on<NavEvent>((event, emit) async {
-      developer.log("On event: $event", name: "NavBloc");
+      _log.info("On event: $event");
 
       if (event is AddPage) {
         navRegistry.addPage(event.page);

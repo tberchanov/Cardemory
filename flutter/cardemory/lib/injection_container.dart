@@ -5,6 +5,7 @@ import 'package:cardemory/core/navigation/pages_extractor.dart';
 import 'package:cardemory/features/card_set_list/data/repositories/card_set_repository_stub.dart';
 import 'package:cardemory/features/card_set_list/presentation/bloc/card_set_list_bloc.dart';
 import 'package:cardemory/features/card_set_list/presentation/page_card_set_list.dart';
+import 'package:cardemory/features/cards_list/presentation/page_cards_list.dart';
 import 'package:cardemory/features/create_card_set/domain/usecases/save_card_set.dart';
 import 'package:cardemory/features/create_card_set/presentation/bloc/create_card_set_bloc.dart';
 import 'package:cardemory/features/create_card_set/presentation/page_create_card_set.dart';
@@ -26,6 +27,7 @@ void init() {
         PageNotFound(),
         [
           PageCreateCardSetFactory(),
+          PageCardsListFactory()
         ],
       ));
 

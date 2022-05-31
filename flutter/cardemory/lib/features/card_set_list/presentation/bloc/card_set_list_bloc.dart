@@ -4,6 +4,7 @@ import 'package:cardemory/core/usecases/usecase.dart';
 import 'package:cardemory/features/card_set_list/domain/entities/card_set.dart';
 import 'package:cardemory/features/card_set_list/domain/usecases/get_card_set_list.dart';
 import 'package:cardemory/features/card_set_list/presentation/page_card_set_list.dart';
+import 'package:cardemory/features/cards_list/presentation/page_cards_list.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
@@ -36,6 +37,8 @@ class CardSetListBloc extends Bloc<CardSetListEvent, CardSetListState> {
   Stream<CardSetListState> _mapEventToState(CardSetListEvent event) async* {
     if (event is CardSetListLoad) {
       yield* _onCardSetListLoad();
+    } else if (event is CardSetClick) {
+      _navBloc.add(AddPage(PageCardsList()));
     }
   }
 

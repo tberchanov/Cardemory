@@ -21,7 +21,7 @@ class PageCreateCardSetFactory extends AppPageFactory {
 }
 
 class PageCreateCardSet extends AppPage {
-  final _log = Logger("PageCreateCardSet");
+  static final _log = Logger("PageCreateCardSet");
 
   // TODO need to call dispose for controllers?
   final _nameTextController = TextEditingController();

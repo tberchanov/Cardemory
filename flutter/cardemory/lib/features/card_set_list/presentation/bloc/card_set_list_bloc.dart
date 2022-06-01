@@ -38,7 +38,7 @@ class CardSetListBloc extends Bloc<CardSetListEvent, CardSetListState> {
     if (event is CardSetListLoad) {
       yield* _onCardSetListLoad();
     } else if (event is CardSetClick) {
-      _navBloc.add(AddPage(PageCardsList()));
+      _navBloc.add(AddPage(PageCardsList.fromCardSet(event.cardSet)));
     }
   }
 

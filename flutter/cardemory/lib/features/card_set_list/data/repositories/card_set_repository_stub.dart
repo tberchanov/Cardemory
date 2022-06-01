@@ -5,13 +5,21 @@ import 'package:dartz/dartz.dart';
 
 class CardSetRepositoryStub extends CardSetRepository {
 
+  final List<CardSet> _cardSets = [
+    const CardSet(id: 0, name: "Card Set 1"),
+    const CardSet(id: 1, name: "Card Set 2"),
+    const CardSet(id: 2, name: "Card Set 3"),
+  ];
+
   @override
   Future<Either<Failure, List<CardSet>>> getCardSets() async {
-    return const Right([]);
+    return Right(_cardSets);
   }
 
   @override
   Future<Either<Failure, CardSet>> saveCardSet(CardSet cardSet) async {
-    return Right(cardSet);
+    final cardSetWithId = cardSet.copyWith(id: _cardSets.length);
+    _cardSets.add(cardSetWithId);
+    return Right(cardSetWithId);
   }
 }

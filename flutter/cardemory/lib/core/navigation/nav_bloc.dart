@@ -4,7 +4,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 
-abstract class NavEvent extends Equatable {}
+abstract class NavEvent extends Equatable {
+  static final pop = PopPage();
+
+  static add(AppPage page) => AddPage(page);
+}
 
 class AddPage extends NavEvent {
   final AppPage page;

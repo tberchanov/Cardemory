@@ -33,4 +33,17 @@ class CardSetRepositoryDb extends CardSetRepository {
     );
     return Right(cardSet.copyWith(id: cardSetId));
   }
+
+  @override
+  Future<Either<Failure, CardSet?>> getCardSet(int id) async {
+    final db = await _dbFuture;
+    final query = await db.query(
+      CardSetTable.name,
+      where: "${CardSetTable.propertyId} = ?",
+      whereArgs: [id],
+    );
+    return Right(
+      query.map((map) => CardSetDbModel.fromMap(map).toEntity()).first,
+    );
+  }
 }

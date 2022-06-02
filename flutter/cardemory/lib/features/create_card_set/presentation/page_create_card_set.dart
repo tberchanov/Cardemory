@@ -42,7 +42,7 @@ class PageCreateCardSet extends AppPage {
               ),
               body: Column(
                 children: [
-                  _buildTextField("Name", _nameTextController),
+                  _TextField("Name", _nameTextController),
                 ],
               ),
               floatingActionButton: FloatingActionButton(
@@ -51,19 +51,27 @@ class PageCreateCardSet extends AppPage {
                   _log.info("onPressed add: ${_nameTextController.value.text}");
                   context
                       .read<CreateCardSetBloc>()
-                      .add(CardSetCreate(_nameTextController.text));
+                      .add(CreateCardSetEvent.create(_nameTextController.text));
                 },
               ),
             ),
-            if (state is CreateCardSetLoading)
-              const Loader(),
+            if (state is CreateCardSetLoading) const Loader(),
           ],
         );
       },
     );
   }
+}
 
-  Widget _buildTextField(String labelText, TextEditingController controller) {
+class _TextField extends StatelessWidget {
+  final String labelText;
+  final TextEditingController controller;
+
+  const _TextField(this.labelText, this.controller, {Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: TextField(

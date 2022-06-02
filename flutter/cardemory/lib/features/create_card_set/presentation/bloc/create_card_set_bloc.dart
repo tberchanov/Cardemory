@@ -8,11 +8,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 
 class CreateCardSetBloc extends Bloc<CreateCardSetEvent, CreateCardSetState> {
-  final _log = Logger('CreateCardSetBloc');
+  static final _log = Logger('CreateCardSetBloc');
   final SaveCardSet _saveCardSet;
   final NavBloc _navBloc;
 
-  CreateCardSetBloc(this._saveCardSet, this._navBloc) : super(CreateCardSetInitial()) {
+  CreateCardSetBloc(this._saveCardSet, this._navBloc) : super(CreateCardSetState.initial) {
     on<CreateCardSetEvent>((event, emit) async {
       _log.info("Event: $event");
       await for (final state in _mapEventToState(event)) {
@@ -29,12 +29,12 @@ class CreateCardSetBloc extends Bloc<CreateCardSetEvent, CreateCardSetState> {
 
   Stream<CreateCardSetState> _onCardSetSave(CardSetCreate event) async* {
     FocusManager.instance.primaryFocus?.unfocus();
-    yield CreateCardSetLoading();
+    yield CreateCardSetState.loading;
     final result = await _saveCardSet(CardSet.name(event.name));
 
     final state = result.fold((failure) {
       _log.warning("saveCardSet failure: $failure");
-      return CreateCardSetError();
+      return CreateCardSetState.error;
     }, (cardSet) {
       _navBloc.add(PopPage());
       return null;

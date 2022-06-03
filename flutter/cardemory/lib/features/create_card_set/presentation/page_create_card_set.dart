@@ -1,6 +1,7 @@
 import 'package:cardemory/core/navigation/app_page.dart';
 import 'package:cardemory/core/navigation/app_page_factory.dart';
 import 'package:cardemory/core/widgets/bloc_renderer.dart';
+import 'package:cardemory/core/widgets/card_text_field.dart';
 import 'package:cardemory/core/widgets/loader.dart';
 import 'package:cardemory/features/create_card_set/presentation/bloc/create_card_set_bloc.dart';
 import 'package:cardemory/features/create_card_set/presentation/bloc/create_card_set_event.dart';
@@ -12,7 +13,7 @@ import 'package:logging/logging.dart';
 class PageCreateCardSetFactory extends AppPageFactory {
   @override
   AppPage? build(String route) {
-    if (route == "card-set-create") {
+    if (route == "create-card-set") {
       return PageCreateCardSet();
     } else {
       return null;
@@ -27,7 +28,7 @@ class PageCreateCardSet extends AppPage {
   final _nameTextController = TextEditingController();
 
   @override
-  String get routeName => "/card-set-create";
+  String get routeName => "/create-card-set";
 
   @override
   Widget buildChild() {
@@ -42,7 +43,7 @@ class PageCreateCardSet extends AppPage {
               ),
               body: Column(
                 children: [
-                  _TextField("Name", _nameTextController),
+                  CardTextField("Name", _nameTextController),
                 ],
               ),
               floatingActionButton: FloatingActionButton(
@@ -59,29 +60,6 @@ class PageCreateCardSet extends AppPage {
           ],
         );
       },
-    );
-  }
-}
-
-class _TextField extends StatelessWidget {
-  final String labelText;
-  final TextEditingController controller;
-
-  const _TextField(this.labelText, this.controller, {Key? key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: TextField(
-        autofocus: true,
-        controller: controller,
-        decoration: InputDecoration(
-          border: const OutlineInputBorder(),
-          labelText: labelText,
-        ),
-      ),
     );
   }
 }

@@ -8,6 +8,8 @@ import 'package:cardemory/features/card_set_list/presentation/page_card_set_list
 import 'package:cardemory/features/cards_list/domain/usecases/get_card_set.dart';
 import 'package:cardemory/features/cards_list/presentation/bloc/cards_list_bloc.dart';
 import 'package:cardemory/features/cards_list/presentation/page_cards_list.dart';
+import 'package:cardemory/features/create_card/presentation/bloc/create_card_bloc.dart';
+import 'package:cardemory/features/create_card/presentation/page_create_card.dart';
 import 'package:cardemory/features/create_card_set/domain/usecases/save_card_set.dart';
 import 'package:cardemory/features/create_card_set/presentation/bloc/create_card_set_bloc.dart';
 import 'package:cardemory/features/create_card_set/presentation/page_create_card_set.dart';
@@ -27,7 +29,11 @@ void init() {
   getIt.registerFactory(() => PagesExtractor(
         PageCardSetList(),
         PageNotFound(),
-        [PageCreateCardSetFactory(), PageCardsListFactory()],
+        [
+          PageCreateCardSetFactory(),
+          PageCardsListFactory(),
+          PageCreateCardFactory(),
+        ],
       ));
 
   getIt.registerFactory(() => CardSetListBloc(getIt.get(), getIt.get()));
@@ -48,7 +54,9 @@ void init() {
   getIt.registerFactory(() => CreateCardSetBloc(getIt.get(), getIt.get()));
 
   getIt.registerFactory(() => GetCardSet(getIt.get()));
-  getIt.registerFactory(() => CardsListBloc(getIt.get()));
+  getIt.registerFactory(() => CardsListBloc(getIt.get(), getIt.get()));
+
+  getIt.registerFactory(() => CreateCardBloc(getIt.get()));
 
   getIt.allReadySync();
 }

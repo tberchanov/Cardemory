@@ -59,6 +59,12 @@ class PageCardsList extends AppPage {
           appBar: AppBar(
             title: Text(_cardSetName ?? _cardSetId.toString()),
           ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              context.read<CardsListBloc>().add(CardsListEvent.creteCard);
+            },
+            child: const Icon(Icons.add),
+          ),
         );
       }
     });

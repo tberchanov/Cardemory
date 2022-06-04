@@ -33,8 +33,16 @@ class PageCreateCard extends AppPage {
         appBar: AppBar(title: const Text("Create card")),
         body: Column(
           children: [
-            CardTextField("Title", _titleTextController),
-            CardTextField("Description", _descriptionTextController),
+            CardTextField(
+              "Title",
+              _titleTextController,
+              errorText: _getTitleTextError(state),
+            ),
+            CardTextField(
+              "Description",
+              _descriptionTextController,
+              errorText: _getDescriptionTextError(state),
+            ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -48,5 +56,19 @@ class PageCreateCard extends AppPage {
         ),
       );
     });
+  }
+
+  String? _getTitleTextError(CreateCardState state) {
+    if (state is InvalidFieldState) {
+      return state.titleMessage;
+    }
+    return null;
+  }
+
+  String? _getDescriptionTextError(CreateCardState state) {
+    if (state is InvalidFieldState) {
+      return state.descriptionMessage;
+    }
+    return null;
   }
 }

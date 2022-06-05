@@ -1,8 +1,8 @@
 import 'package:cardemory/core/db.dart';
 import 'package:cardemory/core/error/failures.dart';
-import 'package:cardemory/features/card_set_list/data/repositories/card_set_repository_db.dart';
-import 'package:cardemory/features/card_set_list/domain/entities/card_set.dart';
-import 'package:cardemory/features/card_set_list/domain/repositories/card_set_repository.dart';
+import 'package:cardemory/data/card_set/db/card_set_repository_db.dart';
+import 'package:cardemory/domain/card_set/entity/card_set.dart';
+import 'package:cardemory/domain/card_set/repository/card_set_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 

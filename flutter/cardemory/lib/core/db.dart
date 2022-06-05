@@ -1,7 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../features/card_set_list/data/card_set_table.dart';
+import '../data/card_set/db/card_set_table.dart';
 
 class DB {
   static var _dbPath = "";

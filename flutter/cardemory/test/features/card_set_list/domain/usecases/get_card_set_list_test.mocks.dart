@@ -5,9 +5,8 @@
 import 'dart:async' as _i4;
 
 import 'package:cardemory/core/error/failures.dart' as _i5;
-import 'package:cardemory/features/card_set_list/domain/entities/card_set.dart'
-    as _i6;
-import 'package:cardemory/features/card_set_list/domain/repositories/card_set_repository.dart'
+import 'package:cardemory/domain/card_set/entity/card_set.dart' as _i6;
+import 'package:cardemory/domain/card_set/repository/card_set_repository.dart'
     as _i3;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
@@ -45,4 +44,10 @@ class MockCardSetRepository extends _i1.Mock implements _i3.CardSetRepository {
               returnValue: Future<_i2.Either<_i5.Failure, _i6.CardSet>>.value(
                   _FakeEither_0<_i5.Failure, _i6.CardSet>()))
           as _i4.Future<_i2.Either<_i5.Failure, _i6.CardSet>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.CardSet?>> getCardSet(int? id) =>
+      (super.noSuchMethod(Invocation.method(#getCardSet, [id]),
+              returnValue: Future<_i2.Either<_i5.Failure, _i6.CardSet?>>.value(
+                  _FakeEither_0<_i5.Failure, _i6.CardSet?>()))
+          as _i4.Future<_i2.Either<_i5.Failure, _i6.CardSet?>>);
 }

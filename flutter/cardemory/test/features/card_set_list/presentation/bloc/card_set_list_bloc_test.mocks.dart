@@ -9,9 +9,8 @@ import 'package:cardemory/core/navigation/app_page.dart' as _i10;
 import 'package:cardemory/core/navigation/nav_bloc.dart' as _i9;
 import 'package:cardemory/core/navigation/navigation_registry.dart' as _i3;
 import 'package:cardemory/core/usecases/usecase.dart' as _i8;
-import 'package:cardemory/features/card_set_list/domain/entities/card_set.dart'
-    as _i7;
-import 'package:cardemory/features/card_set_list/domain/usecases/get_card_set_list.dart'
+import 'package:cardemory/domain/card_set/entity/card_set.dart' as _i7;
+import 'package:cardemory/domain/card_set/usecase/get_card_set_list.dart'
     as _i4;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:flutter_bloc/flutter_bloc.dart' as _i11;

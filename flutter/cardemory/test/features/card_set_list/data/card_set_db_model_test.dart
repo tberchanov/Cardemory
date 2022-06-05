@@ -1,5 +1,5 @@
-import 'package:cardemory/features/card_set_list/data/card_set_db_model.dart';
-import 'package:cardemory/features/card_set_list/domain/entities/card_set.dart';
+import 'package:cardemory/data/card_set/db/card_set_db_model.dart';
+import 'package:cardemory/domain/card_set/entity/card_set.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

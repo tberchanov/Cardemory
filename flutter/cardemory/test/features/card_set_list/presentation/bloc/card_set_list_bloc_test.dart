@@ -1,8 +1,8 @@
 import 'package:cardemory/core/error/failures.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
-import 'package:cardemory/features/card_set_list/domain/entities/card_set.dart';
-import 'package:cardemory/features/card_set_list/domain/usecases/get_card_set_list.dart';
-import 'package:cardemory/features/card_set_list/presentation/bloc/card_set_list_bloc.dart';
+import 'package:cardemory/domain/card_set/entity/card_set.dart';
+import 'package:cardemory/domain/card_set/usecase/get_card_set_list.dart';
+import 'package:cardemory/presentation/card_set_list/bloc/card_set_list_bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';

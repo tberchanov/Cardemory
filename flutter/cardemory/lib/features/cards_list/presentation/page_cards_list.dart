@@ -16,7 +16,8 @@ class PageCardsListFactory extends AppPageFactory {
   static final _log = Logger("PageCardsListFactory");
 
   @override
-  AppPage? build(String route) {
+  AppPage? build(RouteData routeData) {
+    final route = routeData.route;
     if (_regExp.hasMatch(route)) {
       final cardSetId = int.tryParse(route.substring(_prefixLength));
       _log.info("build, id: $cardSetId");
@@ -61,7 +62,7 @@ class PageCardsList extends AppPage {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              context.read<CardsListBloc>().add(CardsListEvent.creteCard);
+              context.read<CardsListBloc>().add(CardsListEvent.creteCard(_cardSetId));
             },
             child: const Icon(Icons.add),
           ),

@@ -7,8 +7,11 @@ class PagesExtractor {
   final AppPage _initialPage;
   final AppPage _notFoundPage;
 
-  const PagesExtractor(this._initialPage, this._notFoundPage,
-      this._factoryList,);
+  const PagesExtractor(
+    this._initialPage,
+    this._notFoundPage,
+    this._factoryList,
+  );
 
   List<AppPage> extract(RoutePath routePath) {
     List<AppPage> pages = [_initialPage];
@@ -17,8 +20,10 @@ class PagesExtractor {
     if (path != null) {
       final uri = Uri.tryParse(path);
       if (uri != null) {
-        for (String segment in uri.pathSegments) {
-          final page = _build(segment);
+        final segments = uri.pathSegments;
+        for (int index = 0; index < segments.length; index++) {
+          final segment = segments[index];
+          final page = _build(RouteData(segment, index, uri));
           if (page == null) {
             pages.add(_notFoundPage);
             break;
@@ -32,9 +37,9 @@ class PagesExtractor {
     return pages;
   }
 
-  AppPage? _build(String segment) {
+  AppPage? _build(RouteData routeData) {
     for (final factory in _factoryList) {
-      final page = factory.build(segment);
+      final page = factory.build(routeData);
       if (page != null) {
         return page;
       }

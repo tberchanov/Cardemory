@@ -28,7 +28,7 @@ class CardsListBloc extends Bloc<CardsListEvent, CardsListState> {
     if (event is LoadNameEvent) {
       yield* _onCardSetNameLoad(event);
     } else if (event is CreateCardEvent) {
-      _navBloc.add(NavEvent.add(PageCreateCard()));
+      _navBloc.add(NavEvent.add(PageCreateCard(event.cardSetId)));
     }
   }
 

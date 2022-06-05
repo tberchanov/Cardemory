@@ -1,6 +1,6 @@
 abstract class CardsListEvent {
   static loadName(int cardSetId) => LoadNameEvent(cardSetId);
-  static final creteCard = CreateCardEvent();
+  static creteCard(int cardSetId) => CreateCardEvent(cardSetId);
 }
 
 class LoadNameEvent extends CardsListEvent {
@@ -9,4 +9,8 @@ class LoadNameEvent extends CardsListEvent {
   LoadNameEvent(this.cardSetId);
 }
 
-class CreateCardEvent extends CardsListEvent {}
+class CreateCardEvent extends CardsListEvent {
+  final int cardSetId;
+
+  CreateCardEvent(this.cardSetId);
+}

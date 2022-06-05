@@ -12,8 +12,8 @@ import 'package:logging/logging.dart';
 
 class PageCreateCardSetFactory extends AppPageFactory {
   @override
-  AppPage? build(String route) {
-    if (route == "create-card-set") {
+  AppPage? build(RouteData routeData) {
+    if (routeData.route == "create-card-set") {
       return PageCreateCardSet();
     } else {
       return null;

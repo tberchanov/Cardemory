@@ -23,7 +23,7 @@ class CreateCardBloc extends BaseBloc<CreateCardEvent, CreateCardState> {
   }
 
   Stream<CreateCardState> _handleSaveCardEvent(CreateCardSaveEvent event) async* {
-    final card = Card(event.title, event.description);
+    final card = Card(event.cardSetId, event.title, event.description);
 
     final validationResult = await _validateCard(card);
     if (validationResult.isLeft()) {

@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:cardemory/core/base_bloc.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
 import 'package:cardemory/core/usecases/usecase.dart';
 import 'package:cardemory/domain/card_set/entity/card_set.dart';
@@ -6,14 +6,12 @@ import 'package:cardemory/domain/card_set/usecase/get_card_set_list.dart';
 import 'package:cardemory/presentation/card_set_list/page_card_set_list.dart';
 import 'package:cardemory/presentation/cards_list/page_cards_list.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 
 part 'card_set_list_event.dart';
-
 part 'card_set_list_state.dart';
 
-class CardSetListBloc extends Bloc<CardSetListEvent, CardSetListState> {
+class CardSetListBloc extends BaseBloc<CardSetListEvent, CardSetListState> {
   final _log = Logger('CardSetListBloc');
   final GetCardSetList _getCardSetList;
   final NavBloc _navBloc;
@@ -24,17 +22,11 @@ class CardSetListBloc extends Bloc<CardSetListEvent, CardSetListState> {
         add(CardSetListLoad());
       }
     });
-
-    on<CardSetListEvent>((event, emit) async {
-      _log.info("Event: $event");
-      await for (final state in _mapEventToState(event)) {
-        emit.call(state);
-      }
-    });
     add(CardSetListLoad());
   }
 
-  Stream<CardSetListState> _mapEventToState(CardSetListEvent event) async* {
+  @override
+  Stream<CardSetListState> mapEventToState(CardSetListEvent event) async* {
     if (event is CardSetListLoad) {
       yield* _onCardSetListLoad();
     } else if (event is CardSetClick) {

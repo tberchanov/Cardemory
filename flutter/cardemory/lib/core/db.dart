@@ -1,3 +1,4 @@
+import 'package:cardemory/data/card/db/card_db_model/card_table.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -17,10 +18,13 @@ class DB {
 
   Future<Database> create() async {
     _db ??= await openDatabase(
-        await _getCardemoryDbPath(),
-        version: 1,
-        onCreate: (db, version) => CardSetTable.create(db),
-      );
+      await _getCardemoryDbPath(),
+      version: 1,
+      onCreate: (db, version) => Future.wait([
+        CardSetTable.create(db),
+        CardTable.create(db),
+      ]),
+    );
 
     return _db!;
   }

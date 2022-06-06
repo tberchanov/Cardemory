@@ -2,8 +2,12 @@ import 'package:cardemory/core/db.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
 import 'package:cardemory/core/navigation/navigation_registry.dart';
 import 'package:cardemory/core/navigation/pages_extractor.dart';
+import 'package:cardemory/data/card/card_repository_stub.dart';
+import 'package:cardemory/data/card/db/card_db_model/card_repository_db.dart';
 import 'package:cardemory/data/card_set/card_set_repository_stub.dart';
 import 'package:cardemory/data/card_set/db/card_set_repository_db.dart';
+import 'package:cardemory/domain/card/repository/card_repository.dart';
+import 'package:cardemory/domain/card/usecase/save_card.dart';
 import 'package:cardemory/domain/card/usecase/validate_card.dart';
 import 'package:cardemory/domain/card_set/repository/card_set_repository.dart';
 import 'package:cardemory/domain/card_set/usecase/get_card_set.dart';
@@ -49,6 +53,14 @@ void init() {
       return CardSetRepositoryDb.fromDB(getIt.get());
     }
   });
+  getIt.registerLazySingleton<CardRepository>(() {
+    if (kIsWeb) {
+      // Web does not support DB. Should be used API repository later.
+      return CardRepositoryStub();
+    } else {
+      return CardRepositoryDb.fromDB(getIt.get());
+    }
+  });
 
   getIt.registerFactory(() => SaveCardSet(getIt.get()));
   getIt.registerFactory(() => CreateCardSetBloc(getIt.get(), getIt.get()));
@@ -57,7 +69,8 @@ void init() {
   getIt.registerFactory(() => CardsListBloc(getIt.get(), getIt.get()));
 
   getIt.registerFactory(() => ValidateCard());
-  getIt.registerFactory(() => CreateCardBloc(getIt.get(), getIt.get()));
+  getIt.registerFactory(() => SaveCard(getIt.get()));
+  getIt.registerFactory(() => CreateCardBloc(getIt.get(), getIt.get(), getIt.get()));
 
   getIt.allReadySync();
 }

@@ -6,6 +6,9 @@ class CardSetDbModel extends Equatable {
   final int? id;
   final String name;
 
+  @override
+  List<Object?> get props => [id, name];
+
   const CardSetDbModel(this.id, this.name);
 
   CardSetDbModel.fromEntity(CardSet cardSet)
@@ -24,9 +27,7 @@ class CardSetDbModel extends Equatable {
   }
 
   CardSet toEntity() {
-    return CardSet(id: id == null ? CardSet.unknownId : id!, name: name);
+    return CardSet(id: id ?? CardSet.unknownId, name: name);
   }
 
-  @override
-  List<Object?> get props => [id, name];
 }

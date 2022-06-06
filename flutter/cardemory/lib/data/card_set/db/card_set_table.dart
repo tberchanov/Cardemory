@@ -7,7 +7,10 @@ class CardSetTable {
 
   static Future<void> create(Database db) {
     return db.execute(
-      'CREATE TABLE IF NOT EXISTS $name($propertyId INTEGER PRIMARY KEY AUTOINCREMENT, $propertyName TEXT)',
+      'CREATE TABLE IF NOT EXISTS $name('
+      '$propertyId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, '
+      '$propertyName TEXT NOT NULL'
+      ')',
     );
   }
 }

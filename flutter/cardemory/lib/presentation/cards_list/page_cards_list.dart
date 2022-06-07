@@ -31,27 +31,31 @@ class PageCardsListFactory extends AppPageFactory {
 }
 
 class PageCardsList extends AppPage {
-  final int _cardSetId;
+  final int cardSetId;
   String? _cardSetName;
 
-  PageCardsList(this._cardSetId) : _cardSetName = null;
+  PageCardsList(this.cardSetId) : _cardSetName = null;
 
   PageCardsList.fromCardSet(CardSet cardSet)
-      : _cardSetId = cardSet.id,
+      : cardSetId = cardSet.id,
         _cardSetName = cardSet.name;
 
   @override
-  String get routeName => "/cards-$_cardSetId";
+  String get routeName => "/cards-$cardSetId";
 
   @override
   Widget buildChild() {
     return BlocRenderer<CardsListBloc, CardsListState>((state, context) {
+      if (state is CardsListStateInitial) {
+        context.read<CardsListBloc>().add(CardsListEvent.loadCards(cardSetId));
+      }
+
       if (state is CardSetName) {
         _cardSetName = state.name;
       }
 
       if (_cardSetName == null) {
-        context.read<CardsListBloc>().add(CardsListEvent.loadName(_cardSetId));
+        context.read<CardsListBloc>().add(CardsListEvent.loadName(cardSetId));
       }
 
       if (state is CardSetNotFoundState) {
@@ -59,12 +63,12 @@ class PageCardsList extends AppPage {
       } else {
         return Scaffold(
           appBar: AppBar(
-            title: Text(_cardSetName ?? _cardSetId.toString()),
+            title: Text(_cardSetName ?? cardSetId.toString()),
           ),
           body: CardsListBody(state),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              context.read<CardsListBloc>().add(CardsListEvent.creteCard(_cardSetId));
+              context.read<CardsListBloc>().add(CardsListEvent.creteCard(cardSetId));
             },
             child: const Icon(Icons.add),
           ),

@@ -1,6 +1,5 @@
 import 'package:cardemory/core/base_bloc.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
-import 'package:cardemory/core/usecases/usecase.dart';
 import 'package:cardemory/domain/card/usecase/get_cards_list.dart';
 import 'package:cardemory/domain/card_set/usecase/get_card_set.dart';
 import 'package:cardemory/presentation/cards_list/bloc/cards_list_event.dart';
@@ -18,11 +17,11 @@ class CardsListBloc extends BaseBloc<CardsListEvent, CardsListState> {
 
   CardsListBloc(this._getCardSet, this._getCardsList, this._navBloc) : super(CardsListState.initial) {
     _navBloc.stream.forEach((pages) {
-      if (pages.last is PageCardsList) {
-        add(CardsListEvent.loadCards);
+      final page = pages.last;
+      if (page is PageCardsList) {
+        add(CardsListEvent.loadCards(page.cardSetId));
       }
     });
-    add(CardsListLoad());
   }
 
   @override
@@ -32,7 +31,7 @@ class CardsListBloc extends BaseBloc<CardsListEvent, CardsListState> {
     } else if (event is CreateCardEvent) {
       _navBloc.add(NavEvent.add(PageCreateCard(event.cardSetId)));
     } else if (event is CardsListLoad) {
-      yield* _loadCardsList();
+      yield* _loadCardsList(event);
     }
   }
 
@@ -49,8 +48,8 @@ class CardsListBloc extends BaseBloc<CardsListEvent, CardsListState> {
     });
   }
 
-  Stream<CardsListState> _loadCardsList() async* {
-    final result = await _getCardsList(NoParams());
+  Stream<CardsListState> _loadCardsList(CardsListLoad event) async* {
+    final result = await _getCardsList(event.cardSetId);
     yield result.fold((failure) {
       _log.warning("_loadCardsList failure: $failure");
       return CardsListState.failure;

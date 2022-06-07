@@ -22,7 +22,6 @@ class CardSetListBloc extends BaseBloc<CardSetListEvent, CardSetListState> {
         add(CardSetListLoad());
       }
     });
-    add(CardSetListLoad());
   }
 
   @override

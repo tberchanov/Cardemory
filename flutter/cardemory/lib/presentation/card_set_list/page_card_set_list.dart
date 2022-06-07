@@ -6,6 +6,7 @@ import 'package:cardemory/presentation/card_set_list/bloc/card_set_list_bloc.dar
 import 'package:cardemory/presentation/card_set_list/widget/card_set_list.dart' as widget;
 import 'package:cardemory/presentation/create_card_set/page_create_card_set.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 
 final _log = Logger('PageCardSetList');
@@ -19,7 +20,13 @@ class PageCardSetList extends AppPage {
     return Scaffold(
       appBar: AppBar(title: const Text("Cardemory")),
       body: BlocRenderer<CardSetListBloc, CardSetListState>(
-        (state, _) => CardSetListContent(state),
+        (state, context) {
+          if (state is CardSetListInitial) {
+            context.read<CardSetListBloc>().add(CardSetListLoad());
+          }
+          
+          return CardSetListContent(state);
+        },
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),

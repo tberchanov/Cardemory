@@ -15,9 +15,13 @@ class CardRepositoryDb extends CardRepository {
   CardRepositoryDb.fromDB(DB db) : _dbFuture = db.create();
 
   @override
-  Future<Either<Failure, List<Card>>> getCards() async {
+  Future<Either<Failure, List<Card>>> getCards(int cardSetId) async {
     final db = await _dbFuture;
-    final query = await db.query(CardTable.name);
+    final query = await db.query(
+      CardTable.name,
+      where: "${CardTable.propertyCardSetId} = ?",
+      whereArgs: [cardSetId],
+    );
     return Right(
       query.map((map) => CardDbModel.fromMap(map).toEntity()).toList(),
     );

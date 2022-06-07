@@ -7,8 +7,8 @@ class CardRepositoryStub extends CardRepository {
   final List<Card> _cards = [];
 
   @override
-  Future<Either<Failure, List<Card>>> getCards() async {
-    return Right(_cards);
+  Future<Either<Failure, List<Card>>> getCards(int cardSetId) async {
+    return Right(_cards.where((card) => card.cardSetId == cardSetId).toList());
   }
 
   @override
@@ -17,5 +17,4 @@ class CardRepositoryStub extends CardRepository {
     _cards.add(cardWithId);
     return Right(cardWithId);
   }
-
 }

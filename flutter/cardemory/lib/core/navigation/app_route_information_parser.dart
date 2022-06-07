@@ -6,9 +6,8 @@ class AppRouteInformationParser extends RouteInformationParser<RoutePath> {
   final _log = Logger('AppRouteInformationParser');
 
   @override
-  Future<RoutePath> parseRouteInformation(
-      RouteInformation routeInformation) async {
-    _log.info("parseRouteInformation");
+  Future<RoutePath> parseRouteInformation(RouteInformation routeInformation) async {
+    _log.info("parseRouteInformation: ${routeInformation.location}");
     final uri = Uri.tryParse(routeInformation.location ?? "");
     if (uri == null) {
       return RoutePath(routeInformation.location);
@@ -31,7 +30,7 @@ class AppRouteInformationParser extends RouteInformationParser<RoutePath> {
 
   @override
   RouteInformation restoreRouteInformation(RoutePath configuration) {
-    _log.info("restoreRouteInformation");
+    _log.info("restoreRouteInformation: ${configuration.path}");
     return RouteInformation(location: configuration.path);
   }
 }

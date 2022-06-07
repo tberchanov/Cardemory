@@ -6,8 +6,12 @@ import 'package:logging/logging.dart';
 
 abstract class NavEvent extends Equatable {
   static final pop = PopPage();
+  static final resetToInitial = ResetToInitial();
 
   static add(AppPage page) => AddPage(page);
+
+  @override
+  List<Object?> get props => [];
 }
 
 class AddPage extends NavEvent {
@@ -22,10 +26,9 @@ class AddPage extends NavEvent {
   List<Object?> get props => [page];
 }
 
-class PopPage extends NavEvent {
-  @override
-  List<Object?> get props => [];
-}
+class PopPage extends NavEvent {}
+
+class ResetToInitial extends NavEvent {}
 
 class NavBloc extends Bloc<NavEvent, List<AppPage>> {
   final _log = Logger('NavBloc');
@@ -40,6 +43,10 @@ class NavBloc extends Bloc<NavEvent, List<AppPage>> {
         emit.call(navRegistry.getPages());
       } else if (event is PopPage) {
         navRegistry.popPage();
+        emit.call(navRegistry.getPages());
+      } else if (event is ResetToInitial) {
+        navRegistry.clear();
+        navRegistry.addPage(navRegistry.initialPage);
         emit.call(navRegistry.getPages());
       }
     });

@@ -1,7 +1,9 @@
 import 'package:cardemory/core/base_bloc.dart';
+import 'package:cardemory/core/extension/either_ext.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
 import 'package:cardemory/domain/card_set/entity/card_set.dart';
 import 'package:cardemory/domain/card_set/usecase/save_card_set.dart';
+import 'package:cardemory/domain/card_set/usecase/validate_card_set.dart';
 import 'package:cardemory/presentation/create_card_set/bloc/create_card_set_event.dart';
 import 'package:cardemory/presentation/create_card_set/bloc/create_card_set_state.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +13,13 @@ class CreateCardSetBloc extends BaseBloc<CreateCardSetEvent, CreateCardSetState>
   static final _log = Logger('CreateCardSetBloc');
   final SaveCardSet _saveCardSet;
   final NavBloc _navBloc;
+  final ValidateCardSet _validateCardSet;
 
-  CreateCardSetBloc(this._saveCardSet, this._navBloc) : super(CreateCardSetState.initial);
+  CreateCardSetBloc(
+    this._saveCardSet,
+    this._navBloc,
+    this._validateCardSet,
+  ) : super(CreateCardSetState.initial);
 
   @override
   Stream<CreateCardSetState> mapEventToState(CreateCardSetEvent event) async* {
@@ -21,12 +28,32 @@ class CreateCardSetBloc extends BaseBloc<CreateCardSetEvent, CreateCardSetState>
     }
   }
 
+  // TODO refactor, split validation and saving logic
   Stream<CreateCardSetState> _onCardSetSave(CardSetCreate event) async* {
     FocusManager.instance.primaryFocus?.unfocus();
     yield CreateCardSetState.loading;
-    final result = await _saveCardSet(CardSet.name(event.name));
+    final cardSet = CardSet.name(event.name);
 
-    final state = result.fold((failure) {
+    final validationResult = await _validateCardSet(cardSet);
+    if (validationResult.isRight()) {
+      final validationInfo = validationResult.rightOrError();
+      final nameValidationMessage = validationInfo.nameValidationMessage;
+      if (!validationInfo.isSuccess && nameValidationMessage != null) {
+        yield CardSetValidationErrorState(nameValidationMessage);
+        return;
+      } else {
+        yield CardSetValidationErrorState(null);
+      }
+    } else {
+      final failure = validationResult.leftOrError();
+      _log.warning("CardSet validation failure: $failure");
+      yield CreateCardSetState.error;
+      return;
+    }
+
+    final saveResult = await _saveCardSet(cardSet);
+
+    final state = saveResult.fold((failure) {
       _log.warning("saveCardSet failure: $failure");
       return CreateCardSetState.error;
     }, (cardSet) {

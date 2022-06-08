@@ -43,16 +43,18 @@ class PageCreateCardSet extends AppPage {
               ),
               body: Column(
                 children: [
-                  CardTextField("Name", _nameTextController),
+                  CardTextField(
+                    "Name",
+                    _nameTextController,
+                    errorText: _getValidationMessage(state),
+                  ),
                 ],
               ),
               floatingActionButton: FloatingActionButton(
                 child: const Icon(Icons.add),
                 onPressed: () {
                   _log.info("onPressed add: ${_nameTextController.value.text}");
-                  context
-                      .read<CreateCardSetBloc>()
-                      .add(CreateCardSetEvent.create(_nameTextController.text));
+                  context.read<CreateCardSetBloc>().add(CreateCardSetEvent.create(_nameTextController.text));
                 },
               ),
             ),
@@ -61,5 +63,13 @@ class PageCreateCardSet extends AppPage {
         );
       },
     );
+  }
+
+  String? _getValidationMessage(CreateCardSetState state) {
+    if (state is CardSetValidationErrorState) {
+      return state.message;
+    } else {
+      return null;
+    }
   }
 }

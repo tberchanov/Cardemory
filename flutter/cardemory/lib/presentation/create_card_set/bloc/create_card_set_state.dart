@@ -20,3 +20,12 @@ class CreateCardSetLoading extends CreateCardSetState {
 class CreateCardSetError extends CreateCardSetState {
   CreateCardSetError._();
 }
+
+class CardSetValidationErrorState extends CreateCardSetState {
+  final String? message;
+
+  CardSetValidationErrorState(this.message);
+
+  @override
+  List<Object> get props => [message ?? ""];
+}

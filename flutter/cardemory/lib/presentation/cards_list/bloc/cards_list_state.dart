@@ -1,36 +1,61 @@
 import 'package:cardemory/domain/card/entity/card.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class CardsListState extends Equatable {
-  static final initial = CardsListStateInitial();
-  static final cardSetNotFound = CardSetNotFoundState();
-  static final failure = CardsListFailureState();
+class CardsListState extends Equatable {
+  final String? cardSetName;
+  final List<Card>? cards;
+  final bool cardSetNotFound;
+  final bool failure;
+  final bool isTrainingAvailable;
+  final String? trainingIsNotAvailableMessage;
+  final bool hideMessages;
 
-  static loaded(List<Card> cards) => LoadedCardsListState(cards);
+  const CardsListState(
+    this.cardSetName,
+    this.cards,
+    this.cardSetNotFound,
+    this.failure,
+    this.isTrainingAvailable,
+    this.trainingIsNotAvailableMessage,
+    this.hideMessages,
+  );
 
-  static cardSetName(String name) => CardSetName(name);
+  const CardsListState.initial()
+      : cardSetName = null,
+        cards = null,
+        cardSetNotFound = false,
+        failure = false,
+        isTrainingAvailable = false,
+        trainingIsNotAvailableMessage = null,
+        hideMessages = false;
+
+  CardsListState copyWith({
+    String? cardSetName,
+    List<Card>? cards,
+    bool? cardSetNotFound,
+    bool? failure,
+    bool? isTrainingAvailable,
+    String? trainingIsNotAvailableMessage,
+    bool? hideMessages,
+  }) =>
+      CardsListState(
+        cardSetName ?? this.cardSetName,
+        cards ?? this.cards,
+        cardSetNotFound ?? this.cardSetNotFound,
+        failure ?? this.failure,
+        isTrainingAvailable ?? this.isTrainingAvailable,
+        trainingIsNotAvailableMessage ?? this.trainingIsNotAvailableMessage,
+        hideMessages ?? this.hideMessages,
+      );
 
   @override
-  List<Object> get props => [];
-}
-
-class CardsListStateInitial extends CardsListState {}
-
-class CardSetName extends CardsListState {
-  final String name;
-
-  CardSetName(this.name);
-}
-
-class CardSetNotFoundState extends CardsListState {}
-
-class CardsListFailureState extends CardsListState {}
-
-class LoadedCardsListState extends CardsListState {
-  final List<Card> cards;
-
-  LoadedCardsListState(this.cards);
-
-  @override
-  List<Object> get props => [cards];
+  List<Object> get props => [
+        cardSetName ?? "",
+        cards ?? [],
+        cardSetNotFound,
+        failure,
+        isTrainingAvailable,
+        trainingIsNotAvailableMessage ?? "",
+        hideMessages,
+      ];
 }

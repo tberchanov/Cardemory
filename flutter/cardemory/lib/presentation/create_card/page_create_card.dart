@@ -42,7 +42,7 @@ class PageCreateCard extends AppPage {
 
   @override
   Widget buildChild() {
-    return BlocRenderer<CreateCardBloc, CreateCardState>((state, context) {
+    return BlocRenderer<CreateCardBloc, CreateCardState>((context, state) {
       return Scaffold(
         appBar: AppBar(title: const Text("Create card")),
         body: Column(

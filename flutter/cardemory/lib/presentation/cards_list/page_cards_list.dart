@@ -32,7 +32,7 @@ class PageCardsListFactory extends AppPageFactory {
 
 class PageCardsList extends AppPage {
   final int cardSetId;
-  String? _cardSetName;
+  final String? _cardSetName;
 
   PageCardsList(this.cardSetId) : _cardSetName = null;
 
@@ -45,35 +45,48 @@ class PageCardsList extends AppPage {
 
   @override
   Widget buildChild() {
-    return BlocRenderer<CardsListBloc, CardsListState>((state, context) {
-      if (state is CardsListStateInitial) {
-        context.read<CardsListBloc>().add(CardsListEvent.loadCards(cardSetId));
-      }
+    return BlocRenderer<CardsListBloc, CardsListState>(
+      (context, state) {
+        if (state.cards == null) {
+          context.read<CardsListBloc>().add(CardsListEvent.loadCards(cardSetId));
+        }
+        context.read<CardsListBloc>().add(CardsListEvent.loadName(cardSetId, _cardSetName));
 
-      if (state is CardSetName) {
-        _cardSetName = state.name;
-      }
+        if (state.cardSetNotFound) {
+          return const CardSetNotFound();
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(state.cardSetName ?? cardSetId.toString()),
+            ),
+            body: CardsListBody(
+              state,
+              () => context.read<CardsListBloc>().add(CardsListEvent.startTraining),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                context.read<CardsListBloc>().add(CardsListEvent.creteCard(cardSetId));
+              },
+              child: const Icon(Icons.add),
+            ),
+          );
+        }
+      },
+      onListenState: (context, state) {
+        if (state.hideMessages) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          context.read<CardsListBloc>().add(CardsListEvent.messagesHidden);
+        }
 
-      if (_cardSetName == null) {
-        context.read<CardsListBloc>().add(CardsListEvent.loadName(cardSetId));
-      }
-
-      if (state is CardSetNotFoundState) {
-        return const CardSetNotFound();
-      } else {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(_cardSetName ?? cardSetId.toString()),
-          ),
-          body: CardsListBody(state),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              context.read<CardsListBloc>().add(CardsListEvent.creteCard(cardSetId));
-            },
-            child: const Icon(Icons.add),
-          ),
-        );
-      }
-    });
+        final message = state.trainingIsNotAvailableMessage;
+        if (message != null && message.isNotEmpty) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(message)),
+          );
+          context.read<CardsListBloc>().add(CardsListEvent.trainingIsNotAvailableShown);
+        }
+      },
+    );
   }
 }

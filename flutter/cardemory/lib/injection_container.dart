@@ -22,8 +22,10 @@ import 'package:cardemory/presentation/create_card/page_create_card.dart';
 import 'package:cardemory/presentation/create_card_set/bloc/create_card_set_bloc.dart';
 import 'package:cardemory/presentation/create_card_set/page_create_card_set.dart';
 import 'package:cardemory/presentation/not_found/page_not_found.dart';
+import 'package:cardemory/presentation/training/page_training.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:get_it/get_it.dart';
+
 import 'domain/card_set/usecase/get_card_set_list.dart';
 
 GetIt getIt = GetIt.instance;
@@ -38,6 +40,7 @@ void init() {
           PageCreateCardSetFactory(),
           PageCardsListFactory(),
           PageCreateCardFactory(),
+          PageTrainingFactory(),
         ],
       ));
 

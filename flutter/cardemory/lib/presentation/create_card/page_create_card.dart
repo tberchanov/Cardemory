@@ -14,7 +14,7 @@ class PageCreateCardFactory extends AppPageFactory {
   static final _log = Logger("PageCreateCardFactory");
 
   @override
-  AppPage? build(RouteData routeData) {
+  Future<AppPage?> build(RouteData routeData) async {
     if (routeData.route == "create-card") {
       final segments = routeData.uri.pathSegments;
       if (routeData.routeIndex >= 1 && segments.length >= 2) {

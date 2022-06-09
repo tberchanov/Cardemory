@@ -4,7 +4,6 @@ abstract class CardsListEvent {
   static creteCard(int cardSetId) => CreateCardEvent(cardSetId);
 
   static loadCards(int cardSetId) => CardsListLoad(cardSetId);
-  static final startTraining = StartTrainingEvent();
   static final trainingIsNotAvailableShown = TrainingIsNotAvailableShownEvent();
   static final messagesHidden = MessagesHiddenEvent();
 }
@@ -28,7 +27,11 @@ class CreateCardEvent extends CardsListEvent {
   CreateCardEvent(this.cardSetId);
 }
 
-class StartTrainingEvent extends CardsListEvent {}
+class StartTrainingEvent extends CardsListEvent {
+  final int cardSetId;
+
+  StartTrainingEvent(this.cardSetId);
+}
 
 class TrainingIsNotAvailableShownEvent extends CardsListEvent {}
 

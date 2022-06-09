@@ -17,7 +17,7 @@ class PageCardsListFactory extends AppPageFactory {
   static final _log = Logger("PageCardsListFactory");
 
   @override
-  AppPage? build(RouteData routeData) {
+  Future<AppPage?> build(RouteData routeData) async {
     final route = routeData.route;
     if (_regExp.hasMatch(route)) {
       final cardSetId = route.substringAfter('-')?.tryInt();
@@ -61,7 +61,7 @@ class PageCardsList extends AppPage {
             ),
             body: CardsListBody(
               state,
-              () => context.read<CardsListBloc>().add(CardsListEvent.startTraining),
+              () => context.read<CardsListBloc>().add(StartTrainingEvent(cardSetId)),
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {

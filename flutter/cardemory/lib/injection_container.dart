@@ -14,6 +14,7 @@ import 'package:cardemory/domain/card_set/repository/card_set_repository.dart';
 import 'package:cardemory/domain/card_set/usecase/get_card_set.dart';
 import 'package:cardemory/domain/card_set/usecase/save_card_set.dart';
 import 'package:cardemory/domain/card_set/usecase/validate_card_set.dart';
+import 'package:cardemory/domain/training/usecase/collect_training_data.dart';
 import 'package:cardemory/presentation/card_set_list/bloc/card_set_list_bloc.dart';
 import 'package:cardemory/presentation/card_set_list/page_card_set_list.dart';
 import 'package:cardemory/presentation/cards_list/bloc/cards_list_bloc.dart';
@@ -73,7 +74,8 @@ void init() {
 
   getIt.registerFactory(() => GetCardSet(getIt.get()));
   getIt.registerFactory(() => GetCardsList(getIt.get()));
-  getIt.registerFactory(() => CardsListBloc(getIt.get(), getIt.get(), getIt.get()));
+  getIt.registerFactory(() => CollectTrainingData());
+  getIt.registerFactory(() => CardsListBloc(getIt.get(), getIt.get(), getIt.get(), getIt.get()));
 
   getIt.registerFactory(() => ValidateCard());
   getIt.registerFactory(() => SaveCard(getIt.get()));

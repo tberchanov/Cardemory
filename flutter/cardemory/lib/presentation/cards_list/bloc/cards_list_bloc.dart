@@ -1,7 +1,10 @@
 import 'package:cardemory/core/base_bloc.dart';
+import 'package:cardemory/core/extension/either_ext.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
 import 'package:cardemory/domain/card/usecase/get_cards_list.dart';
+import 'package:cardemory/domain/card_set/entity/card_set.dart';
 import 'package:cardemory/domain/card_set/usecase/get_card_set.dart';
+import 'package:cardemory/domain/training/usecase/collect_training_data.dart';
 import 'package:cardemory/presentation/cards_list/bloc/cards_list_event.dart';
 import 'package:cardemory/presentation/cards_list/bloc/cards_list_state.dart';
 import 'package:cardemory/presentation/cards_list/page_cards_list.dart';
@@ -11,17 +14,17 @@ import 'package:logging/logging.dart';
 
 class CardsListBloc extends BaseBloc<CardsListEvent, CardsListState> {
   static final _log = Logger('CardsListBloc');
-  static const _minCardsForTraining = 10;
+  static const _minCardsForTraining = 1;
 
   final GetCardSet _getCardSet;
   final GetCardsList _getCardsList;
+  final CollectTrainingData _collectTrainingData;
   final NavBloc _navBloc;
 
-  CardsListBloc(
-    this._getCardSet,
-    this._getCardsList,
-    this._navBloc,
-  ) : super(const CardsListState.initial()) {
+  CardsListBloc(this._getCardSet,
+      this._getCardsList,
+      this._collectTrainingData,
+      this._navBloc,) : super(const CardsListState.initial()) {
     _navBloc.stream.forEach((pages) {
       final page = pages.last;
       if (page is PageCardsList) {
@@ -41,7 +44,7 @@ class CardsListBloc extends BaseBloc<CardsListEvent, CardsListState> {
     } else if (event is CardsListLoad) {
       yield* _loadCardsList(event);
     } else if (event is StartTrainingEvent) {
-      yield* _onStartTraining();
+      yield* _onStartTraining(event.cardSetId);
     } else if (event is TrainingIsNotAvailableShownEvent) {
       yield state.copyWith(trainingIsNotAvailableMessage: "");
     } else if (event is MessagesHiddenEvent) {
@@ -49,16 +52,34 @@ class CardsListBloc extends BaseBloc<CardsListEvent, CardsListState> {
     }
   }
 
-  Stream<CardsListState> _onStartTraining() async* {
+  Stream<CardsListState> _onStartTraining(int cardSetId) async* {
+    final trainingAvailabilityMessage = _checkTrainingAvailability();
+    if (trainingAvailabilityMessage != null) {
+      yield state.copyWith(trainingIsNotAvailableMessage: trainingAvailabilityMessage);
+    } else {
+      final cardSetName = state.cardSetName;
+      if (cardSetName != null) {
+        final result = await _collectTrainingData(CardSet(id: cardSetId, name: cardSetName));
+        if (result.isRight()) {
+          _navBloc.add(NavEvent.add(PageTraining(result.rightOrError())));
+        } else {
+          final failure = result.leftOrError();
+          _log.warning("Start training failure: $failure");
+          // TODO yield error message
+        }
+      }
+    }
+  }
+
+  String? _checkTrainingAvailability() {
     final cardsQuantity = state.cards?.length ?? 0;
     if (cardsQuantity >= _minCardsForTraining) {
-      _navBloc.add(NavEvent.add(PageTraining()));
+      return null;
     } else {
       final cardsDistinction = _minCardsForTraining - cardsQuantity;
-      final message = cardsDistinction == 1
+      return cardsDistinction == 1
           ? "Not enough cards for training. $cardsDistinction card more."
           : "Not enough cards for training. $cardsDistinction cards more.";
-      yield state.copyWith(trainingIsNotAvailableMessage: message);
     }
   }
 
@@ -86,14 +107,15 @@ class CardsListBloc extends BaseBloc<CardsListEvent, CardsListState> {
   Stream<CardsListState> _loadCardsList(CardsListLoad event) async* {
     final result = await _getCardsList(event.cardSetId);
     yield result.fold(
-      (failure) {
+          (failure) {
         _log.warning("_loadCardsList failure: $failure");
         return state.copyWith(failure: true);
       },
-      (cards) => state.copyWith(
-        cards: cards,
-        isTrainingAvailable: cards.length >= _minCardsForTraining,
-      ),
+          (cards) =>
+          state.copyWith(
+            cards: cards,
+            isTrainingAvailable: cards.length >= _minCardsForTraining,
+          ),
     );
   }
 }

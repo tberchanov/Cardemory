@@ -33,8 +33,9 @@ class AppRouterDelegate extends RouterDelegate<RoutePath>
 
   @override
   Future<void> setNewRoutePath(RoutePath configuration) async {
+    final pages = await _pagesExtractor.extract(configuration);
     _navRegistry.clear();
-    _navRegistry.addPages(_pagesExtractor.extract(configuration));
+    _navRegistry.addPages(pages);
   }
 
   @override

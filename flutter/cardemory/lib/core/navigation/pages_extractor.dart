@@ -13,7 +13,7 @@ class PagesExtractor {
     this._factoryList,
   );
 
-  List<AppPage> extract(RoutePath routePath) {
+  Future<List<AppPage>> extract(RoutePath routePath) async {
     List<AppPage> pages = [_initialPage];
 
     final path = routePath.path;
@@ -23,7 +23,7 @@ class PagesExtractor {
         final segments = uri.pathSegments;
         for (int index = 0; index < segments.length; index++) {
           final segment = segments[index];
-          final page = _build(RouteData(segment, index, uri));
+          final page = await _build(RouteData(segment, index, uri));
           if (page == null) {
             pages.add(_notFoundPage);
             break;
@@ -37,9 +37,9 @@ class PagesExtractor {
     return pages;
   }
 
-  AppPage? _build(RouteData routeData) {
+  Future<AppPage?> _build(RouteData routeData) async {
     for (final factory in _factoryList) {
-      final page = factory.build(routeData);
+      final page = await factory.build(routeData);
       if (page != null) {
         return page;
       }

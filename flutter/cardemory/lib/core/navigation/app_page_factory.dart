@@ -14,5 +14,5 @@ class RouteData {
 }
 
 abstract class AppPageFactory {
-  AppPage? build(RouteData routeData);
+  Future<AppPage?> build(RouteData routeData);
 }

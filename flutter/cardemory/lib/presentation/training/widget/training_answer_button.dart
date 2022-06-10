@@ -10,13 +10,13 @@ class TrainingAnswerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-        onPressed: () {},
+        onPressed: onClick,
         style: ButtonStyle(
           enableFeedback: true,
           overlayColor: MaterialStateProperty.all(color.withAlpha(50)),
         ),
         child: Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Text(
             text.toUpperCase(),
             style: TextStyle(

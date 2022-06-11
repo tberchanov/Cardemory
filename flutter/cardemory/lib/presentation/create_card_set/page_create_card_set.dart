@@ -33,7 +33,7 @@ class PageCreateCardSet extends AppPage {
   @override
   Widget buildChild() {
     return BlocRenderer<CreateCardSetBloc, CreateCardSetState>(
-      (context, state) {
+      renderPage: (context, state) {
         _log.info("State: $state");
         return Stack(
           children: [

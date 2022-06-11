@@ -46,7 +46,7 @@ class PageCardsList extends AppPage {
   @override
   Widget buildChild() {
     return BlocRenderer<CardsListBloc, CardsListState>(
-      (context, state) {
+      renderPage: (context, state) {
         if (state.cards == null) {
           context.read<CardsListBloc>().add(CardsListEvent.loadCards(cardSetId));
         }

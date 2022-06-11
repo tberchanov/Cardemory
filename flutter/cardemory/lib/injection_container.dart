@@ -24,6 +24,7 @@ import 'package:cardemory/presentation/create_card/page_create_card.dart';
 import 'package:cardemory/presentation/create_card_set/bloc/create_card_set_bloc.dart';
 import 'package:cardemory/presentation/create_card_set/page_create_card_set.dart';
 import 'package:cardemory/presentation/not_found/page_not_found.dart';
+import 'package:cardemory/presentation/training/bloc/training_bloc.dart';
 import 'package:cardemory/presentation/training/page_training.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:get_it/get_it.dart';
@@ -80,6 +81,8 @@ void init() {
   getIt.registerFactory(() => ValidateCard());
   getIt.registerFactory(() => SaveCard(getIt.get()));
   getIt.registerFactory(() => CreateCardBloc(getIt.get(), getIt.get(), getIt.get()));
+
+  getIt.registerFactory(() => TrainingBloc());
 
   getIt.allReadySync();
 }

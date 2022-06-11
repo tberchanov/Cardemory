@@ -1,11 +1,16 @@
 import 'package:cardemory/core/navigation/app_page.dart';
 import 'package:cardemory/core/navigation/app_page_factory.dart';
+import 'package:cardemory/core/widgets/bloc_renderer.dart';
 import 'package:cardemory/domain/training/entity/training_data.dart';
+import 'package:cardemory/presentation/training/bloc/training_bloc.dart';
+import 'package:cardemory/presentation/training/bloc/training_event.dart';
+import 'package:cardemory/presentation/training/bloc/training_state.dart';
 import 'package:cardemory/presentation/training/widget/training_buttons_panel.dart';
 import 'package:cardemory/presentation/training/widget/training_card.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
@@ -28,13 +33,7 @@ class PageTraining extends AppPage {
   String get routeName => "/training";
 
   late final _matchEngine = MatchEngine(
-    swipeItems: trainingData.cards
-        .map((card) => SwipeItem(
-              content: card,
-              likeAction: () {},
-              nopeAction: () {},
-            ))
-        .toList(),
+    swipeItems: trainingData.cards.map((card) => SwipeItem(content: card)).toList(),
   );
 
   final _flipController = FlipCardController();
@@ -43,52 +42,61 @@ class PageTraining extends AppPage {
 
   @override
   Widget buildChild() {
-    // hint, implement after some delay
-    /*_flipController.hint(
-      duration: Duration(milliseconds: 500),
-      total: Duration(seconds: 2),
-    );*/
-
     return Scaffold(
       appBar: AppBar(title: Text("Training: ${trainingData.cardSet.name}")),
-      body: Column(
-        children: [
-          Expanded(
-            child: SwipeCards(
-              matchEngine: _matchEngine,
-              itemBuilder: (context, index) => FlipCard(
-                speed: 2000,
-                controller: _flipController,
-                flipOnTouch: false,
-                front: TrainingCard(
-                  text: trainingData.cards[index].title,
-                  onTap: () => _flipController.toggleCard(),
+      body: BlocRenderer<TrainingBloc, TrainingState>(
+        renderPage: (context, state) {
+          final bloc = context.read<TrainingBloc>();
+          return Column(
+            children: [
+              Expanded(
+                child: SwipeCards(
+                  matchEngine: _matchEngine,
+                  itemBuilder: (context, index) => FlipCard(
+                    speed: 1000,
+                    controller: _flipController,
+                    flipOnTouch: false,
+                    front: TrainingCard(
+                      text: trainingData.cards[index].title,
+                      onTap: () => _flipController.toggleCard(),
+                    ),
+                    back: TrainingCard(
+                      text: trainingData.cards[index].description,
+                      onTap: () => _flipController.toggleCard(),
+                    ),
+                  ),
+                  onStackFinished: () {
+                    bloc.add(TrainingEventFinish());
+                  },
+                  itemChanged: (swipeItem, index) {
+                    final decision = swipeItem.decision;
+                    if (decision == Decision.like) {
+                      bloc.add(TrainingEventKnow(swipeItem.content));
+                    } else if (decision == Decision.nope) {
+                      bloc.add(TrainingEventForgot(swipeItem.content));
+                    } else {
+                      _log.warning("Unexpected swipe decision: $decision");
+                    }
+                  },
                 ),
-                back: TrainingCard(
-                  text: trainingData.cards[index].description,
-                  onTap: () => _flipController.toggleCard(),
+                flex: 2,
+              ),
+              Expanded(
+                flex: 1,
+                child: TrainingButtonsPanel(
+                  onForgotClick: () {
+                    _log.info("onForgotClick: ${_matchEngine.currentItem?.content}");
+                    _matchEngine.currentItem?.nope();
+                  },
+                  onKnowClick: () {
+                    _log.info("onKnowClick: ${_matchEngine.currentItem?.content}");
+                    _matchEngine.currentItem?.like();
+                  },
                 ),
               ),
-              onStackFinished: () {
-                // TODO process finish
-              },
-            ),
-            flex: 2,
-          ),
-          Expanded(
-            flex: 1,
-            child: TrainingButtonsPanel(
-              onForgotClick: () {
-                _log.info("onForgotClick: ${_matchEngine.currentItem?.content}");
-                _matchEngine.currentItem?.nope();
-              },
-              onKnowClick: () {
-                _log.info("onKnowClick: ${_matchEngine.currentItem?.content}");
-                _matchEngine.currentItem?.like();
-              },
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }

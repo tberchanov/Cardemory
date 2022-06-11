@@ -20,7 +20,7 @@ class PageCardSetList extends AppPage {
     return Scaffold(
       appBar: AppBar(title: const Text("Cardemory")),
       body: BlocRenderer<CardSetListBloc, CardSetListState>(
-        (context, state) {
+        renderPage: (context, state) {
           if (state is CardSetListInitial) {
             context.read<CardSetListBloc>().add(CardSetListLoad());
           }

@@ -1,24 +1,26 @@
 import 'package:cardemory/core/base_bloc.dart';
 import 'package:cardemory/core/extension/either_ext.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
-import 'package:cardemory/domain/card/usecase/get_cards_list.dart';
+import 'package:cardemory/domain/card/usecase/get_cards_list_use_case.dart';
 import 'package:cardemory/domain/card_set/entity/card_set.dart';
-import 'package:cardemory/domain/card_set/usecase/get_card_set.dart';
-import 'package:cardemory/domain/training/usecase/collect_training_data.dart';
+import 'package:cardemory/domain/card_set/usecase/get_card_set_use_case.dart';
+import 'package:cardemory/domain/training/usecase/collect_training_data_use_case.dart';
 import 'package:cardemory/presentation/cards_list/bloc/cards_list_event.dart';
 import 'package:cardemory/presentation/cards_list/bloc/cards_list_state.dart';
 import 'package:cardemory/presentation/cards_list/page_cards_list.dart';
 import 'package:cardemory/presentation/create_card/page_create_card.dart';
 import 'package:cardemory/presentation/training/page_training.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
+@injectable
 class CardsListBloc extends BaseBloc<CardsListEvent, CardsListState> {
   static final _log = Logger('CardsListBloc');
   static const _minCardsForTraining = 1;
 
-  final GetCardSet _getCardSet;
-  final GetCardsList _getCardsList;
-  final CollectTrainingData _collectTrainingData;
+  final GetCardSetUseCase _getCardSet;
+  final GetCardsListUseCase _getCardsList;
+  final CollectTrainingDataUseCase _collectTrainingData;
   final NavBloc _navBloc;
 
   CardsListBloc(this._getCardSet,

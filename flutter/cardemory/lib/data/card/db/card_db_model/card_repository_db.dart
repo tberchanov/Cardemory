@@ -1,23 +1,23 @@
-import 'package:cardemory/core/db.dart';
 import 'package:cardemory/core/error/failures.dart';
 import 'package:cardemory/data/card/db/card_db_model/card_db_model.dart';
 import 'package:cardemory/data/card/db/card_db_model/card_table.dart';
 import 'package:cardemory/domain/card/entity/card.dart';
 import 'package:cardemory/domain/card/repository/card_repository.dart';
+import 'package:cardemory/di/injection_container.dart';
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqlite_api.dart';
 
+@envMobile
+@LazySingleton(as: CardRepository)
 class CardRepositoryDb extends CardRepository {
-  final Future<Database> _dbFuture;
+  final Database _db;
 
-  CardRepositoryDb(this._dbFuture);
-
-  CardRepositoryDb.fromDB(DB db) : _dbFuture = db.create();
+  CardRepositoryDb(this._db);
 
   @override
   Future<Either<Failure, List<Card>>> getCards(int cardSetId) async {
-    final db = await _dbFuture;
-    final query = await db.query(
+    final query = await _db.query(
       CardTable.name,
       where: "${CardTable.propertyCardSetId} = ?",
       whereArgs: [cardSetId],
@@ -29,8 +29,7 @@ class CardRepositoryDb extends CardRepository {
 
   @override
   Future<Either<Failure, Card>> saveCard(Card card) async {
-    final db = await _dbFuture;
-    final cardId = await db.insert(
+    final cardId = await _db.insert(
       CardTable.name,
       CardDbModel.fromEntity(card).toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,

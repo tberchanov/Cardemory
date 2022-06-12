@@ -10,7 +10,6 @@ class TrainingState extends Equatable {
   List<Object?> get props => [];
 
   TrainingState copyWith() {
-    return TrainingState(
-    );
+    return const TrainingState();
   }
 }

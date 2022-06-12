@@ -2,6 +2,7 @@ import 'package:cardemory/core/navigation/app_page.dart';
 import 'package:cardemory/core/navigation/navigation_registry.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
 abstract class NavEvent extends Equatable {
@@ -30,6 +31,7 @@ class PopPage extends NavEvent {}
 
 class ResetToInitial extends NavEvent {}
 
+@singleton
 class NavBloc extends Bloc<NavEvent, List<AppPage>> {
   final _log = Logger('NavBloc');
   final NavigationRegistry navRegistry;

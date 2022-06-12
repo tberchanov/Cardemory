@@ -2,8 +2,10 @@ import 'package:cardemory/core/navigation/navigation_registry.dart';
 import 'package:cardemory/core/navigation/pages_extractor.dart';
 import 'package:cardemory/core/navigation/route_path.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
+@injectable
 class AppRouterDelegate extends RouterDelegate<RoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<RoutePath> {
   final _log = Logger('AppRouterDelegate');

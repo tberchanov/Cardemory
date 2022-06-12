@@ -1,10 +1,11 @@
-import 'package:cardemory/core/db.dart';
+import 'package:cardemory/data/database_module.dart';
 import 'package:cardemory/core/error/failures.dart';
 import 'package:cardemory/data/card_set/db/card_set_repository_db.dart';
 import 'package:cardemory/domain/card_set/entity/card_set.dart';
 import 'package:cardemory/domain/card_set/repository/card_set_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:sqflite/sqflite.dart';
 
 // ignore_for_file: avoid_print
 
@@ -14,21 +15,26 @@ void onUnexpectedFailure(Failure failure) {
 }
 
 void main() {
-  late DB db = DB();
+  Database? db;
   late CardSetRepository repository;
+
+  Future<void> deleteDb() async {
+    await db?.close();
+    await deleteDatabase(await DatabaseModule.getDbPath());
+  }
 
   setUpAll(() async {
     IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-    await db.delete();
+    await deleteDb();
   });
 
   setUp(() async {
-    db = DB();
-    repository = CardSetRepositoryDb.fromDB(db);
+    db = await DatabaseModule.openDatabase();
+    repository = CardSetRepositoryDb(db!);
   });
 
   tearDown(() async {
-    await db.delete();
+    await deleteDb();
   });
 
   testWidgets('test CardSet db saveCardSet', (WidgetTester tester) async {

@@ -7,9 +7,10 @@ import 'package:cardemory/core/navigation/nav_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
-import 'injection_container.dart' as di;
 
-void main() {
+import 'di/injection_container.dart' as di;
+
+void main() async {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
     developer.log(
@@ -20,15 +21,17 @@ void main() {
     );
   });
   WidgetsFlutterBinding.ensureInitialized();
-  di.init();
+  await di.configureDependencies();
+  // di.init();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   final _log = Logger('MyApp');
+
   MyApp({Key? key}) : super(key: key);
 
-  final routerDelegate = AppRouterDelegate(di.getIt.get(), di.getIt.get());
+  final AppRouterDelegate routerDelegate = di.getIt.get();
 
   @override
   Widget build(BuildContext context) {

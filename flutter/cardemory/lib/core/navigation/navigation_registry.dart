@@ -1,10 +1,14 @@
 import 'package:cardemory/core/navigation/app_page.dart';
+import 'package:injectable/injectable.dart';
 
+import 'navigation_module.dart';
+
+@singleton
 class NavigationRegistry {
   final List<AppPage> _pages = [];
   final AppPage initialPage;
 
-  NavigationRegistry({required this.initialPage}) {
+  NavigationRegistry({@namedInitialPage required this.initialPage}) {
     _pages.add(initialPage);
   }
 

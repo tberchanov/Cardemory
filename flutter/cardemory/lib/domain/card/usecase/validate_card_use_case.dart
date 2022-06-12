@@ -4,7 +4,7 @@ import 'package:cardemory/domain/card/entity/card.dart';
 import 'package:cardemory/domain/card/entity/card_validation_info.dart';
 import 'package:dartz/dartz.dart';
 
-class ValidateCard extends UseCase<CardValidationInfo, Card> {
+class ValidateCardUseCase extends UseCase<CardValidationInfo, Card> {
   @override
   Future<Either<Failure, CardValidationInfo>> call(Card param) async {
     final title = param.title.trim();

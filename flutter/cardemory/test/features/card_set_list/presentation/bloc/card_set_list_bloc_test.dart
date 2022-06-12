@@ -1,7 +1,7 @@
 import 'package:cardemory/core/error/failures.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
 import 'package:cardemory/domain/card_set/entity/card_set.dart';
-import 'package:cardemory/domain/card_set/usecase/get_card_set_list.dart';
+import 'package:cardemory/domain/card_set/usecase/get_card_set_list_use_case.dart';
 import 'package:cardemory/presentation/card_set_list/bloc/card_set_list_bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,14 +10,14 @@ import 'package:mockito/mockito.dart';
 
 import 'card_set_list_bloc_test.mocks.dart';
 
-@GenerateMocks([GetCardSetList, NavBloc])
+@GenerateMocks([GetCardSetListUseCase, NavBloc])
 void main() {
-  late MockGetCardSetList mockGetCardSetList;
+  late MockGetCardSetListUseCase mockGetCardSetList;
   late MockNavBloc mockNavBloc;
   late CardSetListBloc bloc;
 
   setUp(() {
-    mockGetCardSetList = MockGetCardSetList();
+    mockGetCardSetList = MockGetCardSetListUseCase();
     mockNavBloc = MockNavBloc();
     when(mockNavBloc.stream).thenAnswer((_) => const Stream.empty());
     bloc = CardSetListBloc(mockGetCardSetList, mockNavBloc);

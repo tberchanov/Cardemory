@@ -4,13 +4,13 @@ import 'package:cardemory/domain/card_set/entity/card_set.dart';
 import 'package:cardemory/domain/card_set/repository/card_set_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class GetCardSetList extends UseCase<List<CardSet>, NoParams> {
+class SaveCardSetUseCase extends UseCase<CardSet, CardSet> {
   final CardSetRepository _cardSetRepository;
 
-  GetCardSetList(this._cardSetRepository);
+  SaveCardSetUseCase(this._cardSetRepository);
 
   @override
-  Future<Either<Failure, List<CardSet>>> call(param) async {
-    return await _cardSetRepository.getCardSets();
+  Future<Either<Failure, CardSet>> call(CardSet param) async {
+    return await _cardSetRepository.saveCardSet(param);
   }
 }

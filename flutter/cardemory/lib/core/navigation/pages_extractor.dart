@@ -1,15 +1,18 @@
 import 'package:cardemory/core/navigation/app_page.dart';
 import 'package:cardemory/core/navigation/app_page_factory.dart';
+import 'package:cardemory/core/navigation/navigation_module.dart';
 import 'package:cardemory/core/navigation/route_path.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class PagesExtractor {
   final List<AppPageFactory> _factoryList;
   final AppPage _initialPage;
   final AppPage _notFoundPage;
 
   const PagesExtractor(
-    this._initialPage,
-    this._notFoundPage,
+    @namedInitialPage this._initialPage,
+    @namedNotFoundPage this._notFoundPage,
     this._factoryList,
   );
 

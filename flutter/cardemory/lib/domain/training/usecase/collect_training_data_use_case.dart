@@ -5,11 +5,11 @@ import 'package:cardemory/domain/card_set/entity/card_set.dart';
 import 'package:cardemory/domain/training/entity/training_data.dart';
 import 'package:dartz/dartz.dart';
 
-class CollectTrainingData extends UseCase<TrainingData, CardSet> {
+class CollectTrainingDataUseCase extends UseCase<TrainingData, CardSet> {
   @override
   Future<Either<Failure, TrainingData>> call(CardSet param) async {
     // TODO: implement call
-    Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     return Right(TrainingData(
       param,
       [

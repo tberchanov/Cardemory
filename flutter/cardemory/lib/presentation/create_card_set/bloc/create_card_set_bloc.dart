@@ -2,18 +2,20 @@ import 'package:cardemory/core/base_bloc.dart';
 import 'package:cardemory/core/extension/either_ext.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
 import 'package:cardemory/domain/card_set/entity/card_set.dart';
-import 'package:cardemory/domain/card_set/usecase/save_card_set.dart';
-import 'package:cardemory/domain/card_set/usecase/validate_card_set.dart';
+import 'package:cardemory/domain/card_set/usecase/save_card_set_use_case.dart';
+import 'package:cardemory/domain/card_set/usecase/validate_card_set_use_case.dart';
 import 'package:cardemory/presentation/create_card_set/bloc/create_card_set_event.dart';
 import 'package:cardemory/presentation/create_card_set/bloc/create_card_set_state.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
+@injectable
 class CreateCardSetBloc extends BaseBloc<CreateCardSetEvent, CreateCardSetState> {
   static final _log = Logger('CreateCardSetBloc');
-  final SaveCardSet _saveCardSet;
+  final SaveCardSetUseCase _saveCardSet;
   final NavBloc _navBloc;
-  final ValidateCardSet _validateCardSet;
+  final ValidateCardSetUseCase _validateCardSet;
 
   CreateCardSetBloc(
     this._saveCardSet,

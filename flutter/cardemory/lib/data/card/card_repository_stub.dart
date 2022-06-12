@@ -1,8 +1,12 @@
 import 'package:cardemory/core/error/failures.dart';
 import 'package:cardemory/domain/card/entity/card.dart';
 import 'package:cardemory/domain/card/repository/card_repository.dart';
+import 'package:cardemory/di/injection_container.dart';
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 
+@envWeb
+@LazySingleton(as: CardRepository)
 class CardRepositoryStub extends CardRepository {
   final List<Card> _cards = [];
 

@@ -1,7 +1,7 @@
 import 'package:cardemory/core/navigation/app_page.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
 import 'package:cardemory/core/widgets/bloc_renderer.dart';
-import 'package:cardemory/injection_container.dart' as di;
+import 'package:cardemory/di/injection_container.dart' as di;
 import 'package:cardemory/presentation/card_set_list/bloc/card_set_list_bloc.dart';
 import 'package:cardemory/presentation/card_set_list/widget/card_set_list.dart' as widget;
 import 'package:cardemory/presentation/create_card_set/page_create_card_set.dart';

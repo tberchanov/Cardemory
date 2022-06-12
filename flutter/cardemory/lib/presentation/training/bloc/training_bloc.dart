@@ -1,7 +1,9 @@
 import 'package:cardemory/core/base_bloc.dart';
 import 'package:cardemory/presentation/training/bloc/training_event.dart';
 import 'package:cardemory/presentation/training/bloc/training_state.dart';
+import 'package:injectable/injectable.dart';
 
+@injectable
 class TrainingBloc extends BaseBloc<TrainingEvent, TrainingState> {
   TrainingBloc() : super(const TrainingState.initial());
 

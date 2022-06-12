@@ -2,8 +2,12 @@ import 'package:cardemory/core/error/failures.dart';
 import 'package:cardemory/core/extension/list_ext.dart';
 import 'package:cardemory/domain/card_set/entity/card_set.dart';
 import 'package:cardemory/domain/card_set/repository/card_set_repository.dart';
+import 'package:cardemory/di/injection_container.dart';
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 
+@envWeb
+@LazySingleton(as: CardSetRepository)
 class CardSetRepositoryStub extends CardSetRepository {
   final List<CardSet> _cardSets = [
     const CardSet(id: 0, name: "Card Set 1"),

@@ -1,21 +1,22 @@
 import 'package:cardemory/core/usecases/usecase.dart';
 import 'package:cardemory/domain/card_set/entity/card_set.dart';
 import 'package:cardemory/domain/card_set/repository/card_set_repository.dart';
-import 'package:cardemory/domain/card_set/usecase/get_card_set_list.dart';
+import 'package:cardemory/domain/card_set/usecase/get_card_set_list_use_case.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'get_card_set_list_test.mocks.dart';
+
+import 'get_card_set_list_use_case_test.mocks.dart';
 
 @GenerateMocks([CardSetRepository])
 void main() {
-  late GetCardSetList usecase;
+  late GetCardSetListUseCase usecase;
   late MockCardSetRepository mockCardSetRepository;
 
   setUp(() {
     mockCardSetRepository = MockCardSetRepository();
-    usecase = GetCardSetList(mockCardSetRepository);
+    usecase = GetCardSetListUseCase(mockCardSetRepository);
   });
 
   final List<CardSet> cardSets = [];

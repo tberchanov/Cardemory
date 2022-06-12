@@ -1,4 +1,4 @@
-import 'package:cardemory/injection_container.dart' as di;
+import 'package:cardemory/di/injection_container.dart' as di;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

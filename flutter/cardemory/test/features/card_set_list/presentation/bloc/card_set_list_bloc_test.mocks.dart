@@ -10,7 +10,7 @@ import 'package:cardemory/core/navigation/nav_bloc.dart' as _i9;
 import 'package:cardemory/core/navigation/navigation_registry.dart' as _i3;
 import 'package:cardemory/core/usecases/usecase.dart' as _i8;
 import 'package:cardemory/domain/card_set/entity/card_set.dart' as _i7;
-import 'package:cardemory/domain/card_set/usecase/get_card_set_list.dart'
+import 'package:cardemory/domain/card_set/usecase/get_card_set_list_use_case.dart'
     as _i4;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:flutter_bloc/flutter_bloc.dart' as _i11;
@@ -31,11 +31,12 @@ class _FakeEither_0<L, R> extends _i1.Fake implements _i2.Either<L, R> {}
 class _FakeNavigationRegistry_1 extends _i1.Fake
     implements _i3.NavigationRegistry {}
 
-/// A class which mocks [GetCardSetList].
+/// A class which mocks [GetCardSetListUseCase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGetCardSetList extends _i1.Mock implements _i4.GetCardSetList {
-  MockGetCardSetList() {
+class MockGetCardSetListUseCase extends _i1.Mock
+    implements _i4.GetCardSetListUseCase {
+  MockGetCardSetListUseCase() {
     _i1.throwOnMissingStub(this);
   }
 

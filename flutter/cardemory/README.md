@@ -1,7 +1,5 @@
 # cardemory
 
-Cardemory flutter application
-
-Generate test stubs:
-`dart run build_runner build`
-
+Run generator (test mocks, injectable):
+`flutter packages pub run build_runner build --delete-conflicting-outputs`
+`flutter packages pub run build_runner clean`

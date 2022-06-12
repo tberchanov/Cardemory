@@ -2,18 +2,20 @@ import 'package:cardemory/core/base_bloc.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
 import 'package:cardemory/core/usecases/usecase.dart';
 import 'package:cardemory/domain/card_set/entity/card_set.dart';
-import 'package:cardemory/domain/card_set/usecase/get_card_set_list.dart';
+import 'package:cardemory/domain/card_set/usecase/get_card_set_list_use_case.dart';
 import 'package:cardemory/presentation/card_set_list/page_card_set_list.dart';
 import 'package:cardemory/presentation/cards_list/page_cards_list.dart';
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
 part 'card_set_list_event.dart';
 part 'card_set_list_state.dart';
 
+@injectable
 class CardSetListBloc extends BaseBloc<CardSetListEvent, CardSetListState> {
   final _log = Logger('CardSetListBloc');
-  final GetCardSetList _getCardSetList;
+  final GetCardSetListUseCase _getCardSetList;
   final NavBloc _navBloc;
 
   CardSetListBloc(this._getCardSetList, this._navBloc) : super(CardSetListInitial()) {

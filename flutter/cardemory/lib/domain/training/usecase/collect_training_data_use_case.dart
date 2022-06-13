@@ -1,23 +1,61 @@
+import 'dart:math';
+
 import 'package:cardemory/core/error/failures.dart';
+import 'package:cardemory/core/extension/either_ext.dart';
 import 'package:cardemory/core/usecases/usecase.dart';
 import 'package:cardemory/domain/card/entity/card.dart';
+import 'package:cardemory/domain/card/repository/card_repository.dart';
 import 'package:cardemory/domain/card_set/entity/card_set.dart';
 import 'package:cardemory/domain/training/entity/training_data.dart';
+import 'package:cardemory/domain/training/usecase/get_min_cards_for_training_use_case.dart';
 import 'package:dartz/dartz.dart';
+import 'package:logging/logging.dart';
 
 class CollectTrainingDataUseCase extends UseCase<TrainingData, CardSet> {
+  static final _log = Logger("CollectTrainingDataUseCase");
+  final CardRepository _cardRepository;
+  final GetMinCardsForTrainingUseCase _getMinCardsForTrainingUseCase;
+  late final _minCardsForTraining = _getMinCardsForTrainingUseCase();
+  final _random = Random();
+
+  CollectTrainingDataUseCase(this._cardRepository, this._getMinCardsForTrainingUseCase);
+
   @override
   Future<Either<Failure, TrainingData>> call(CardSet param) async {
-    // TODO: implement call
-    await Future.delayed(const Duration(seconds: 2));
-    return Right(TrainingData(
-      param,
-      [
-        Card(param.id, "Title 1", "Description 1", 0, 0, id: 1),
-        Card(param.id, "Title 2", "Description 2", 0, 0, id: 2),
-        Card(param.id, "Title 3", "Description 3", 0, 0, id: 3),
-        Card(param.id, "Title 4", "Description 4", 0, 0, id: 4),
-      ],
-    ));
+    final cardsResult = await _cardRepository.getCards(param.id);
+    _log.info("cards loaded: $cardsResult");
+    if (cardsResult.isLeft()) {
+      return Left(cardsResult.leftOrError());
+    }
+
+    final List<Card> cards = cardsResult.rightOrError();
+    final List<Card> sortedInvertedCards = cards.map(_invertCardMemoryRank).toList();
+    sortedInvertedCards.sort((a, b) => b.memoryRank.compareTo(a.memoryRank));
+    _log.info("sortedInvertedCards prepared: $sortedInvertedCards");
+    List<Card> selectedCards = [];
+
+    while (selectedCards.length < _minCardsForTraining) {
+      final double memoryRankSum = sortedInvertedCards.map((e) => e.memoryRank).reduce((a, b) => a + b);
+      final randomSelector = memoryRankSum * _random.nextDouble();
+
+      _log.info("Looking for card. memoryRankSum: $memoryRankSum randomSelector: $randomSelector");
+
+      double memoryRankThreshold = 0.0;
+      for (final card in sortedInvertedCards) {
+        memoryRankThreshold += card.memoryRank;
+        if (randomSelector <= memoryRankThreshold) {
+          selectedCards.add(card);
+          cards.remove(card);
+          _log.info("card selected: $card");
+          break;
+        }
+      }
+    }
+
+    return Right(TrainingData(param, selectedCards));
+  }
+
+  Card _invertCardMemoryRank(Card card) {
+    return card.copyWith(memoryRank: Card.maxMemoryRank - card.memoryRank);
   }
 }

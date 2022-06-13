@@ -5,6 +5,7 @@ import 'package:cardemory/domain/card/usecase/get_cards_list_use_case.dart';
 import 'package:cardemory/domain/card_set/entity/card_set.dart';
 import 'package:cardemory/domain/card_set/usecase/get_card_set_use_case.dart';
 import 'package:cardemory/domain/training/usecase/collect_training_data_use_case.dart';
+import 'package:cardemory/domain/training/usecase/is_training_available_use_case.dart';
 import 'package:cardemory/presentation/cards_list/bloc/cards_list_event.dart';
 import 'package:cardemory/presentation/cards_list/bloc/cards_list_state.dart';
 import 'package:cardemory/presentation/cards_list/page_cards_list.dart';
@@ -16,17 +17,20 @@ import 'package:logging/logging.dart';
 @injectable
 class CardsListBloc extends BaseBloc<CardsListEvent, CardsListState> {
   static final _log = Logger('CardsListBloc');
-  static const _minCardsForTraining = 1;
 
   final GetCardSetUseCase _getCardSet;
   final GetCardsListUseCase _getCardsList;
   final CollectTrainingDataUseCase _collectTrainingData;
+  final IsTrainingAvailableUseCase _isTrainingAvailableUseCase;
   final NavBloc _navBloc;
 
-  CardsListBloc(this._getCardSet,
-      this._getCardsList,
-      this._collectTrainingData,
-      this._navBloc,) : super(const CardsListState.initial()) {
+  CardsListBloc(
+    this._getCardSet,
+    this._getCardsList,
+    this._collectTrainingData,
+    this._isTrainingAvailableUseCase,
+    this._navBloc,
+  ) : super(const CardsListState.initial()) {
     _navBloc.stream.forEach((pages) {
       final page = pages.last;
       if (page is PageCardsList) {
@@ -55,7 +59,7 @@ class CardsListBloc extends BaseBloc<CardsListEvent, CardsListState> {
   }
 
   Stream<CardsListState> _onStartTraining(int cardSetId) async* {
-    final trainingAvailabilityMessage = _checkTrainingAvailability();
+    final trainingAvailabilityMessage = _isTrainingAvailableUseCase(state.cards ?? []).message;
     if (trainingAvailabilityMessage != null) {
       yield state.copyWith(trainingIsNotAvailableMessage: trainingAvailabilityMessage);
     } else {
@@ -70,18 +74,6 @@ class CardsListBloc extends BaseBloc<CardsListEvent, CardsListState> {
           // TODO yield error message
         }
       }
-    }
-  }
-
-  String? _checkTrainingAvailability() {
-    final cardsQuantity = state.cards?.length ?? 0;
-    if (cardsQuantity >= _minCardsForTraining) {
-      return null;
-    } else {
-      final cardsDistinction = _minCardsForTraining - cardsQuantity;
-      return cardsDistinction == 1
-          ? "Not enough cards for training. $cardsDistinction card more."
-          : "Not enough cards for training. $cardsDistinction cards more.";
     }
   }
 
@@ -109,15 +101,14 @@ class CardsListBloc extends BaseBloc<CardsListEvent, CardsListState> {
   Stream<CardsListState> _loadCardsList(CardsListLoad event) async* {
     final result = await _getCardsList(event.cardSetId);
     yield result.fold(
-          (failure) {
+      (failure) {
         _log.warning("_loadCardsList failure: $failure");
         return state.copyWith(failure: true);
       },
-          (cards) =>
-          state.copyWith(
-            cards: cards,
-            isTrainingAvailable: cards.length >= _minCardsForTraining,
-          ),
+      (cards) => state.copyWith(
+        cards: cards,
+        isTrainingAvailable: _isTrainingAvailableUseCase(cards).isTrainingAvailable,
+      ),
     );
   }
 }

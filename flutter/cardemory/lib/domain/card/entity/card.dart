@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class Card extends Equatable {
   static const unknownId = -1;
+  static const maxMemoryRank = 1.0;
 
   final int id;
   final int cardSetId;
@@ -37,5 +38,5 @@ class Card extends Equatable {
       );
 
   @override
-  List<Object> get props => [id, title, description];
+  List<Object> get props => [id, title, description, memoryRank, lastTrainingMillis];
 }

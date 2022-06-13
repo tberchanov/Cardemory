@@ -1,6 +1,7 @@
 import 'package:cardemory/core/navigation/app_page.dart';
 import 'package:cardemory/core/navigation/app_page_factory.dart';
 import 'package:cardemory/core/widgets/bloc_renderer.dart';
+import 'package:cardemory/di/injection_container.dart' as di;
 import 'package:cardemory/domain/training/entity/training_data.dart';
 import 'package:cardemory/presentation/training/bloc/training_bloc.dart';
 import 'package:cardemory/presentation/training/bloc/training_event.dart';
@@ -10,7 +11,6 @@ import 'package:cardemory/presentation/training/widget/training_card.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
@@ -29,14 +29,22 @@ class PageTraining extends AppPage {
   static final _log = Logger("PageTraining");
   final TrainingData trainingData;
 
-  @override
-  String get routeName => "/training";
+  late final TrainingBloc _bloc = di.getIt.get();
 
   late final _matchEngine = MatchEngine(
-    swipeItems: trainingData.cards.map((card) => SwipeItem(content: card)).toList(),
+    swipeItems: trainingData.cards
+        .map((card) => SwipeItem(
+              content: card,
+              likeAction: () => _bloc.add(TrainingEventKnow(card)),
+              nopeAction: () => _bloc.add(TrainingEventForgot(card)),
+            ))
+        .toList(),
   );
 
   final _flipController = FlipCardController();
+
+  @override
+  String get routeName => "/training";
 
   PageTraining(this.trainingData);
 
@@ -45,8 +53,8 @@ class PageTraining extends AppPage {
     return Scaffold(
       appBar: AppBar(title: Text("Training: ${trainingData.cardSet.name}")),
       body: BlocRenderer<TrainingBloc, TrainingState>(
+        bloc: _bloc,
         renderPage: (context, state) {
-          final bloc = context.read<TrainingBloc>();
           return Column(
             children: [
               Expanded(
@@ -66,17 +74,7 @@ class PageTraining extends AppPage {
                     ),
                   ),
                   onStackFinished: () {
-                    bloc.add(TrainingEventFinish());
-                  },
-                  itemChanged: (swipeItem, index) {
-                    final decision = swipeItem.decision;
-                    if (decision == Decision.like) {
-                      bloc.add(TrainingEventKnow(swipeItem.content));
-                    } else if (decision == Decision.nope) {
-                      bloc.add(TrainingEventForgot(swipeItem.content));
-                    } else {
-                      _log.warning("Unexpected swipe decision: $decision");
-                    }
+                    _bloc.add(TrainingEventFinish());
                   },
                 ),
                 flex: 2,
@@ -97,6 +95,15 @@ class PageTraining extends AppPage {
             ],
           );
         },
+        onListenState: (context, state) {
+          showDialog(
+            context: context,
+            builder: (_) => Center(
+              child: Text("Finished training: ${state.answeredCardsQuantity}"),
+            ),
+          );
+        },
+        listenWhen: (previous, current) => !previous.showFinishedTrainingMessage && current.showFinishedTrainingMessage,
       ),
     );
   }

@@ -2,10 +2,12 @@ import 'dart:math';
 
 import 'package:cardemory/core/error/failures.dart';
 import 'package:cardemory/core/extension/either_ext.dart';
+import 'package:cardemory/core/extension/list_ext.dart';
 import 'package:cardemory/core/usecases/usecase.dart';
 import 'package:cardemory/domain/card/entity/card.dart';
 import 'package:cardemory/domain/card/repository/card_repository.dart';
 import 'package:cardemory/domain/card_set/entity/card_set.dart';
+import 'package:cardemory/domain/memory/memory_manager.dart';
 import 'package:cardemory/domain/training/entity/training_data.dart';
 import 'package:cardemory/domain/training/usecase/get_min_cards_for_training_use_case.dart';
 import 'package:dartz/dartz.dart';
@@ -44,9 +46,12 @@ class CollectTrainingDataUseCase extends UseCase<TrainingData, CardSet> {
       for (final card in sortedInvertedCards) {
         memoryRankThreshold += card.memoryRank;
         if (randomSelector <= memoryRankThreshold) {
-          selectedCards.add(card);
-          cards.remove(card);
-          _log.info("card selected: $card");
+          final selectedCard = cards.firstOrNull((element) => element.id == card.id);
+          if (selectedCard != null) {
+            selectedCards.add(selectedCard);
+            _log.info("card selected: $selectedCard");
+            sortedInvertedCards.remove(card);
+          }
           break;
         }
       }
@@ -56,6 +61,6 @@ class CollectTrainingDataUseCase extends UseCase<TrainingData, CardSet> {
   }
 
   Card _invertCardMemoryRank(Card card) {
-    return card.copyWith(memoryRank: Card.maxMemoryRank - card.memoryRank);
+    return card.copyWith(memoryRank: MemoryManager.maxMemoryRank - card.memoryRank);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:cardemory/data/database_module.dart';
 import 'package:cardemory/di/injection_container.config.dart';
+import 'package:cardemory/domain/memory/memory_manager.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -21,6 +22,7 @@ Future<void> configureDependencies() async {
     final database = await DatabaseModule.openDatabase();
     getIt.registerSingleton(database);
   }
+  getIt.registerLazySingleton(() => MemoryManager());
 
   $initGetIt(getIt, environment: env.name);
   getIt.allReadySync();

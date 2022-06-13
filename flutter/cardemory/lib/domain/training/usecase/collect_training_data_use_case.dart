@@ -13,10 +13,10 @@ class CollectTrainingDataUseCase extends UseCase<TrainingData, CardSet> {
     return Right(TrainingData(
       param,
       [
-        Card(param.id, "Title 1", "Description 1", id: 1),
-        Card(param.id, "Title 2", "Description 2", id: 2),
-        Card(param.id, "Title 3", "Description 3", id: 3),
-        Card(param.id, "Title 4", "Description 4", id: 4),
+        Card(param.id, "Title 1", "Description 1", 0, 0, id: 1),
+        Card(param.id, "Title 2", "Description 2", 0, 0, id: 2),
+        Card(param.id, "Title 3", "Description 3", 0, 0, id: 3),
+        Card(param.id, "Title 4", "Description 4", 0, 0, id: 4),
       ],
     ));
   }

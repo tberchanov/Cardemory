@@ -1,4 +1,4 @@
-import 'package:cardemory/data/card/db/card_db_model/card_table.dart';
+import 'package:cardemory/data/card/db/card_table.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' as db;
 

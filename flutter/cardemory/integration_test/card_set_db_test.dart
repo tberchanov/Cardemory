@@ -1,3 +1,5 @@
+import 'package:cardemory/data/card_set/db/mappers/card_set_to_map_mapper.dart';
+import 'package:cardemory/data/card_set/db/mappers/map_to_card_set_mapper.dart';
 import 'package:cardemory/data/database_module.dart';
 import 'package:cardemory/core/error/failures.dart';
 import 'package:cardemory/data/card_set/db/card_set_repository_db.dart';
@@ -30,7 +32,7 @@ void main() {
 
   setUp(() async {
     db = await DatabaseModule.openDatabase();
-    repository = CardSetRepositoryDb(db!);
+    repository = CardSetRepositoryDb(db!, CardSetToMapMapper(), MapToCardSetMapper());
   });
 
   tearDown(() async {

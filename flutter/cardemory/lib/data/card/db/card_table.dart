@@ -7,6 +7,8 @@ class CardTable {
   static const propertyCardSetId = 'cardSetId';
   static const propertyTitle = 'title';
   static const propertyDescription = 'description';
+  static const propertyMemoryRank = 'memoryRank';
+  static const propertyLastTrainingMillis = 'lastTrainingMillis';
 
   static Future<void> create(Database db) {
     return db.execute(
@@ -15,6 +17,8 @@ class CardTable {
       '$propertyCardSetId INTEGER NOT NULL, '
       '$propertyTitle TEXT NOT NULL, '
       '$propertyDescription TEXT NOT NULL, '
+      '$propertyMemoryRank REAL NOT NULL, '
+      '$propertyLastTrainingMillis INTEGER NOT NULL, '
       'FOREIGN KEY ($propertyCardSetId) REFERENCES ${CardSetTable.name}(${CardSetTable.propertyId})'
       ')',
     );

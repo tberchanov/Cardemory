@@ -11,9 +11,9 @@ import 'package:sqflite/sqlite_api.dart' as _i30;
 
 import '../core/navigation/app_page.dart' as _i3;
 import '../core/navigation/app_page_factory.dart' as _i15;
-import '../core/navigation/app_router_delegate.dart' as _i28;
+import '../core/navigation/app_router_delegate.dart' as _i27;
 import '../core/navigation/nav_bloc.dart' as _i34;
-import '../core/navigation/navigation_module.dart' as _i39;
+import '../core/navigation/navigation_module.dart' as _i40;
 import '../core/navigation/navigation_registry.dart' as _i18;
 import '../core/navigation/pages_extractor.dart' as _i19;
 import '../data/card/card_repository_stub.dart' as _i5;
@@ -25,28 +25,30 @@ import '../data/card_set/db/card_set_repository_db.dart' as _i31;
 import '../data/card_set/db/mappers/card_set_to_map_mapper.dart' as _i8;
 import '../data/card_set/db/mappers/map_to_card_set_mapper.dart' as _i17;
 import '../domain/card/repository/card_repository.dart' as _i4;
-import '../domain/card/usecase/get_cards_list_use_case.dart' as _i12;
+import '../domain/card/usecase/get_cards_list_use_case.dart' as _i13;
 import '../domain/card/usecase/save_card_use_case.dart' as _i24;
-import '../domain/card/usecase/validate_card_use_case.dart' as _i27;
+import '../domain/card/usecase/validate_card_use_case.dart' as _i26;
 import '../domain/card_set/repository/card_set_repository.dart' as _i6;
 import '../domain/card_set/usecase/get_card_set_list_use_case.dart' as _i10;
 import '../domain/card_set/usecase/get_card_set_use_case.dart' as _i11;
 import '../domain/card_set/usecase/save_card_set_use_case.dart' as _i23;
-import '../domain/card_set/usecase/validate_card_set_use_case.dart' as _i26;
+import '../domain/card_set/usecase/validate_card_set_use_case.dart' as _i25;
 import '../domain/memory/memory_manager.dart' as _i21;
+import '../domain/training/usecase/calculate_training_result_use_case.dart'
+    as _i28;
 import '../domain/training/usecase/collect_training_data_use_case.dart' as _i33;
-import '../domain/training/usecase/get_min_cards_for_training_use_case.dart'
-    as _i13;
+import '../domain/training/usecase/get_cards_for_training_amount_use_case.dart'
+    as _i12;
 import '../domain/training/usecase/is_training_available_use_case.dart' as _i14;
 import '../domain/training/usecase/process_forgotten_card_use_case.dart'
     as _i20;
 import '../domain/training/usecase/process_remembered_card_use_case.dart'
     as _i22;
-import '../presentation/card_set_list/bloc/card_set_list_bloc.dart' as _i35;
-import '../presentation/cards_list/bloc/cards_list_bloc.dart' as _i36;
-import '../presentation/create_card/bloc/create_card_bloc.dart' as _i37;
-import '../presentation/create_card_set/bloc/create_card_set_bloc.dart' as _i38;
-import '../presentation/training/bloc/training_bloc.dart' as _i25;
+import '../presentation/card_set_list/bloc/card_set_list_bloc.dart' as _i36;
+import '../presentation/cards_list/bloc/cards_list_bloc.dart' as _i37;
+import '../presentation/create_card/bloc/create_card_bloc.dart' as _i38;
+import '../presentation/create_card_set/bloc/create_card_set_bloc.dart' as _i39;
+import '../presentation/training/bloc/training_bloc.dart' as _i35;
 
 const String _web = 'web';
 const String _mobile = 'mobile';
@@ -71,13 +73,13 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       () => _i10.GetCardSetListUseCase(get<_i6.CardSetRepository>()));
   gh.factory<_i11.GetCardSetUseCase>(
       () => _i11.GetCardSetUseCase(get<_i6.CardSetRepository>()));
-  gh.factory<_i12.GetCardsListUseCase>(
-      () => _i12.GetCardsListUseCase(get<_i4.CardRepository>()));
-  gh.factory<_i13.GetMinCardsForTrainingUseCase>(
-      () => _i13.GetMinCardsForTrainingUseCase());
+  gh.factory<_i12.GetCardsForTrainingAmountUseCase>(
+      () => _i12.GetCardsForTrainingAmountUseCase());
+  gh.factory<_i13.GetCardsListUseCase>(
+      () => _i13.GetCardsListUseCase(get<_i4.CardRepository>()));
   gh.factory<_i14.IsTrainingAvailableUseCase>(() =>
       _i14.IsTrainingAvailableUseCase(
-          get<_i13.GetMinCardsForTrainingUseCase>()));
+          get<_i12.GetCardsForTrainingAmountUseCase>()));
   gh.factory<List<_i15.AppPageFactory>>(() => navigationModule.pageFactories);
   gh.factory<_i16.MapToCardMapper>(() => _i16.MapToCardMapper());
   gh.factory<_i17.MapToCardSetMapper>(() => _i17.MapToCardSetMapper());
@@ -97,13 +99,13 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       () => _i23.SaveCardSetUseCase(get<_i6.CardSetRepository>()));
   gh.factory<_i24.SaveCardUseCase>(
       () => _i24.SaveCardUseCase(get<_i4.CardRepository>()));
-  gh.factory<_i25.TrainingBloc>(() => _i25.TrainingBloc(
-      get<_i22.ProcessRememberedCardUseCase>(),
-      get<_i20.ProcessForgottenCardUseCase>()));
-  gh.factory<_i26.ValidateCardSetUseCase>(() => _i26.ValidateCardSetUseCase());
-  gh.factory<_i27.ValidateCardUseCase>(() => _i27.ValidateCardUseCase());
-  gh.factory<_i28.AppRouterDelegate>(() => _i28.AppRouterDelegate(
+  gh.factory<_i25.ValidateCardSetUseCase>(() => _i25.ValidateCardSetUseCase());
+  gh.factory<_i26.ValidateCardUseCase>(() => _i26.ValidateCardUseCase());
+  gh.factory<_i27.AppRouterDelegate>(() => _i27.AppRouterDelegate(
       get<_i18.NavigationRegistry>(), get<_i19.PagesExtractor>()));
+  gh.factory<_i28.CalculateTrainingResultUseCase>(() =>
+      _i28.CalculateTrainingResultUseCase(
+          get<_i12.GetCardsForTrainingAmountUseCase>()));
   gh.lazySingleton<_i4.CardRepository>(
       () => _i29.CardRepositoryDb(get<_i30.Database>(),
           get<_i9.CardToMapMapper>(), get<_i16.MapToCardMapper>()),
@@ -114,23 +116,27 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       registerFor: {_mobile});
   gh.factory<_i33.CollectTrainingDataUseCase>(() =>
       _i33.CollectTrainingDataUseCase(get<_i4.CardRepository>(),
-          get<_i13.GetMinCardsForTrainingUseCase>()));
+          get<_i12.GetCardsForTrainingAmountUseCase>()));
   gh.singleton<_i34.NavBloc>(_i34.NavBloc(get<_i18.NavigationRegistry>()));
-  gh.factory<_i35.CardSetListBloc>(() => _i35.CardSetListBloc(
+  gh.factory<_i35.TrainingBloc>(() => _i35.TrainingBloc(
+      get<_i22.ProcessRememberedCardUseCase>(),
+      get<_i20.ProcessForgottenCardUseCase>(),
+      get<_i28.CalculateTrainingResultUseCase>()));
+  gh.factory<_i36.CardSetListBloc>(() => _i36.CardSetListBloc(
       get<_i10.GetCardSetListUseCase>(), get<_i34.NavBloc>()));
-  gh.factory<_i36.CardsListBloc>(() => _i36.CardsListBloc(
+  gh.factory<_i37.CardsListBloc>(() => _i37.CardsListBloc(
       get<_i11.GetCardSetUseCase>(),
-      get<_i12.GetCardsListUseCase>(),
+      get<_i13.GetCardsListUseCase>(),
       get<_i33.CollectTrainingDataUseCase>(),
       get<_i14.IsTrainingAvailableUseCase>(),
       get<_i34.NavBloc>()));
-  gh.factory<_i37.CreateCardBloc>(() => _i37.CreateCardBloc(get<_i34.NavBloc>(),
-      get<_i27.ValidateCardUseCase>(), get<_i24.SaveCardUseCase>()));
-  gh.factory<_i38.CreateCardSetBloc>(() => _i38.CreateCardSetBloc(
+  gh.factory<_i38.CreateCardBloc>(() => _i38.CreateCardBloc(get<_i34.NavBloc>(),
+      get<_i26.ValidateCardUseCase>(), get<_i24.SaveCardUseCase>()));
+  gh.factory<_i39.CreateCardSetBloc>(() => _i39.CreateCardSetBloc(
       get<_i23.SaveCardSetUseCase>(),
       get<_i34.NavBloc>(),
-      get<_i26.ValidateCardSetUseCase>()));
+      get<_i25.ValidateCardSetUseCase>()));
   return get;
 }
 
-class _$NavigationModule extends _i39.NavigationModule {}
+class _$NavigationModule extends _i40.NavigationModule {}

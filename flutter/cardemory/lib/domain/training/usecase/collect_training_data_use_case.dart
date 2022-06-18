@@ -9,14 +9,14 @@ import 'package:cardemory/domain/card/repository/card_repository.dart';
 import 'package:cardemory/domain/card_set/entity/card_set.dart';
 import 'package:cardemory/domain/memory/memory_manager.dart';
 import 'package:cardemory/domain/training/entity/training_data.dart';
-import 'package:cardemory/domain/training/usecase/get_min_cards_for_training_use_case.dart';
+import 'package:cardemory/domain/training/usecase/get_cards_for_training_amount_use_case.dart';
 import 'package:dartz/dartz.dart';
 import 'package:logging/logging.dart';
 
 class CollectTrainingDataUseCase extends UseCase<TrainingData, CardSet> {
   static final _log = Logger("CollectTrainingDataUseCase");
   final CardRepository _cardRepository;
-  final GetMinCardsForTrainingUseCase _getMinCardsForTrainingUseCase;
+  final GetCardsForTrainingAmountUseCase _getMinCardsForTrainingUseCase;
   late final _minCardsForTraining = _getMinCardsForTrainingUseCase();
   final _random = Random();
 

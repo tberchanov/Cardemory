@@ -1,10 +1,10 @@
 import 'package:cardemory/domain/card/entity/card.dart';
 import 'package:cardemory/domain/training/entity/training_availability_data.dart';
-import 'package:cardemory/domain/training/usecase/get_min_cards_for_training_use_case.dart';
+import 'package:cardemory/domain/training/usecase/get_cards_for_training_amount_use_case.dart';
 
 class IsTrainingAvailableUseCase {
 
-  final GetMinCardsForTrainingUseCase _getMinCardsForTrainingUseCase;
+  final GetCardsForTrainingAmountUseCase _getMinCardsForTrainingUseCase;
   late final _minCardsForTraining = _getMinCardsForTrainingUseCase();
 
   IsTrainingAvailableUseCase(this._getMinCardsForTrainingUseCase);

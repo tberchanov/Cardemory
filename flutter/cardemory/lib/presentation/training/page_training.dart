@@ -102,6 +102,7 @@ class PageTraining extends AppPage {
           _log.info("onListenState: $state");
           showDialog(
             context: context,
+            barrierDismissible: false,
             builder: (_) => TrainingResultDialog(
               state.trainingResultMessage!,
               () => context.read<NavBloc>().add(NavEvent.pop),

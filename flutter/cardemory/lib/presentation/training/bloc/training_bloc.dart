@@ -98,22 +98,21 @@ class TrainingBloc extends BaseBloc<TrainingEvent, TrainingState> {
   }
 
   List<Star> _getTrainingResultStars(TrainingResult trainingResult) {
-    if (trainingResult == TrainingResult.min) {
-      return [Star.outline, Star.outline, Star.outline];
-    } else if (trainingResult == TrainingResult.veryBad) {
-      return [Star.half, Star.outline, Star.outline];
-    } else if (trainingResult == TrainingResult.bad) {
-      return [Star.full, Star.outline, Star.outline];
-    } else if (trainingResult == TrainingResult.normal) {
-      return [Star.full, Star.half, Star.outline];
-    } else if (trainingResult == TrainingResult.good) {
-      return [Star.full, Star.full, Star.outline];
-    } else if (trainingResult == TrainingResult.veryGood) {
-      return [Star.full, Star.full, Star.half];
-    } else if (trainingResult == TrainingResult.max) {
-      return [Star.full, Star.full, Star.full];
-    } else {
-      throw Exception("Unexpected trainingResult: $trainingResult");
+    switch (trainingResult) {
+      case TrainingResult.min:
+        return [Star.outline, Star.outline, Star.outline];
+      case TrainingResult.veryBad:
+        return [Star.half, Star.outline, Star.outline];
+      case TrainingResult.bad:
+        return [Star.full, Star.outline, Star.outline];
+      case TrainingResult.normal:
+        return [Star.full, Star.half, Star.outline];
+      case TrainingResult.good:
+        return [Star.full, Star.full, Star.outline];
+      case TrainingResult.veryGood:
+        return [Star.full, Star.full, Star.half];
+      case TrainingResult.max:
+        return [Star.full, Star.full, Star.full];
     }
   }
 

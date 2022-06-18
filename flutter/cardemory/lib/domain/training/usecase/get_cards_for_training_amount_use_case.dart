@@ -1,5 +1,5 @@
 class GetCardsForTrainingAmountUseCase {
-  static const _cardsForTrainingAmount = 3;
+  static const _cardsForTrainingAmount = 10;
 
   int call() => _cardsForTrainingAmount;
 }

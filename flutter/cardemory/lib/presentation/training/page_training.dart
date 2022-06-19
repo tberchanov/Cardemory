@@ -1,19 +1,20 @@
 import 'package:cardemory/core/navigation/app_page.dart';
 import 'package:cardemory/core/navigation/app_page_factory.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
+import 'package:cardemory/core/navigation/nav_event.dart';
 import 'package:cardemory/core/widgets/bloc_renderer.dart';
 import 'package:cardemory/di/injection_container.dart' as di;
 import 'package:cardemory/domain/training/entity/training_data.dart';
 import 'package:cardemory/presentation/training/bloc/training_bloc.dart';
 import 'package:cardemory/presentation/training/bloc/training_event.dart';
 import 'package:cardemory/presentation/training/bloc/training_state.dart';
+import 'package:cardemory/presentation/training/widget/exit_training_dialog.dart';
 import 'package:cardemory/presentation/training/widget/training_buttons_panel.dart';
 import 'package:cardemory/presentation/training/widget/training_card.dart';
 import 'package:cardemory/presentation/training/widget/training_result_dialog.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
@@ -33,6 +34,7 @@ class PageTraining extends AppPage {
   final TrainingData trainingData;
 
   late final TrainingBloc _bloc = di.getIt.get();
+  final NavBloc _navBloc = di.getIt.get();
 
   late final _matchEngine = MatchEngine(
     swipeItems: trainingData.cards
@@ -49,7 +51,12 @@ class PageTraining extends AppPage {
   @override
   String get routeName => "/training";
 
-  PageTraining(this.trainingData);
+  PageTraining(this.trainingData) {
+    _navBloc.add(NavEvent.registerOnPopPage(() {
+      _bloc.add(TrainingEventPopPage());
+      return false;
+    }));
+  }
 
   @override
   Widget buildChild() {
@@ -100,16 +107,27 @@ class PageTraining extends AppPage {
         },
         onListenState: (context, state) {
           _log.info("onListenState: $state");
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) => TrainingResultDialog(
-              state.trainingResultMessage!,
-              () => context.read<NavBloc>().add(NavEvent.pop),
-            ),
-          );
+          if (state.trainingResultMessage != null) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (_) => TrainingResultDialog(
+                state.trainingResultMessage!,
+                () {
+                  _navBloc.add(NavEvent.unregisterOnPopPage);
+                  _navBloc.add(NavEvent.pop);
+                },
+              ),
+            );
+          } else if (state.showExitMessage) {
+            showDialog(
+              context: context,
+              builder: (_) => const ExitTrainingDialog(),
+            );
+            _bloc.add(TrainingEventExitDialogShown());
+          }
         },
-        listenWhen: (previous, current) => current.trainingResultMessage != null,
+        listenWhen: (previous, current) => current.trainingResultMessage != null || current.showExitMessage,
       ),
     );
   }

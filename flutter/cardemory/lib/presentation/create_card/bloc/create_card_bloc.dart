@@ -1,6 +1,7 @@
 import 'package:cardemory/core/base_bloc.dart';
 import 'package:cardemory/core/extension/either_ext.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
+import 'package:cardemory/core/navigation/nav_event.dart';
 import 'package:cardemory/domain/card/entity/card.dart';
 import 'package:cardemory/domain/card/entity/card_validation_info.dart';
 import 'package:cardemory/domain/card/usecase/save_card_use_case.dart';

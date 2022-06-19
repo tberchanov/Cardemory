@@ -7,13 +7,14 @@ import 'dart:async' as _i5;
 import 'package:cardemory/core/error/failures.dart' as _i6;
 import 'package:cardemory/core/navigation/app_page.dart' as _i10;
 import 'package:cardemory/core/navigation/nav_bloc.dart' as _i9;
+import 'package:cardemory/core/navigation/nav_event.dart' as _i11;
 import 'package:cardemory/core/navigation/navigation_registry.dart' as _i3;
 import 'package:cardemory/core/usecases/usecase.dart' as _i8;
 import 'package:cardemory/domain/card_set/entity/card_set.dart' as _i7;
 import 'package:cardemory/domain/card_set/usecase/get_card_set_list_use_case.dart'
     as _i4;
 import 'package:dartz/dartz.dart' as _i2;
-import 'package:flutter_bloc/flutter_bloc.dart' as _i11;
+import 'package:flutter_bloc/flutter_bloc.dart' as _i12;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -74,11 +75,11 @@ class MockNavBloc extends _i1.Mock implements _i9.NavBloc {
       (super.noSuchMethod(Invocation.getter(#isClosed), returnValue: false)
           as bool);
   @override
-  void add(_i9.NavEvent? event) =>
+  void add(_i11.NavEvent? event) =>
       super.noSuchMethod(Invocation.method(#add, [event]),
           returnValueForMissingStub: null);
   @override
-  void onEvent(_i9.NavEvent? event) =>
+  void onEvent(_i11.NavEvent? event) =>
       super.noSuchMethod(Invocation.method(#onEvent, [event]),
           returnValueForMissingStub: null);
   @override
@@ -86,15 +87,15 @@ class MockNavBloc extends _i1.Mock implements _i9.NavBloc {
       super.noSuchMethod(Invocation.method(#emit, [state]),
           returnValueForMissingStub: null);
   @override
-  void on<E extends _i9.NavEvent>(
-          _i11.EventHandler<E, List<_i10.AppPage>>? handler,
-          {_i11.EventTransformer<E>? transformer}) =>
+  void on<E extends _i11.NavEvent>(
+          _i12.EventHandler<E, List<_i10.AppPage>>? handler,
+          {_i12.EventTransformer<E>? transformer}) =>
       super.noSuchMethod(
           Invocation.method(#on, [handler], {#transformer: transformer}),
           returnValueForMissingStub: null);
   @override
   void onTransition(
-          _i11.Transition<_i9.NavEvent, List<_i10.AppPage>>? transition) =>
+          _i12.Transition<_i11.NavEvent, List<_i10.AppPage>>? transition) =>
       super.noSuchMethod(Invocation.method(#onTransition, [transition]),
           returnValueForMissingStub: null);
   @override
@@ -102,7 +103,7 @@ class MockNavBloc extends _i1.Mock implements _i9.NavBloc {
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i5.Future<void>);
   @override
-  void onChange(_i11.Change<List<_i10.AppPage>>? change) =>
+  void onChange(_i12.Change<List<_i10.AppPage>>? change) =>
       super.noSuchMethod(Invocation.method(#onChange, [change]),
           returnValueForMissingStub: null);
   @override

@@ -27,3 +27,7 @@ class TrainingEventForgot extends TrainingEvent {
 class TrainingEventFinish extends TrainingEvent {}
 
 class TrainingEventSwipeHintShown extends TrainingEvent {}
+
+class TrainingEventPopPage extends TrainingEvent {}
+
+class TrainingEventExitDialogShown extends TrainingEvent {}

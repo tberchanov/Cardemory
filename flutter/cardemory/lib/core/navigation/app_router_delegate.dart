@@ -5,14 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
-@injectable
+@lazySingleton
 class AppRouterDelegate extends RouterDelegate<RoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<RoutePath> {
   final _log = Logger('AppRouterDelegate');
   final NavigationRegistry _navRegistry;
   final PagesExtractor _pagesExtractor;
+  bool Function()? _onPopPage;
 
   AppRouterDelegate(this._navRegistry, this._pagesExtractor);
+
+  void registerOnPopPageListener(bool Function() onPopPage) {
+    _onPopPage = onPopPage;
+  }
+
+  void unregisterOnPopPageListener() {
+    _onPopPage = null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +30,10 @@ class AppRouterDelegate extends RouterDelegate<RoutePath>
       pages: _navRegistry.getPages().map((e) => e.page).toList(),
       onPopPage: (route, result) {
         _log.info("onPopPage: ${route.settings.name}");
+
+        if (_onPopPage != null && !_onPopPage!.call()) {
+          return false;
+        }
 
         if (!route.didPop(result)) {
           return false;
@@ -42,11 +55,7 @@ class AppRouterDelegate extends RouterDelegate<RoutePath>
 
   @override
   RoutePath get currentConfiguration => RoutePath(
-        _navRegistry
-            .getPages()
-            .map((page) => page.routeName)
-            .join()
-            .replaceAll("//", "/"),
+        _navRegistry.getPages().map((page) => page.routeName).join().replaceAll("//", "/"),
       );
 
   @override

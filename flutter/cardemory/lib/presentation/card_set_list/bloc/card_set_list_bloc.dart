@@ -1,5 +1,6 @@
 import 'package:cardemory/core/base_bloc.dart';
 import 'package:cardemory/core/navigation/nav_bloc.dart';
+import 'package:cardemory/core/navigation/nav_event.dart';
 import 'package:cardemory/core/usecases/usecase.dart';
 import 'package:cardemory/domain/card_set/entity/card_set.dart';
 import 'package:cardemory/domain/card_set/usecase/get_card_set_list_use_case.dart';

@@ -32,6 +32,10 @@ class TrainingBloc extends BaseBloc<TrainingEvent, TrainingState> {
       yield* _processTrainingEventForgot(event);
     } else if (event is TrainingEventFinish) {
       yield* _processTrainingEventFinish();
+    } else if (event is TrainingEventPopPage) {
+      yield state.copyWith(showExitMessage: true);
+    } else if (event is TrainingEventExitDialogShown) {
+      yield state.copyWith(showExitMessage: false);
     }
   }
 

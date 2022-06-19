@@ -1,42 +1,18 @@
 import 'package:cardemory/core/navigation/app_page.dart';
+import 'package:cardemory/core/navigation/app_router_delegate.dart';
+import 'package:cardemory/core/navigation/nav_event.dart';
 import 'package:cardemory/core/navigation/navigation_registry.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
-abstract class NavEvent extends Equatable {
-  static final pop = PopPage();
-  static final resetToInitial = ResetToInitial();
-
-  static add(AppPage page) => AddPage(page);
-
-  @override
-  List<Object?> get props => [];
-}
-
-class AddPage extends NavEvent {
-  final AppPage page;
-
-  AddPage(this.page);
-
-  @override
-  String toString() => "AddPage: $page";
-
-  @override
-  List<Object?> get props => [page];
-}
-
-class PopPage extends NavEvent {}
-
-class ResetToInitial extends NavEvent {}
-
-@singleton
+@lazySingleton
 class NavBloc extends Bloc<NavEvent, List<AppPage>> {
-  final _log = Logger('NavBloc');
+  static final _log = Logger('NavBloc');
   final NavigationRegistry navRegistry;
+  final AppRouterDelegate _appRouterDelegate;
 
-  NavBloc(this.navRegistry) : super(navRegistry.getPages()) {
+  NavBloc(this.navRegistry, this._appRouterDelegate) : super(navRegistry.getPages()) {
     on<NavEvent>((event, emit) async {
       _log.info("On event: $event");
 
@@ -50,6 +26,10 @@ class NavBloc extends Bloc<NavEvent, List<AppPage>> {
         navRegistry.clear();
         navRegistry.addPage(navRegistry.initialPage);
         emit.call(navRegistry.getPages());
+      } else if (event is RegisterOnPopPage) {
+        _appRouterDelegate.registerOnPopPageListener(event.onPopPage);
+      } else if (event is UnregisterOnPopPage) {
+        _appRouterDelegate.unregisterOnPopPageListener();
       }
     });
   }

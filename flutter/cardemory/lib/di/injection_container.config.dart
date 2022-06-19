@@ -101,7 +101,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       () => _i24.SaveCardUseCase(get<_i4.CardRepository>()));
   gh.factory<_i25.ValidateCardSetUseCase>(() => _i25.ValidateCardSetUseCase());
   gh.factory<_i26.ValidateCardUseCase>(() => _i26.ValidateCardUseCase());
-  gh.factory<_i27.AppRouterDelegate>(() => _i27.AppRouterDelegate(
+  gh.lazySingleton<_i27.AppRouterDelegate>(() => _i27.AppRouterDelegate(
       get<_i18.NavigationRegistry>(), get<_i19.PagesExtractor>()));
   gh.factory<_i28.CalculateTrainingResultUseCase>(() =>
       _i28.CalculateTrainingResultUseCase(
@@ -117,7 +117,8 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   gh.factory<_i33.CollectTrainingDataUseCase>(() =>
       _i33.CollectTrainingDataUseCase(get<_i4.CardRepository>(),
           get<_i12.GetCardsForTrainingAmountUseCase>()));
-  gh.singleton<_i34.NavBloc>(_i34.NavBloc(get<_i18.NavigationRegistry>()));
+  gh.lazySingleton<_i34.NavBloc>(() => _i34.NavBloc(
+      get<_i18.NavigationRegistry>(), get<_i27.AppRouterDelegate>()));
   gh.factory<_i35.TrainingBloc>(() => _i35.TrainingBloc(
       get<_i22.ProcessRememberedCardUseCase>(),
       get<_i20.ProcessForgottenCardUseCase>(),
